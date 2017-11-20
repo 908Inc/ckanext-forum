@@ -1,0 +1,25 @@
+{% extends "page.html" %}
+{% import 'macros.html' as m %}
+
+{% block primary %}
+  <article class="module">
+    <div class="module-content">
+
+
+{% block title %}{% endblock %}
+
+{% block body %}
+<h1>{{ board.name }}</h1>
+
+<form method="POST" action="">
+    {{ form.csrf_token }}
+    {{ form.name }}
+    {{ form.content }}
+    {{ form.submit }}
+</form>
+{% endblock %}
+
+</div>
+  </article>
+{% endblock %}
+{% block secondary %}{% endblock %}

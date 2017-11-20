@@ -1,0 +1,51 @@
+{% extends "page.html" %}
+{% import 'macros.html' as m %}
+
+{% block primary %}
+  <article class="module">
+    <div class="module-content">
+
+
+
+{# #}
+{% macro thread_row(t) %}
+    <tr>
+        <td><a href="{{ url_for('.thread', slug=board.slug, id=t.id) }}">{{ t.name }}</a></td>
+        <td>{{ t.length }}</td>
+        <td>{{ t.readable_date(t.updated) }}</td>
+    </tr>
+{% endmacro %}
+
+{% block title %} {{ board.name }} {% endblock %}
+
+{% block body %}
+{{ m.breadcrumbs(board) }}
+<h1> {{ board.name }} </h1>
+
+{% macro thread_row(t) %}
+    <tr>
+        <td><a href="{{ url_for('.thread', slug=board.slug, id=t.id) }}">{{ t.name }}</a></td>
+        <td>{{ t.length }}</td>
+        <td>{{ t.readable_date(t.updated) }}</td>
+    </tr>
+{% endmacro %}
+
+<a href="{{ url_for('.create_thread', slug=board.slug) }}">New thread</a>
+<table id="threads">
+    <tr>
+        <th>Subject</th>
+        <th>Posts</th>
+        <th>Last updated</th>
+    </tr>
+    {% for t in threads %}{{ thread_row(t) }}{% endfor %}
+</table>
+{% endblock %}
+
+
+
+</div>
+{% endblock %}
+{% block secondary %}{% endblock %}
+
+
+{# #}

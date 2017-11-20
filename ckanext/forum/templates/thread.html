@@ -1,0 +1,25 @@
+{% extends "page.html" %}
+{% import 'macros.html' as m %}
+
+{% block primary %}
+  <article class="module">
+    <div class="module-content">
+
+{{ m.breadcrumbs(board, thread) }}
+<h1>{{ thread.name }}</h1>
+
+<a href="{{ url_for('.create_post', slug=board.slug, id=thread.id) }}">New post</a>
+
+{% for p in posts %}
+<article class="post">
+    <a href="#user">username}</a>
+    {{ p.readable_date(p.created) }}
+    {{ p.content }}
+</article>
+{% endfor %}
+</div>
+  </article>
+{% endblock %}
+{% block secondary %}{% endblock %}
+
+
