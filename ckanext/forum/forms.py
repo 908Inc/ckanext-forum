@@ -1,11 +1,11 @@
-from flask.ext.wtf import Form
-from wtforms import SubmitField, TextField, TextAreaField
+from wtforms import SubmitField, TextAreaField, StringField, validators
 from wtforms.validators import Required
+from wtforms import Form
 
 
 class CreateThreadForm(Form):
-    name = TextField(validators=[Required()])
-    content = TextAreaField(validators=[Required()])
+    name = StringField(validators=[validators.input_required()])
+    content = TextAreaField(validators=[validators.input_required()])
     submit = SubmitField()
 
 

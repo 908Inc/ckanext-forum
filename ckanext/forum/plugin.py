@@ -23,4 +23,5 @@ class ForumPlugin(plugins.SingletonPlugin):
         from ckan.config.routing import SubMapper
         with SubMapper(sub_map, controller='ckanext.forum.controllers:ForumController') as m:
             m.connect('forum_index', '/forum', action='index')
+            m.connect('forum_thread_add', '/forum/add', action='thread_add')
         return sub_map

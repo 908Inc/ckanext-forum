@@ -2,7 +2,9 @@ import logging
 from ckan.lib.base import BaseController
 from ckan.plugins import toolkit as tk
 
+
 from ckanext.forum.models import Board, Thread
+from ckanext.forum.forms import CreateThreadForm
 
 
 log = logging.getLogger(__name__)
@@ -17,3 +19,15 @@ class ForumController(BaseController):
         }
         log.debug('ForumController.index context: %s', context)
         return tk.render('forum_index.html', context)
+
+    def thread_add(self):
+        form = CreateThreadForm(tk.request.POST)
+        if tk.request.POST and form.validate():
+            log.debug("Form data is valid")
+        else:
+            log.error("Validate errors: %s", form.errors)
+        context = {
+            'form': form,
+            'board_list': Board.all(),
+        }
+        return tk.render('create_thread.html', context)

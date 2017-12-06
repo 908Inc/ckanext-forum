@@ -1,25 +1,46 @@
 {% extends "page.html" %}
 {% import 'macros.html' as m %}
 
-{% block primary %}
-  <article class="module">
-    <div class="module-content">
-
-
-{% block title %}{% endblock %}
-
-{% block body %}
-<h1>{{ board.name }}</h1>
-
-<form method="POST" action="">
+{% block primary_content %}
+    <form method="post" action="">
     {{ form.csrf_token }}
     {{ form.name }}
+        {% for error in form.name.errors %}
+        {{ error }}
+        {% endfor %}
     {{ form.content }}
+        {% for error in form.content.errors %}
+        {{ error }}
+        {% endfor %}
     {{ form.submit }}
-</form>
+    </form>
 {% endblock %}
 
-</div>
-  </article>
+{% block secondary_content %}
+    <section class="module module-narrow module-shallow">
+
+        <div class="module-content">
+            <p class="action">
+
+                <a class="btn full-width" href="/forum/add">Створити тему</a>
+
+            </p>
+        </div>
+
+    </section>
+
+    <section class="module module-narrow module-shallow">
+        <div class="module-content">
+            <a href="/forum"><i class="fa fa-comments "></i>Всі теми</a>
+
+        </div>
+
+        <h2 class="module-heading">Перейти до розділу</h2>
+        <div class="module-content">
+            {% for board in board_list %}
+                <div class="thread-section work"><a href="#">{{ board.name }}</a></div>
+            {% endfor %}
+        </div>
+
+    </section>
 {% endblock %}
-{% block secondary %}{% endblock %}
