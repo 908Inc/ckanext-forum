@@ -15,7 +15,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # http://packaging.python.org/en/latest/tutorial.html#version
-    version='0.0.1',
+    version='0.0.2',
 
     description='A simple CKAN extension with forum functionality',
     long_description=long_description,
@@ -84,6 +84,10 @@ setup(
 
         [babel.extractors]
         ckan = ckan.lib.extract:extract_ckan
+        
+        
+        [paste.paster_command]
+        forum = ckanext.forum.commands:ForumCommand
     ''',
 
     # If you are changing from the default layout of your extension, you may

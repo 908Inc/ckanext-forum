@@ -1,5 +1,8 @@
 {% extends "page.html" %}
+
+{#
 {% block primary %}
+    {{ super() }}
   <article class="module">
     <div class="module-content">
 <h1>Forum</h1>
@@ -12,5 +15,384 @@
   </article>
 {% endblock %}
 {% block secondary %}{% endblock %}
+#}
 
+{% block primary_content %}
+    <h1 class="page-heading">Форум</h1>
+    <div class="thread-list">
+        <div class="forum-thread media">
+            <div class="media-left pull-left forum-avatar">
+                <a href="#">
+                    <img alt="64x64" class="media-object img-circle pull-left"
+                         src="https://scontent-frx5-1.xx.fbcdn.net/v/t1.0-9/10383001_10204183877732615_6652804351300092805_n.jpg?oh=f5e6678a0e15511321c3d9704efa9ada&amp;oe=5A961011">
+                </a>
+
+            </div>
+            <div class="media-body forum-body">
+                <h3 class="thread-heading">Повернення перенаправлень з повідомленням не працює</h3>
+                <div class="thread-meta">
+                    <div class="thread-section work"><a href="#">Робота порталу</a></div>
+                    <div class="thread-author"><a href="#">ivankin</a></div>
+                </div>
+                <div class="thread-body">
+                    <p>Привіт усім, я працюю над проектом і може повернути помилки на мої погляди не є проблемою, однак
+                        при спробі повернути інші змінні, такі як "безлад ..."
+                    </p>
+                    <p>
+
+                    </p></div>
+            </div>
+
+        </div>
+
+        <div class="forum-thread media">
+            <div class="media-left pull-left forum-avatar">
+                <a href="#">
+                    <img alt="64x64" class="media-object img-circle pull-left"
+                         src="https://scontent-frx5-1.xx.fbcdn.net/v/t1.0-9/14947961_1397278143635487_473930463249661719_n.jpg?oh=923bcecfd68697f59cd58c91b2f10800&amp;oe=5A895EFD">
+                </a>
+
+            </div>
+            <div class="media-body forum-body">
+                <h3 class="thread-heading">Аутентифікація API</h3>
+                <div class="thread-meta">
+                    <div class="thread-section open-data-ukraine"><a href="#">Відкриті дані Україна</a></div>
+                    <div class="thread-author"><a href="#">petrov</a></div>
+                </div>
+                <div class="thread-body">
+                    <p>У мене дві різні таблиці (Клієнти та Clientslog). У мене тільки один контролер. Функція знищення
+                        в контролері використовується клієнтами. Як я можу де ...
+                    </p>
+                    <p>
+
+                    </p></div>
+            </div>
+
+        </div>
+
+        <div class="forum-thread media">
+            <div class="media-left pull-left forum-avatar">
+                <a href="#">
+                    <img alt="64x64" class="media-object img-circle pull-left"
+                         src="https://image.ibb.co/nJTQSw/user_avatar.png">
+                </a>
+
+            </div>
+            <div class="media-body forum-body">
+                <h3 class="thread-heading">60 секунд місцевого проти 2 секунд на виробництві</h3>
+                <div class="thread-meta">
+                    <div class="thread-section work"><a href="#">Робота порталу</a></div>
+                    <div class="thread-author"><a href="#">sergey1972</a></div>
+                </div>
+                <div class="thread-body">
+                    <p>Спроба модернізувати продукт Auth: user () Продукт за допомогою методу оновлення, але завжди
+                        призводить до помилки. Користувач має багато продуктів () / Продукт belongsTo business () ....
+                    </p>
+                    <p>
+
+                    </p></div>
+            </div>
+
+        </div>
+
+        <div class="forum-thread media">
+            <div class="media-left pull-left forum-avatar">
+                <a href="#">
+                    <img alt="64x64" class="media-object img-circle pull-left"
+                         src="https://scontent-frx5-1.xx.fbcdn.net/v/t1.0-9/10383001_10204183877732615_6652804351300092805_n.jpg?oh=f5e6678a0e15511321c3d9704efa9ada&amp;oe=5A961011">
+                </a>
+
+            </div>
+            <div class="media-body forum-body">
+                <h3 class="thread-heading">Як перевірити цей метод?</h3>
+                <div class="thread-meta">
+                    <div class="thread-section open-data-world"><a href="#">Відкриті дані Світ</a></div>
+                    <div class="thread-author"><a href="#">ivankin</a></div>
+                </div>
+                <div class="thread-body">
+                    <p>Привіт всім, мені потрібно передати об'єкт з вигляду на інший вигляд
+                    </p>
+                    <p>
+
+                    </p></div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="text-center">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li>
+                    <a href="/blog" aria-label="Previous">
+                        <span aria-hidden="true">«</span>
+                    </a>
+                </li>
+
+                <li class="active">
+                    <a href="/blog">1</a>
+                </li>
+                <li>
+                    <a href="/blog?page=2">2</a>
+                </li>
+                <li>
+                    <a href="/blog?page=3">3</a>
+                </li>
+                <li>
+                    <a href="/blog?page=4">4</a>
+                </li>
+                <li>
+                    <a href="/blog?page=5">5</a>
+                </li>
+
+
+                <li>
+                    <a href="/blog?page=8">...</a>
+                </li>
+
+                <li>
+                    <a href="/blog?page=12">122</a>
+                </li>
+
+                <li>
+                    <a href="/blog?page=2" aria-label="Next">
+                        <span aria-hidden="true">»</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="temp-delim"></div>
+
+    <div class="forum-post">
+        <div class="forum-post-head">
+            <h1 class="page-heading">Групи користувачів і дозволи для певних файлів</h1>
+            <div class="thread-meta">
+                <div class="thread-section work"><a href="#">Робота порталу</a></div>
+                <div class="thread-author"><a href="#">sergey1972</a></div>
+                <div class="thread-date"><a href="#">30 листопада 2017</a></div>
+            </div>
+        </div>
+        <div class="forum-post-body">
+            <p>Він нагадав, що наразі в Україні працюють одразу декілька інститутів, &nbsp;покликаних сформувати систему
+                інноваційної підтримки. Серед них – Рада підтримки інновацій, Офіси залучення інвестицій та просування
+                експорту, Фонд підтримки стартапів, який працюватиме вже з наступного року.</p>
+            <p>Він підкреслив, що саме інноваційний розвиток – запорука втілення глобальних ідей, серед яких повна
+                енергонезалежність, енергоефективність та оновлення промисловості. &nbsp;</p>
+            <img src="https://www.r-bloggers.com/wp-content/uploads/2016/08/How-to-check-data-quality.jpg">
+            <p>«Ми зацікавлені в оновленні, в інвестиціях, зацікавлені &nbsp;в створенні нових робочих місць, відкритті
+                нових підприємств», - сказав Володимира Гройсман.</p>
+        </div>
+
+    </div>
+    <div class="forum-comments-container">
+
+        <div class="alert alert-success" role="alert"><i class="fa fa-check-circle-o fa-2x" aria-hidden="true"></i>
+            <p>You successfully read this important alert message. </p></div>
+
+        <div class="forum-comment media">
+            <div class="media-left pull-left forum-avatar">
+                <a href="#">
+                    <img alt="64x64" class="media-object img-circle pull-left"
+                         src="https://scontent-frx5-1.xx.fbcdn.net/v/t1.0-9/10383001_10204183877732615_6652804351300092805_n.jpg?oh=f5e6678a0e15511321c3d9704efa9ada&amp;oe=5A961011">
+                </a>
+
+            </div>
+            <div class="media-body comment-body">
+                <div class="comment-head"><span>ivankin</span> написав 3 години тому</div>
+
+                <div class="comment-body">
+                    <p>Вам потрібно отримати дані з сеансу. $ errors - це особливий випадок, і Ларавел переконається, що
+                        в представленні завжди є об'єкт помилок.
+                    </p>
+                    <p>
+
+                    </p></div>
+            </div>
+
+        </div>
+
+        <div class="forum-comment media">
+            <div class="media-left pull-left forum-avatar">
+                <a href="#">
+                    <img alt="64x64" class="media-object img-circle pull-left"
+                         src="https://scontent-frx5-1.xx.fbcdn.net/v/t1.0-9/14947961_1397278143635487_473930463249661719_n.jpg?oh=923bcecfd68697f59cd58c91b2f10800&amp;oe=5A895EFD">
+                </a>
+
+            </div>
+            <div class="media-body comment-body">
+                <div class="comment-head"><span>petrov</span> написав 30 хвилин тому</div>
+
+                <div class="comment-body">
+                    <p><span><i class="fa fa-reply"></i> ivankin</span> це також не допомогло мені. Я думаю, що проблема
+                        полягає в тому, що вона обробляє дію Контролера на оригінальну сторінку GET, яка не має
+                        "повідомлення", переданого її представленню.
+                    </p>
+                    <p>
+
+                    </p></div>
+            </div>
+
+        </div>
+
+        <div class="forum-comment media">
+            <div class="media-left pull-left forum-avatar">
+                <a href="#">
+                    <img alt="64x64" class="media-object img-circle pull-left"
+                         src="https://image.ibb.co/nJTQSw/user_avatar.png">
+                </a>
+
+            </div>
+            <div class="media-body comment-body">
+                <div class="comment-head"><span>robot</span> написав 3 години тому</div>
+
+                <div class="comment-body">
+                    <p>Створіть файл у представленнях. Наприклад: flashMessage.blade.php
+                    </p>
+                    <p>
+
+                    </p></div>
+            </div>
+
+        </div>
+
+        <div class="forum-comment media">
+            <div class="media-left pull-left forum-avatar">
+                <a href="#">
+                    <img alt="64x64" class="media-object img-circle pull-left"
+                         src="https://image.ibb.co/nJTQSw/user_avatar.png">
+                </a>
+
+            </div>
+            <div class="media-body comment-body">
+                <div class="comment-head"><span>sergey62</span> написав 21 хвилину тому</div>
+
+                <div class="comment-body">
+                    <p>апроваджена Урядом політика підтримки інновацій та технологічного оновлення держави дозволить
+                        досягти стратегічної мети – змінити модель роботи економіки від сировинного придатку та
+                        постійного «латання дір» до системного розвитку та виробництва кінцевого продукту з високою
+                        доданою вартістю. Про це сказав Прем’єр-міністр України Володимир Гройсман під час Міжнародного
+                        саміту мерів, присвяченого темі муніципальних інновацій.
+                    </p>
+                    <p>
+
+                    </p></div>
+            </div>
+
+        </div>
+
+        <div class="forum-comment comment-action media">
+            <div class="media-left pull-left forum-avatar">
+                <a href="#">
+                    <img alt="64x64" class="media-object img-circle pull-left"
+                         src="https://scontent-frx5-1.xx.fbcdn.net/v/t1.0-9/14947961_1397278143635487_473930463249661719_n.jpg?oh=923bcecfd68697f59cd58c91b2f10800&amp;oe=5A895EFD">
+                </a>
+
+            </div>
+            <div class="media-body comment-body">
+                <form>
+                    <div class="form-group">
+
+                        <textarea class="form-control" rows="4" placeholder="Напишіть вашу відповідь на дискусію..."
+                                  style="overflow: hidden; overflow-wrap: break-word; resize: horizontal; height: 99px;"></textarea>
+                    </div>
+                    <div class="comment-footer">
+                        <span>* Тут ви можете використовувати Markdown форматування</span>
+                        <button type="submit" class="btn btn-primary">Опубліковати</button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="temp-delim"></div>
+
+    <div class="thread-post">
+        <h1 class="page-heading">Публікація теми</h1>
+
+        <form id="thread-form" data-toggle="validator" role="form" novalidate="novalidate">
+            <div class="form-group select-section">
+                <label>Оберіть розділ</label>
+                <select data-placeholder="Тему документу не обрано" class="custom-select chosen-light"
+                        style="display: none;" data-msg-required="Будь ласка, оберіть розділ" required="">
+                    <option value=" " disabled="" selected="">Розділ не обрано</option>
+                    <option value="1">Робота порталу</option>
+                    <option value="1">Відкриті дані Україна</option>
+                    <option value="2">Відкриті дані Світ</option>
+                </select>
+                <div class="chosen-container chosen-container-single chosen-container-single-nosearch"
+                     style="width: 0px;" title=""><a class="chosen-single" tabindex="-1"><span>Розділ не обрано</span>
+                    <div><b></b></div>
+                </a>
+                    <div class="chosen-drop">
+                        <div class="chosen-search"><input autocomplete="off" readonly="" type="text"></div>
+                        <ul class="chosen-results"></ul>
+                    </div>
+                </div>
+                <!-- <div class="help-block with-errors"></div> -->
+
+            </div>
+
+            <div class="form-group forum-title-group">
+                <label>Оберіть заголовок</label>
+                <input placeholder="Наприклад: «Питання щодо набору даних ...»" class="form-control" name="name"
+                       data-msg-required="Будь ласка, заповніть поле заголовку" required="" type="text">
+                <!-- <div class="help-block with-errors"></div> -->
+            </div>
+
+            <div class="form-group">
+                <label>Напишіть ваше запитання</label>
+                <textarea class="form-control" rows="8" placeholder="Напищіть, що вас цікацить..." name="content"
+                          data-msg-required="Будь ласка, заповніть поле запитання" required=""
+                          style="overflow: hidden; overflow-wrap: break-word; resize: horizontal; height: 191px;"></textarea>
+                <!-- <div class="help-block with-errors"></div> -->
+
+            </div>
+
+            <div class="post-footer">
+                <span>* Тут ви можете використовувати Markdown форматування</span>
+
+                <button type="submit" class="btn btn-primary">Опубліковати</button>
+            </div>
+
+
+        </form>
+
+
+    </div>
+{% endblock %}
+
+{% block secondary_content %}
+    <section class="module module-narrow module-shallow">
+
+        <div class="module-content">
+            <p class="action">
+
+                <a class="btn full-width" href="/forum/add">Створити тему</a>
+
+            </p>
+        </div>
+
+    </section>
+
+    <section class="module module-narrow module-shallow">
+        <div class="module-content">
+            <a href="/forum"><i class="fa fa-comments "></i>Всі теми</a>
+
+        </div>
+
+        <h2 class="module-heading">Перейти до розділу</h2>
+        <div class="module-content">
+            {% for board in board_list %}
+                <div class="thread-section work"><a href="#">{{ board.name }}</a></div>
+            {% endfor %}
+        </div>
+
+    </section>
+{% endblock %}
 
