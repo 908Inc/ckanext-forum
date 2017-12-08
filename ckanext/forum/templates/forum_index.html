@@ -3,6 +3,7 @@
 {% block primary_content %}
     <h1 class="page-heading">Форум</h1>
     <div class="thread-list">
+        {% for thread in thread_list %}
         <div class="forum-thread media">
             <div class="media-left pull-left forum-avatar">
                 <a href="#">
@@ -12,22 +13,20 @@
 
             </div>
             <div class="media-body forum-body">
-                <h3 class="thread-heading">Повернення перенаправлень з повідомленням не працює</h3>
+                <h3 class="thread-heading">{{ thread.name }}</h3>
                 <div class="thread-meta">
-                    <div class="thread-section work"><a href="#">Робота порталу</a></div>
-                    <div class="thread-author"><a href="#">ivankin</a></div>
+                    <div class="thread-section work"><a href="#">{{ thread.board.name }}</a></div>
+                    <div class="thread-author"><a href="#">{{ thread.author.name }}</a></div>
                 </div>
                 <div class="thread-body">
-                    <p>Привіт усім, я працюю над проектом і може повернути помилки на мої погляди не є проблемою, однак
-                        при спробі повернути інші змінні, такі як "безлад ..."
-                    </p>
-                    <p>
-
-                    </p></div>
+                    {{ thread.content }}
+                </div>
             </div>
 
         </div>
-
+        {% endfor %}
+    </div>
+{#
         <div class="forum-thread media">
             <div class="media-left pull-left forum-avatar">
                 <a href="#">
@@ -145,6 +144,7 @@
             </ul>
         </nav>
     </div>
+    #}
 {% endblock %}
 
 {% block secondary_content %}

@@ -22,7 +22,7 @@ class ForumController(BaseController):
         return tk.render('forum_index.html', context)
 
     def thread_add(self):
-        log.debug(c)
+        log.debug(c.userobj.as_dict())
         form = CreateThreadForm(tk.request.POST)
         if tk.request.POST and form.validate():
             thread = Thread()
@@ -30,6 +30,7 @@ class ForumController(BaseController):
             thread.author_id = c.userobj.id
             thread.save()
             log.debug("Form data is valid")
+            tk.redirect_to('/forum')
         else:
             log.error("Validate errors: %s", form.errors)
         context = {

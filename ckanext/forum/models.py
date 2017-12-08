@@ -95,12 +95,14 @@ class Thread(object):
     """
     Forum thread mapping class
     """
-    def save(self):
+    def save(self, commit=True):
         if not hasattr(self, 'slug') or not self.slug:
             self.slug = slugify_url(self.name)
         session = Session()
         log.debug(self)
         session.add(self)
+        if commit:
+            session.commit()
 
     @classmethod
     def all(cls):
@@ -125,7 +127,11 @@ meta.mapper(Thread,
                 'author': relation(User,
                                    backref=backref('forum_threads', cascade='all, delete-orphan', single_parent=True),
                                    primaryjoin=foreign(thread_table.c.author_id) == remote(User.id)
-                                   )
+                                   ),
+                'board': relation(Board,
+                                  backref=backref('forum_boards', cascade='all, delete-orphan', single_parent=True),
+                                  primaryjoin=foreign(thread_table.c.board_id) == remote(Board.id)
+                                  )
             }
             )
 
