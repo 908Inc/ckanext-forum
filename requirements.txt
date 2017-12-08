@@ -1,5 +1,2 @@
-flask-assets
-flask-debugtoolbar
-flask-markdown
-flask-script
-flask-wtf
+wtforms
+awesome-slugify

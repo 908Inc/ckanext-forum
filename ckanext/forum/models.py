@@ -6,7 +6,8 @@ from ckan.model import meta, User, Package, Session, Resource
 
 from sqlalchemy import func, types, Table, ForeignKey, Column, Index
 from sqlalchemy.orm import relation, backref, subqueryload, foreign, remote
-from sqlalchemy.sql.expression import or_
+
+from slugify import slugify_url
 
 log = logging.getLogger(__name__)
 
@@ -36,6 +37,7 @@ def init_db():
         for board_name, board_desc in DEFAULT_BOARDS.iteritems():
             board = Board()
             board.name = board_name
+            board.slug = slugify_url(board_name)
             board.description = board_desc
             session.add(board)
 
@@ -60,6 +62,9 @@ thread_table = Table('forum_thread', meta.metadata,
                      Column('board_id', types.Integer,
                             ForeignKey('forum_board.id', onupdate='CASCADE', ondelete='CASCADE'),
                             nullable=False, index=True),
+                     Column('name', types.Unicode(128)),
+                     Column('content', types.UnicodeText),
+                     Column('slug', types.String(128), unique=True),
                      Column('created', types.DateTime, default=datetime.utcnow, nullable=False),
                      Column('updated', types.DateTime, default=datetime.utcnow, nullable=False)
                      )
@@ -90,6 +95,12 @@ class Thread(object):
     """
     Forum thread mapping class
     """
+    def save(self):
+        if not hasattr(self, 'slug') or not self.slug:
+            self.slug = slugify_url(self.name)
+        session = Session()
+        log.debug(self)
+        session.add(self)
 
     @classmethod
     def all(cls):
