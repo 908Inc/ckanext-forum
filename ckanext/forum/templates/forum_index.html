@@ -1,4 +1,4 @@
-{% extends "page.html" %}
+{% extends "forum_base.html" %}
 
 {% block primary_content %}
     <h1 class="page-heading">Форум</h1>
@@ -13,9 +13,9 @@
 
             </div>
             <div class="media-body forum-body">
-                <h3 class="thread-heading">{{ thread.name }}</h3>
+                <h3 class="thread-heading"><a href="{{ h.url_for('forum_thread_show', slug=thread.slug) }}">{{ thread.name }}</a></h3>
                 <div class="thread-meta">
-                    <div class="thread-section work"><a href="#">{{ thread.board.name }}</a></div>
+                    <div class="thread-section work"><a href="{{ thread.board.get_absolute_url() }}">{{ thread.board.name }}</a></div>
                     <div class="thread-author"><a href="#">{{ thread.author.name }}</a></div>
                 </div>
                 <div class="thread-body">
@@ -147,32 +147,4 @@
     #}
 {% endblock %}
 
-{% block secondary_content %}
-    <section class="module module-narrow module-shallow">
-
-        <div class="module-content">
-            <p class="action">
-
-                <a class="btn full-width" href="/forum/add">Створити тему</a>
-
-            </p>
-        </div>
-
-    </section>
-
-    <section class="module module-narrow module-shallow">
-        <div class="module-content">
-            <a href="/forum"><i class="fa fa-comments "></i>Всі теми</a>
-
-        </div>
-
-        <h2 class="module-heading">Перейти до розділу</h2>
-        <div class="module-content">
-            {% for board in board_list %}
-                <div class="thread-section work"><a href="#">{{ board.name }}</a></div>
-            {% endfor %}
-        </div>
-
-    </section>
-{% endblock %}
 

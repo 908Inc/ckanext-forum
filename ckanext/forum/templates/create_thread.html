@@ -1,5 +1,4 @@
-{% extends "page.html" %}
-{% import 'macros.html' as m %}
+{% extends "forum_base.html" %}
 
 {% block primary_content %}
     <div class="thread-post">
@@ -60,33 +59,4 @@
             </div>
         </form>
     </div>
-{% endblock %}
-
-{% block secondary_content %}
-    <section class="module module-narrow module-shallow">
-
-        <div class="module-content">
-            <p class="action">
-
-                <a class="btn full-width" href="/forum/add">Створити тему</a>
-
-            </p>
-        </div>
-
-    </section>
-
-    <section class="module module-narrow module-shallow">
-        <div class="module-content">
-            <a href="/forum"><i class="fa fa-comments "></i>Всі теми</a>
-
-        </div>
-
-        <h2 class="module-heading">Перейти до розділу</h2>
-        <div class="module-content">
-            {% for board in board_list %}
-                <div class="thread-section work"><a href="#">{{ board.name }}</a></div>
-            {% endfor %}
-        </div>
-
-    </section>
 {% endblock %}

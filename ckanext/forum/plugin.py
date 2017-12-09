@@ -24,4 +24,6 @@ class ForumPlugin(plugins.SingletonPlugin):
         with SubMapper(sub_map, controller='ckanext.forum.controllers:ForumController') as m:
             m.connect('forum_index', '/forum', action='index')
             m.connect('forum_thread_add', '/forum/add', action='thread_add')
+            m.connect('forum_board_show', '/forum/:slug', action='board_show')
+            m.connect('forum_thread_show', '/forum/thread/:slug', action='thread_show')
         return sub_map

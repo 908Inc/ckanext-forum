@@ -1,0 +1,30 @@
+{% extends "page.html" %}
+
+{% block secondary_content %}
+    <section class="module module-narrow module-shallow">
+
+        <div class="module-content">
+            <p class="action">
+
+                <a class="btn full-width" href="{{ h.url_for('forum_thread_add') }}">Створити тему</a>
+
+            </p>
+        </div>
+
+    </section>
+
+    <section class="module module-narrow module-shallow">
+        <div class="module-content">
+            <a href="{{ h.url_for('forum_index') }}"><i class="fa fa-comments "></i>Всі теми</a>
+
+        </div>
+
+        <h2 class="module-heading">Перейти до розділу</h2>
+        <div class="module-content">
+            {% for board in board_list %}
+                <div class="thread-section work"><a href="{{ board.get_absolute_url() }}">{{ board.name }}</a></div>
+            {% endfor %}
+        </div>
+
+    </section>
+{% endblock %}

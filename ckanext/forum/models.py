@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 import logging
 from datetime import datetime
+from operator import isCallable
+
 from ckan import model
 from ckan.model import meta, User, Package, Session, Resource
+from ckan.plugins import toolkit as tk
 
 from sqlalchemy import func, types, Table, ForeignKey, Column, Index
 from sqlalchemy.orm import relation, backref, subqueryload, foreign, remote
@@ -86,15 +89,9 @@ class Board(object):
     Forum board mapping class
     """
 
-    @classmethod
-    def all(cls):
-        return Session.query(cls).all()
+    def get_absolute_url(self):
+        return tk.url_for('forum_board_show', slug=self.slug)
 
-
-class Thread(object):
-    """
-    Forum thread mapping class
-    """
     def save(self, commit=True):
         if not hasattr(self, 'slug') or not self.slug:
             self.slug = slugify_url(self.name)
@@ -106,17 +103,71 @@ class Thread(object):
 
     @classmethod
     def all(cls):
-        return Session.query(cls).all()
+        query = Session.query(cls)
+        if hasattr(cls, 'order_by') and isCallable(cls.order_by):
+            query = cls.order_by(query)
+        return query.all()
 
 
-class Post(object):
+class Thread(object):
     """
     Forum thread mapping class
     """
 
+    def get_absolute_url(self):
+        return tk.url_for('forum_thread_show', slug=self.slug)
+
+    @classmethod
+    def get_by_slug(cls, slug):
+        return Session.query(cls).filter(cls.slug==slug).first()
+
+    @classmethod
+    def order_by(cls, query):
+        return query.order_by(cls.created.desc())
+
+    @classmethod
+    def filter_board(cls, board_slug):
+        return Session.query(cls).filter(cls.board.has(slug=board_slug))
+
+    def save(self, commit=True):
+        if not hasattr(self, 'slug') or not self.slug:
+            self.slug = slugify_url(self.name)
+        session = Session()
+        log.debug(self)
+        session.add(self)
+        if commit:
+            session.commit()
+
     @classmethod
     def all(cls):
-        return Session.query(cls).all()
+        query = Session.query(cls)
+        if hasattr(cls, 'order_by') and isCallable(cls.order_by):
+            query = cls.order_by(query)
+        return query.all()
+
+
+class Post(object):
+    """
+    Forum post mapping class
+    """
+
+    def save(self, commit=True):
+        session = Session()
+        log.debug(self)
+        session.add(self)
+        if commit:
+            session.commit()
+
+    @classmethod
+    def all(cls):
+        query = Session.query(cls)
+        if hasattr(cls, 'order_by') and isCallable(cls.order_by):
+            query = cls.order_by(query)
+        return query.all()
+
+    @classmethod
+    def order_by(cls, session):
+        return session.order_by(cls.created.desc())
 
 
 meta.mapper(Board, board_table)
@@ -141,7 +192,10 @@ meta.mapper(Post,
                 'author': relation(User,
                                    backref=backref('forum_posts', cascade='all, delete-orphan', single_parent=True),
                                    primaryjoin=foreign(post_table.c.author_id) == remote(User.id)
-                                   )
+                                   ),
+                'thread': relation(Thread,
+                                   backref=backref('forum_posts', cascade='all, delete-orphan', single_parent=True),
+                                   primaryjoin=foreign(post_table.c.thread_id) == remote(Thread.id))
             }
             )
 

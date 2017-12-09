@@ -1,25 +1,48 @@
-{% extends "page.html" %}
-{% import 'macros.html' as m %}
+{% extends "forum_base.html" %}
 
-{% block primary %}
-  <article class="module">
-    <div class="module-content">
+{% block primary_content %}
 
-{{ m.breadcrumbs(board, thread) }}
-<h1>{{ thread.name }}</h1>
 
-<a href="{{ url_for('.create_post', slug=board.slug, id=thread.id) }}">New post</a>
+    <div class="breadcrumbs">
+        &raquo; <a href="{{ h.url_for('forum_index') }}">Forum</a>
+        &raquo; <a href="{{ thread.board.get_absolute_url() }}">{{ thread.board.name }}</a>
+        &raquo; <a href="{{ thread.get_absolute_url() }}">{{ thread.name }}</a>
+    </div>
 
-{% for p in posts %}
-<article class="post">
-    <a href="#user">username}</a>
-    {{ p.readable_date(p.created) }}
-    {{ p.content }}
-</article>
-{% endfor %}
-</div>
-  </article>
+    <h1>{{ thread.name }}</h1>
+
+    {% for p in thread.forum_posts %}
+        <article class="post">
+            <a href="#user">{{ p.author.name }}</a>
+            {{ p.created }}
+            {{ p.content }}
+        </article>
+    {% endfor %}
+    <div class="forum-comment comment-action media">
+        <div class="media-left pull-left forum-avatar">
+            <a href="#">
+                <img alt="64x64" class="media-object img-circle pull-left"
+                     src="https://scontent-frx5-1.xx.fbcdn.net/v/t1.0-9/14947961_1397278143635487_473930463249661719_n.jpg?oh=923bcecfd68697f59cd58c91b2f10800&oe=5A895EFD">
+            </a>
+
+        </div>
+        <div class="media-body comment-body">
+            <form method="post">
+                {{ form.csrf_token }}
+                <div class="form-group">
+
+                        <textarea class="form-control" rows="4"
+                                  placeholder="Напишіть вашу відповідь на дискусію..." name="content"></textarea>
+                </div>
+                <div class="comment-footer">
+                    <span>* Тут ви можете використовувати Markdown форматування</span>
+                    <button type="submit" class="btn btn-primary">Опубліковати</button>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
 {% endblock %}
-{% block secondary %}{% endblock %}
 
 

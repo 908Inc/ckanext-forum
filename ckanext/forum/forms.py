@@ -1,5 +1,4 @@
-from wtforms import SubmitField, TextAreaField, StringField, validators, IntegerField
-from wtforms.validators import Required
+from wtforms import TextAreaField, StringField, validators, IntegerField
 from wtforms import Form
 
 
@@ -10,9 +9,4 @@ class CreateThreadForm(Form):
 
 
 class CreatePostForm(Form):
-    content = TextAreaField(validators=[Required()])
-    submit = SubmitField()
-
-
-class EditPostForm(CreatePostForm):
-    pass
+    content = TextAreaField(validators=[validators.input_required()])
