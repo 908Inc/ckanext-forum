@@ -2,6 +2,7 @@ import logging
 from ckan.lib.base import BaseController
 from ckan.plugins import toolkit as tk
 from ckan.common import c
+from ckan.controllers import user
 
 
 from ckanext.forum.models import Board, Thread, Post
@@ -22,9 +23,11 @@ class ForumController(BaseController):
         return tk.render('forum_index.html', context)
 
     def thread_add(self):
+        if c.user is None:
+            tk.redirect_to(tk.url_for(controller='user', action='login'))
         log.debug(c.userobj.as_dict())
         form = CreateThreadForm(tk.request.POST)
-        if tk.request.POST and form.validate():
+        if tk.request.POST and form.validate() and c.user:
             thread = Thread()
             form.populate_obj(thread)
             thread.author_id = c.userobj.id
@@ -44,6 +47,8 @@ class ForumController(BaseController):
         thread = Thread.get_by_slug(slug=slug)
         form = CreatePostForm(tk.request.POST)
         if tk.request.POST and form.validate():
+            if c.user is None:
+                tk.redirect_to(tk.url_for(controller='user', action='login'))
             post = Post()
             form.populate_obj(post)
             post.thread = thread
