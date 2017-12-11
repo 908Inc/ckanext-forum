@@ -23,7 +23,7 @@ class ForumController(BaseController):
         return tk.render('forum_index.html', context)
 
     def thread_add(self):
-        if c.user is None:
+        if c.userobj is None:
             tk.redirect_to(tk.url_for(controller='user', action='login'))
         log.debug(c.userobj.as_dict())
         form = CreateThreadForm(tk.request.POST)
@@ -47,14 +47,14 @@ class ForumController(BaseController):
         thread = Thread.get_by_slug(slug=slug)
         form = CreatePostForm(tk.request.POST)
         if tk.request.POST and form.validate():
-            if c.user is None:
+            if c.userobj is None:
                 tk.redirect_to(tk.url_for(controller='user', action='login'))
             post = Post()
             form.populate_obj(post)
             post.thread = thread
             post.author_id = c.userobj.id
             post.save()
-            tk.redirect_to(tk.url_for('forum_thread_show', slug=thread.slug))
+            return tk.redirect_to(tk.url_for('forum_thread_show', slug=thread.slug))
         context = {
             'board_list': Board.all(),
             'thread': thread,
