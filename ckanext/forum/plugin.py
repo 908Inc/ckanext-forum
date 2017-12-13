@@ -25,5 +25,5 @@ class ForumPlugin(plugins.SingletonPlugin):
             m.connect('forum_index', '/forum', action='index')
             m.connect('forum_thread_add', '/forum/add', action='thread_add')
             m.connect('forum_board_show', '/forum/:slug', action='board_show')
-            m.connect('forum_thread_show', '/forum/thread/:slug', action='thread_show')
+            m.connect('forum_thread_show', '/forum/:slug/:id', action='thread_show')
         return sub_map

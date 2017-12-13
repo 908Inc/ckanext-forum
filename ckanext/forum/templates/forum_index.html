@@ -1,150 +1,63 @@
 {% extends "forum_base.html" %}
 
+{% block title %}{% if board %}{{ board.name }} - {% endif %}Форум | Data.gov.ua {% endblock %}
+
 {% block primary_content %}
     <h1 class="page-heading">Форум</h1>
     <div class="thread-list">
         {% for thread in thread_list %}
-        <div class="forum-thread media">
-            <div class="media-left pull-left forum-avatar">
-                <a href="#">
-                    <img alt="64x64" class="media-object img-circle pull-left"
-                         src="https://scontent-frx5-1.xx.fbcdn.net/v/t1.0-9/10383001_10204183877732615_6652804351300092805_n.jpg?oh=f5e6678a0e15511321c3d9704efa9ada&amp;oe=5A961011">
-                </a>
+            <div class="forum-thread media">
+                <div class="media-left pull-left forum-avatar">
+                    {{ h.gravatar((thread.author.email_hash), size=64) }}
+                </div>
+                <div class="media-body forum-body">
+                    <h3 class="thread-heading"><a
+                            href="{{ thread.get_absolute_url() }}">{{ thread.name }}</a></h3>
+                    <div class="thread-meta">
+                        <div class="thread-section work">
+                            <a href="{{ thread.board.get_absolute_url() }}">{{ thread.board.name }}</a>
+                        </div>
+                        <div class="thread-author">
+                            <a href="{{ h.url_for(controller='user', action='read', id=thread.author.name) }}">{{ thread.author.name }}</a>
+                        </div>
+                    </div>
+                    <div class="thread-body">
+                        {{ thread.content|truncate }}
+                    </div>
+                </div>
 
             </div>
-            <div class="media-body forum-body">
-                <h3 class="thread-heading"><a href="{{ h.url_for('forum_thread_show', slug=thread.slug) }}">{{ thread.name }}</a></h3>
-                <div class="thread-meta">
-                    <div class="thread-section work"><a href="{{ thread.board.get_absolute_url() }}">{{ thread.board.name }}</a></div>
-                    <div class="thread-author"><a href="#">{{ thread.author.name }}</a></div>
-                </div>
-                <div class="thread-body">
-                    {{ thread.content }}
-                </div>
-            </div>
-
-        </div>
         {% endfor %}
     </div>
-{#
-        <div class="forum-thread media">
-            <div class="media-left pull-left forum-avatar">
-                <a href="#">
-                    <img alt="64x64" class="media-object img-circle pull-left"
-                         src="https://scontent-frx5-1.xx.fbcdn.net/v/t1.0-9/14947961_1397278143635487_473930463249661719_n.jpg?oh=923bcecfd68697f59cd58c91b2f10800&amp;oe=5A895EFD">
-                </a>
-
-            </div>
-            <div class="media-body forum-body">
-                <h3 class="thread-heading">Аутентифікація API</h3>
-                <div class="thread-meta">
-                    <div class="thread-section open-data-ukraine"><a href="#">Відкриті дані Україна</a></div>
-                    <div class="thread-author"><a href="#">petrov</a></div>
-                </div>
-                <div class="thread-body">
-                    <p>У мене дві різні таблиці (Клієнти та Clientslog). У мене тільки один контролер. Функція знищення
-                        в контролері використовується клієнтами. Як я можу де ...
-                    </p>
-                    <p>
-
-                    </p></div>
-            </div>
-
-        </div>
-
-        <div class="forum-thread media">
-            <div class="media-left pull-left forum-avatar">
-                <a href="#">
-                    <img alt="64x64" class="media-object img-circle pull-left"
-                         src="https://image.ibb.co/nJTQSw/user_avatar.png">
-                </a>
-
-            </div>
-            <div class="media-body forum-body">
-                <h3 class="thread-heading">60 секунд місцевого проти 2 секунд на виробництві</h3>
-                <div class="thread-meta">
-                    <div class="thread-section work"><a href="#">Робота порталу</a></div>
-                    <div class="thread-author"><a href="#">sergey1972</a></div>
-                </div>
-                <div class="thread-body">
-                    <p>Спроба модернізувати продукт Auth: user () Продукт за допомогою методу оновлення, але завжди
-                        призводить до помилки. Користувач має багато продуктів () / Продукт belongsTo business () ....
-                    </p>
-                    <p>
-
-                    </p></div>
-            </div>
-
-        </div>
-
-        <div class="forum-thread media">
-            <div class="media-left pull-left forum-avatar">
-                <a href="#">
-                    <img alt="64x64" class="media-object img-circle pull-left"
-                         src="https://scontent-frx5-1.xx.fbcdn.net/v/t1.0-9/10383001_10204183877732615_6652804351300092805_n.jpg?oh=f5e6678a0e15511321c3d9704efa9ada&amp;oe=5A961011">
-                </a>
-
-            </div>
-            <div class="media-body forum-body">
-                <h3 class="thread-heading">Як перевірити цей метод?</h3>
-                <div class="thread-meta">
-                    <div class="thread-section open-data-world"><a href="#">Відкриті дані Світ</a></div>
-                    <div class="thread-author"><a href="#">ivankin</a></div>
-                </div>
-                <div class="thread-body">
-                    <p>Привіт всім, мені потрібно передати об'єкт з вигляду на інший вигляд
-                    </p>
-                    <p>
-
-                    </p></div>
-            </div>
-
-        </div>
-    </div>
-
+    {% if total_pages > 1 %}
     <div class="text-center">
         <nav aria-label="Page navigation">
             <ul class="pagination">
+                {% if current_page > 1 %}
                 <li>
-                    <a href="/blog" aria-label="Previous">
+                    <a href="?page={{ current_page - 1 }}" aria-label="Previous">
                         <span aria-hidden="true">«</span>
                     </a>
                 </li>
+                {% endif %}
 
-                <li class="active">
-                    <a href="/blog">1</a>
+                {% for page in range(1, total_pages + 1, 1) %}
+                <li {% if page == current_page %}class="active"{% endif %}>
+                    <a href="?page={{ page }}">{{ page }}</a>
                 </li>
-                <li>
-                    <a href="/blog?page=2">2</a>
-                </li>
-                <li>
-                    <a href="/blog?page=3">3</a>
-                </li>
-                <li>
-                    <a href="/blog?page=4">4</a>
-                </li>
-                <li>
-                    <a href="/blog?page=5">5</a>
-                </li>
+                {% endfor %}
 
-
+                {% if current_page < total_pages %}
                 <li>
-                    <a href="/blog?page=8">...</a>
-                </li>
-
-                <li>
-                    <a href="/blog?page=12">122</a>
-                </li>
-
-                <li>
-                    <a href="/blog?page=2" aria-label="Next">
+                    <a href="?page={{ current_page + 1 }}" aria-label="Next">
                         <span aria-hidden="true">»</span>
                     </a>
                 </li>
+                {% endif %}
             </ul>
         </nav>
     </div>
-    #}
+    {% endif %}
 {% endblock %}
 
 

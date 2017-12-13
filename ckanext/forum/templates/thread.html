@@ -1,30 +1,50 @@
 {% extends "forum_base.html" %}
 
+{% block title %}{{ thread.name }} - {{ thread.board.name }} - Форум | Data.gov.ua {% endblock %}
+
 {% block primary_content %}
-
-
-    <div class="breadcrumbs">
-        &raquo; <a href="{{ h.url_for('forum_index') }}">Forum</a>
-        &raquo; <a href="{{ thread.board.get_absolute_url() }}">{{ thread.board.name }}</a>
-        &raquo; <a href="{{ thread.get_absolute_url() }}">{{ thread.name }}</a>
+    <div class="forum-post-head">
+        <h1 class="page-heading">{{ thread.name }}</h1>
+        <div class="thread-meta">
+            <div class="thread-section work">
+                <a href="{{ thread.board.get_absolute_url() }}">{{ thread.board.name }}</a>
+            </div>
+            <div class="thread-author">
+                <a href="{{ h.url_for(controller='user', action='read', id=thread.author.name) }}">{{ thread.author.name }}</a>
+            </div>
+            <div class="thread-date">{{ h.render_datetime(thread.created, with_hours=True) }}</div>
+        </div>
     </div>
-
     <h1>{{ thread.name }}</h1>
 
-    {% for p in thread.forum_posts %}
-        <article class="post">
-            <a href="#user">{{ p.author.name }}</a>
-            {{ p.created }}
-            {{ p.content }}
-        </article>
-    {% endfor %}
+    <div class="forum-post-body">
+        {{ thread.content }}
+    </div>
+
+    <div class="forum-comments-container">
+        {% for p in thread.forum_posts %}
+            <div class="forum-comment media">
+                <div class="media-left pull-left forum-avatar">
+                    {{ h.gravatar((p.author.email_hash), size=64) }}
+                </div>
+                <div class="media-body comment-body">
+                    <div class="comment-head">
+                        <a href="{{ h.url_for(controller='user', action='read', id=p.author.name) }}">
+                            {{ p.author.name }}
+                        </a> {{ h.render_datetime(p.created, with_hours=True) }}</div>
+
+                    <div class="comment-body">
+                        {{ p.content }}
+                    </div>
+                </div>
+
+            </div>
+        {% endfor %}
+    </div>
+
     <div class="forum-comment comment-action media">
         <div class="media-left pull-left forum-avatar">
-            <a href="#">
-                <img alt="64x64" class="media-object img-circle pull-left"
-                     src="https://scontent-frx5-1.xx.fbcdn.net/v/t1.0-9/14947961_1397278143635487_473930463249661719_n.jpg?oh=923bcecfd68697f59cd58c91b2f10800&oe=5A895EFD">
-            </a>
-
+            {{ h.gravatar((c.userobj.email_hash), size=64) }}
         </div>
         <div class="media-body comment-body">
             <form method="post">

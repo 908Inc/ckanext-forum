@@ -92,6 +92,10 @@ class Board(object):
     def get_absolute_url(self):
         return tk.url_for('forum_board_show', slug=self.slug)
 
+    @classmethod
+    def get_by_slug(cls, slug):
+        return Session.query(cls).filter(cls.slug==slug).first()
+
     def save(self, commit=True):
         if not hasattr(self, 'slug') or not self.slug:
             self.slug = slugify_url(self.name)
@@ -115,11 +119,15 @@ class Thread(object):
     """
 
     def get_absolute_url(self):
-        return tk.url_for('forum_thread_show', slug=self.slug)
+        return tk.url_for('forum_thread_show', slug=self.board.slug, id=self.id)
+
+    @classmethod
+    def get_by_id(cls, id):
+        return Session.query(cls).filter(cls.id == id).first()
 
     @classmethod
     def get_by_slug(cls, slug):
-        return Session.query(cls).filter(cls.slug==slug).first()
+        return Session.query(cls).filter(cls.slug == slug).first()
 
     @classmethod
     def order_by(cls, query):
@@ -143,7 +151,7 @@ class Thread(object):
         query = Session.query(cls)
         if hasattr(cls, 'order_by') and isCallable(cls.order_by):
             query = cls.order_by(query)
-        return query.all()
+        return query
 
 
 class Post(object):
@@ -180,7 +188,7 @@ meta.mapper(Thread,
                                    primaryjoin=foreign(thread_table.c.author_id) == remote(User.id)
                                    ),
                 'board': relation(Board,
-                                  backref=backref('forum_boards', cascade='all, delete-orphan', single_parent=True),
+                                  backref=backref('forum_threads', cascade='all, delete-orphan', single_parent=True),
                                   primaryjoin=foreign(thread_table.c.board_id) == remote(Board.id)
                                   )
             }
