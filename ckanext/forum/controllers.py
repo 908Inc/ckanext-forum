@@ -41,7 +41,7 @@ class ForumController(BaseController):
             thread.author_id = c.userobj.id
             thread.save()
             log.debug("Form data is valid")
-            tk.redirect_to(tk.url_for('forum_board_show', slug=thread.board.slug))
+            tk.redirect_to(thread.get_absolute_url())
         else:
             log.error("Validate errors: %s", form.errors)
         context = {
@@ -64,7 +64,7 @@ class ForumController(BaseController):
             post.thread = thread
             post.author_id = c.userobj.id
             post.save()
-            return tk.redirect_to(tk.url_for('forum_thread_show', slug=thread.slug))
+            return tk.redirect_to(thread.get_absolute_url())
         context = {
             'board_list': Board.all(),
             'thread': thread,
