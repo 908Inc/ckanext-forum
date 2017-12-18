@@ -8,11 +8,14 @@
         {% for thread in thread_list %}
             <div class="forum-thread media">
                 <div class="media-left pull-left forum-avatar">
-                    {{ h.gravatar((thread.author.email_hash), size=64) }}
+                    <a href="{{ h.url_for(controller='user', action='read', id=thread.author.name) }}">
+                        {{ h.gravatar((thread.author.email_hash), size=64) }}
+                    </a>
                 </div>
                 <div class="media-body forum-body">
-                    <h3 class="thread-heading"><a
-                            href="{{ thread.get_absolute_url() }}">{{ thread.name }}</a></h3>
+                    <h3 class="thread-heading">
+                        <a href="{{ thread.get_absolute_url() }}">{{ thread.name }}</a>
+                    </h3>
                     <div class="thread-meta">
                         <div class="thread-section work">
                             <a href="{{ thread.board.get_absolute_url() }}">{{ thread.board.name }}</a>
@@ -22,7 +25,7 @@
                         </div>
                     </div>
                     <div class="thread-body">
-                        {{ thread.content|truncate }}
+                        <a href="{{ thread.get_absolute_url() }}">{{ h.render_markdown(thread.content)|truncate }}</a>
                     </div>
                 </div>
 
@@ -35,7 +38,7 @@
             <ul class="pagination">
                 {% if current_page > 1 %}
                 <li>
-                    <a href="?page={{ current_page - 1 }}" aria-label="Previous">
+                    <a href="{{ h.pager_url(current_page - 1) }}" aria-label="Previous">
                         <span aria-hidden="true">«</span>
                     </a>
                 </li>
@@ -43,13 +46,13 @@
 
                 {% for page in range(1, total_pages + 1, 1) %}
                 <li {% if page == current_page %}class="active"{% endif %}>
-                    <a href="?page={{ page }}">{{ page }}</a>
+                    <a href="{{ h.pager_url(page) }}">{{ page }}</a>
                 </li>
                 {% endfor %}
 
                 {% if current_page < total_pages %}
                 <li>
-                    <a href="?page={{ current_page + 1 }}" aria-label="Next">
+                    <a href="{{ h.pager_url(current_page + 1) }}" aria-label="Next">
                         <span aria-hidden="true">»</span>
                     </a>
                 </li>

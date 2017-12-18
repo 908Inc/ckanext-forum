@@ -6,16 +6,12 @@ class ForumPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer, inherit=True)
     plugins.implements(plugins.IRoutes, inherit=True)
 
-
     # IConfigurer
 
     def update_config(self, config_):
         tk.add_template_directory(config_, 'templates')
         tk.add_public_directory(config_, 'public')
         tk.add_resource('fanstatic', 'forum')
-
-        # self.conn_string = config_['sqlalchemy.url']
-        # config_['SQLALCHEMY_DATABASE_URI'] = config_['sqlalchemy.url']
 
     # IRoutes
 

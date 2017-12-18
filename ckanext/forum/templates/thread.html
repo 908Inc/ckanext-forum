@@ -18,7 +18,7 @@
     <h1>{{ thread.name }}</h1>
 
     <div class="forum-post-body">
-        {{ thread.content }}
+        {{ h.render_markdown(thread.content) }}
     </div>
 
     <div class="forum-comments-container">
@@ -31,10 +31,10 @@
                     <div class="comment-head">
                         <a href="{{ h.url_for(controller='user', action='read', id=p.author.name) }}">
                             {{ p.author.name }}
-                        </a> {{ h.render_datetime(p.created, with_hours=True) }}</div>
+                        </a> {{ h.time_ago_from_timestamp(p.created) }}</div>
 
                     <div class="comment-body">
-                        {{ p.content }}
+                        {{ h.render_markdown(p.content) }}
                     </div>
                 </div>
 
@@ -43,24 +43,28 @@
     </div>
 
     <div class="forum-comment comment-action media">
-        <div class="media-left pull-left forum-avatar">
-            {{ h.gravatar((c.userobj.email_hash), size=64) }}
-        </div>
-        <div class="media-body comment-body">
-            <form method="post">
-                {{ form.csrf_token }}
-                <div class="form-group">
+        {% if c.userobj %}
+            <div class="media-left pull-left forum-avatar">
+                {{ h.gravatar((c.userobj.email_hash), size=64) }}
+            </div>
+            <div class="media-body comment-body">
+                <form method="post">
+                    {{ form.csrf_token }}
+                    <div class="form-group">
 
                         <textarea class="form-control" rows="4"
                                   placeholder="Напишіть вашу відповідь на дискусію..." name="content"></textarea>
-                </div>
-                <div class="comment-footer">
-                    <span>* Тут ви можете використовувати Markdown форматування</span>
-                    <button type="submit" class="btn btn-primary">Опубліковати</button>
-                </div>
+                    </div>
+                    <div class="comment-footer">
+                        <span>* Тут ви можете використовувати Markdown форматування</span>
+                        <button type="submit" class="btn btn-primary">Опубліковати</button>
+                    </div>
 
-            </form>
-        </div>
+                </form>
+            </div>
+        {% else %}
+            <p>You should be logged in to make posts.</p>
+        {% endif %}
 
     </div>
 {% endblock %}

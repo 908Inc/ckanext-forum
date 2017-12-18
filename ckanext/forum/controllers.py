@@ -1,10 +1,9 @@
 import logging
 from ckan.lib.base import BaseController, abort
 from ckan.plugins import toolkit as tk
+from ckan.lib.helpers import flash_success, flash_error
 from ckan.common import c
-from ckan.controllers import user
-import ckan.logic as logic
-import ckan.model as model
+from jinja2.filters import do_striptags
 
 
 from ckanext.forum.models import Board, Thread, Post
@@ -15,7 +14,7 @@ log = logging.getLogger(__name__)
 
 
 class ForumController(BaseController):
-    paginated_by = 10
+    paginated_by = 3
 
     def index(self):
         page = int(tk.request.GET.get('page', 1))
@@ -39,10 +38,13 @@ class ForumController(BaseController):
             thread = Thread()
             form.populate_obj(thread)
             thread.author_id = c.userobj.id
+            thread.content = do_striptags(thread.content)
             thread.save()
-            log.debug("Form data is valid")
+            log.debug("Form data is valid. Content: %s", do_striptags(thread.content))
+            flash_success(tk._('You successfully create thread'))
             tk.redirect_to(thread.get_absolute_url())
         else:
+            flash_error(tk._('You have errors in form'))
             log.error("Validate errors: %s", form.errors)
         context = {
             'form': form,
@@ -56,15 +58,20 @@ class ForumController(BaseController):
         if not thread:
             abort(404)
         form = CreatePostForm(tk.request.POST)
-        if tk.request.POST and form.validate():
+        if tk.request.POST:
             if c.userobj is None:
                 tk.redirect_to(tk.url_for(controller='user', action='login'))
-            post = Post()
-            form.populate_obj(post)
-            post.thread = thread
-            post.author_id = c.userobj.id
-            post.save()
-            return tk.redirect_to(thread.get_absolute_url())
+            if form.validate():
+                post = Post()
+                form.populate_obj(post)
+                post.thread = thread
+                post.author_id = c.userobj.id
+                post.content = do_striptags(post.content)
+                post.save()
+                flash_success(tk._('You successfully create comment'))
+                return tk.redirect_to(thread.get_absolute_url())
+            else:
+                flash_error(tk._('You have errors in form'))
         context = {
             'board_list': Board.all(),
             'thread': thread,
