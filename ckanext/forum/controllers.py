@@ -34,18 +34,21 @@ class ForumController(BaseController):
         if c.userobj is None:
             tk.redirect_to(tk.url_for(controller='user', action='login'))
         form = CreateThreadForm(tk.request.POST)
-        if tk.request.POST and form.validate() and c.user:
-            thread = Thread()
-            form.populate_obj(thread)
-            thread.author_id = c.userobj.id
-            thread.content = do_striptags(thread.content)
-            thread.save()
-            log.debug("Form data is valid. Content: %s", do_striptags(thread.content))
-            flash_success(tk._('You successfully create thread'))
-            tk.redirect_to(thread.get_absolute_url())
-        else:
-            flash_error(tk._('You have errors in form'))
-            log.error("Validate errors: %s", form.errors)
+        if tk.request.POST:
+            if c.userobj is None:
+                tk.redirect_to(tk.url_for(controller='user', action='login'))
+            if form.validate():
+                thread = Thread()
+                form.populate_obj(thread)
+                thread.author_id = c.userobj.id
+                thread.content = do_striptags(thread.content)
+                thread.save()
+                log.debug("Form data is valid. Content: %s", do_striptags(thread.content))
+                flash_success(tk._('You successfully create thread'))
+                tk.redirect_to(thread.get_absolute_url())
+            else:
+                flash_error(tk._('You have errors in form'))
+                log.error("Validate errors: %s", form.errors)
         context = {
             'form': form,
             'board_list': Board.all(),
