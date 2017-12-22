@@ -7,8 +7,8 @@ from ckan import model
 from ckan.model import meta, User, Package, Session, Resource
 from ckan.plugins import toolkit as tk
 
-from sqlalchemy import func, types, Table, ForeignKey, Column, Index
-from sqlalchemy.orm import relation, backref, subqueryload, foreign, remote
+from sqlalchemy import types, Table, ForeignKey, Column
+from sqlalchemy.orm import relation, backref, foreign, remote
 
 from slugify import slugify_url
 
@@ -30,13 +30,13 @@ def init_db():
         # during tests?
         return
 
+    session = Session()
     if not board_table.exists():
         board_table.create(checkfirst=True)
         thread_table.create(checkfirst=True)
         post_table.create(checkfirst=True)
         log.debug("Forum tables have been created")
 
-        session = Session()
         for board_name, board_desc in DEFAULT_BOARDS.iteritems():
             board = Board()
             board.name = board_name
@@ -49,14 +49,29 @@ def init_db():
             session.commit()
 
     else:
-        log.debug('Forum tables already exist')
+        if not migration_table.exists():
+            migration_table.create(checkfirst=True)
+            session.commit()
+        migration_number = session.query(migration_table).count()
+        log.debug('Migration number: %s', migration_number)
+        if migration_number == 0:
+            sql = "ALTER TABLE forum_post ADD COLUMN active boolean DEFAULT TRUE"
+            session.execute(sql)
+            session.execute(migration_table.insert())
+            session.commit()
+        if migration_number == 1:
+            sql = "ALTER TABLE forum_thread ADD COLUMN active boolean DEFAULT TRUE"
+            session.execute(sql)
+            session.execute(migration_table.insert())
+            session.commit()
+    session.close()
 
 
 board_table = Table('forum_board', meta.metadata,
                     Column('id', types.Integer, primary_key=True, autoincrement=True),
                     Column('name', types.Unicode(128)),
                     Column('slug', types.String(128), unique=True),
-                    Column('description', types.UnicodeText)
+                    Column('description', types.UnicodeText),
                     )
 
 thread_table = Table('forum_thread', meta.metadata,
@@ -69,7 +84,8 @@ thread_table = Table('forum_thread', meta.metadata,
                      Column('content', types.UnicodeText),
                      Column('slug', types.String(128), unique=True),
                      Column('created', types.DateTime, default=datetime.utcnow, nullable=False),
-                     Column('updated', types.DateTime, default=datetime.utcnow, nullable=False)
+                     Column('updated', types.DateTime, default=datetime.utcnow, nullable=False),
+                     Column('active', types.Boolean, default=True),
                      )
 
 post_table = Table('forum_post', meta.metadata,
@@ -80,8 +96,14 @@ post_table = Table('forum_post', meta.metadata,
                           ForeignKey('forum_thread.id', onupdate='CASCADE', ondelete='CASCADE'),
                           nullable=False, index=True),
                    Column('created', types.DateTime, default=datetime.utcnow),
-                   Column('updated', types.DateTime, default=datetime.utcnow)
+                   Column('updated', types.DateTime, default=datetime.utcnow),
+                   Column('active', types.Boolean, default=True),
                    )
+
+migration_table = Table('forum_migrations', meta.metadata,
+                        Column('id', types.Integer, primary_key=True, autoincrement=True),
+                        Column('created', types.DateTime, default=datetime.utcnow),
+                        )
 
 
 class Board(object):
@@ -94,7 +116,7 @@ class Board(object):
 
     @classmethod
     def get_by_slug(cls, slug):
-        return Session.query(cls).filter(cls.slug==slug).first()
+        return Session.query(cls).filter(cls.slug == slug).first()
 
     def save(self, commit=True):
         if not hasattr(self, 'slug') or not self.slug:
@@ -148,16 +170,24 @@ class Thread(object):
 
     @classmethod
     def all(cls):
-        query = Session.query(cls)
+        query = Session.query(cls).filter(cls.active == True)
         if hasattr(cls, 'order_by') and isCallable(cls.order_by):
             query = cls.order_by(query)
         return query
+
+    def ban(self):
+        session = Session()
+        session.query(self.__class__).filter(self.__class__.id == self.id).update({self.__class__.active: False})
+        session.commit()
 
 
 class Post(object):
     """
     Forum post mapping class
     """
+
+    def get_absolute_url(self):
+        return tk.url_for('forum_thread_show', slug=self.thread.board.slug, id=self.thread.id)
 
     def save(self, commit=True):
         session = Session()
@@ -167,15 +197,24 @@ class Post(object):
             session.commit()
 
     @classmethod
+    def get_by_id(cls, id):
+        return Session.query(cls).filter(cls.id == id).first()
+
+    @classmethod
     def all(cls):
-        query = Session.query(cls)
+        query = Session.query(cls).filter(cls.active == True)
         if hasattr(cls, 'order_by') and isCallable(cls.order_by):
             query = cls.order_by(query)
-        return query.all()
+        return query
 
     @classmethod
     def order_by(cls, session):
         return session.order_by(cls.created.desc())
+
+    def ban(self):
+        session = Session()
+        session.query(self.__class__).filter(self.__class__.id == self.id).update({self.__class__.active: False})
+        session.commit()
 
 
 meta.mapper(Board, board_table)
