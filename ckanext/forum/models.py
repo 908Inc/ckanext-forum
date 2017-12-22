@@ -54,12 +54,12 @@ def init_db():
             session.commit()
         migration_number = session.query(migration_table).count()
         log.debug('Migration number: %s', migration_number)
-        if migration_number == 0:
+        if migration_number < 1:
             sql = "ALTER TABLE forum_post ADD COLUMN active boolean DEFAULT TRUE"
             session.execute(sql)
             session.execute(migration_table.insert())
             session.commit()
-        if migration_number == 1:
+        if migration_number < 2:
             sql = "ALTER TABLE forum_thread ADD COLUMN active boolean DEFAULT TRUE"
             session.execute(sql)
             session.execute(migration_table.insert())
