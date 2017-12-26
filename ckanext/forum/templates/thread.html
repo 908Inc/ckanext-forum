@@ -15,14 +15,13 @@
             <div class="thread-date">{{ h.render_datetime(thread.created, with_hours=True) }}</div>
         </div>
     </div>
-    <h1>{{ thread.name }}</h1>
 
     <div class="forum-post-body">
         {{ h.render_markdown(thread.content) }}
     </div>
 
     <div class="forum-comments-container">
-        {% for p in thread.forum_posts %}
+        {% for p in posts %}
             <div class="forum-comment media">
                 <div class="media-left pull-left forum-avatar">
                     {{ h.gravatar((p.author.email_hash), size=64) }}
@@ -54,6 +53,13 @@
 
                         <textarea class="form-control" rows="4"
                                   placeholder="Напишіть вашу відповідь на дискусію..." name="content"></textarea>
+                        {% if form.content.errors %}
+                            <div class="help-block with-errors alert-error">
+                                {% for error in form.content.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
                     <div class="comment-footer">
                         <span>* Тут ви можете використовувати Markdown форматування</span>

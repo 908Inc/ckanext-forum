@@ -18,7 +18,7 @@
                     {% endfor %}
                 </select>
                 {% if form.board_id.errors %}
-                    <div class="help-block with-errors">
+                    <div class="help-block with-errors alert-error">
                         {% for error in form.board_id.errors %}
                             {{ error }}
                         {% endfor %}
@@ -32,7 +32,7 @@
                 <input type="text" placeholder="Наприклад: «Питання щодо набору даних ...»" class="form-control"
                        name="name" data-msg-required="Будь ласка, заповніть поле заголовку" value="{{ form.name.data or '' }}" required>
                 {% if form.name.errors %}
-                    <div class="help-block with-errors">
+                    <div class="help-block with-errors alert-error">
                         {% for error in form.name.errors %}
                             {{ error }}
                         {% endfor %}
@@ -45,7 +45,7 @@
                 <textarea class="form-control" rows="8" placeholder="Напищіть, що вас цікацить..." name="content"
                           data-msg-required="Будь ласка, заповніть поле запитання" required>{{ form.content.data or '' }}</textarea>
                 {% if form.content.errors %}
-                    <div class="help-block with-errors">
+                    <div class="help-block with-errors alert-error">
                         {% for error in form.content.errors %}
                             {{ error }}
                         {% endfor %}

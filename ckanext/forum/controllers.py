@@ -6,13 +6,33 @@ from ckan.plugins import toolkit as tk
 from ckan.lib.helpers import flash_success, flash_error
 from ckan.common import c
 from jinja2.filters import do_striptags
+import ckan.lib.jobs as jobs
 
 
-from ckanext.forum.models import Board, Thread, Post
+from ckanext.forum.models import Board, Thread, Post, BannedUser
 from ckanext.forum.forms import CreateThreadForm, CreatePostForm, CreateBoardForm
 
 
 log = logging.getLogger(__name__)
+
+
+def send_notifications_on_new_post(post):
+    from ckan.lib.mailer import mail_user
+    from ckan.lib.base import render_jinja2
+    from ckan.model import User
+
+    thread = Thread.get_by_id(post.thread_id)
+    author_ids = [p.author_id for p in thread.forum_posts]
+    author_ids += [thread.author_id]
+    for author_id in set(author_ids):
+        user = User.get(author_id)
+        context = {
+            'post_content': post.content,
+            'title': tk._('New post')
+        }
+        body = render_jinja2('forum_new_post_mail.html', context)
+
+        mail_user(user, tk._('New post'), body)
 
 
 class ForumController(BaseController):
@@ -40,6 +60,9 @@ class ForumController(BaseController):
     def thread_add(self):
         if c.userobj is None:
             tk.redirect_to(tk.url_for(controller='user', action='login'))
+        if BannedUser.check_by_id(c.userobj):
+            flash_error(tk._('You are banned'))
+            tk.redirect_to(tk.url_for('forum_index'))
         form = CreateThreadForm(tk.request.POST)
         if tk.request.POST:
             if form.validate():
@@ -88,6 +111,9 @@ class ForumController(BaseController):
         if tk.request.POST:
             if c.userobj is None:
                 tk.redirect_to(tk.url_for(controller='user', action='login'))
+            if BannedUser.check_by_id(c.userobj):
+                flash_error(tk._('You are banned'))
+                tk.redirect_to(thread.get_absolute_url())
             if form.validate():
                 post = Post()
                 form.populate_obj(post)
@@ -95,13 +121,15 @@ class ForumController(BaseController):
                 post.author_id = c.userobj.id
                 post.content = do_striptags(post.content)
                 post.save()
+                jobs.enqueue(send_notifications_on_new_post, [post])
                 flash_success(tk._('You successfully create comment'))
                 return tk.redirect_to(thread.get_absolute_url())
             else:
                 flash_error(tk._('You have errors in form'))
         context = {
             'thread': thread,
-            'form': form
+            'form': form,
+            'posts': Post.filter_thread(thread.id)
         }
         log.debug('ForumController.thread_show context: %s', context)
         return self.__render('thread.html', context)
@@ -152,6 +180,8 @@ class ForumController(BaseController):
         if c.userobj is None or not c.userobj.sysadmin:
             tk.redirect_to(tk.url_for(controller='user', action='login'))
         thread.ban()
+        if tk.request.GET.get('with_user'):
+            BannedUser.ban(thread.author_id)
         tk.redirect_to(tk.url_for('forum_activity'))
 
     def post_ban(self, id):
@@ -161,4 +191,6 @@ class ForumController(BaseController):
         if c.userobj is None or not c.userobj.sysadmin:
             tk.redirect_to(tk.url_for(controller='user', action='login'))
         post.ban()
+        if tk.request.GET.get('with_user'):
+            BannedUser.ban(post.author_id)
         tk.redirect_to(tk.url_for('forum_activity'))

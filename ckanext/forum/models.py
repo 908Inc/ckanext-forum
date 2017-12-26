@@ -52,6 +52,9 @@ def init_db():
         if not migration_table.exists():
             migration_table.create(checkfirst=True)
             session.commit()
+        if not banned_table.exists():
+            banned_table.create(checkfirst=True)
+            session.commit()
         migration_number = session.query(migration_table).count()
         log.debug('Migration number: %s', migration_number)
         if migration_number < 1:
@@ -99,6 +102,11 @@ post_table = Table('forum_post', meta.metadata,
                    Column('updated', types.DateTime, default=datetime.utcnow),
                    Column('active', types.Boolean, default=True),
                    )
+
+banned_table = Table('forum_ban', meta.metadata,
+                     Column('id', types.Integer, primary_key=True, autoincrement=True),
+                     Column('author_id', types.Unicode, nullable=False, index=True),
+                     )
 
 migration_table = Table('forum_migrations', meta.metadata,
                         Column('id', types.Integer, primary_key=True, autoincrement=True),
@@ -157,7 +165,7 @@ class Thread(object):
 
     @classmethod
     def filter_board(cls, board_slug):
-        return Session.query(cls).filter(cls.board.has(slug=board_slug))
+        return Session.query(cls).filter(cls.board.has(slug=board_slug), cls.active == True)
 
     def save(self, commit=True):
         if not hasattr(self, 'slug') or not self.slug:
@@ -185,6 +193,10 @@ class Post(object):
     """
     Forum post mapping class
     """
+
+    @classmethod
+    def filter_thread(cls, thread_id):
+        return Session.query(cls).filter(cls.thread_id==thread_id, cls.active==True)
 
     def get_absolute_url(self):
         return tk.url_for('forum_thread_show', slug=self.thread.board.slug, id=self.thread.id)
@@ -217,6 +229,24 @@ class Post(object):
         session.commit()
 
 
+class BannedUser(object):
+
+    def __init__(self, user_id):
+        self.author_id = user_id
+
+    @classmethod
+    def check_by_id(cls, user):
+        session = Session()
+        return session.query(session.query(cls).filter(cls.author_id == user.id).exists()).scalar()
+
+    @classmethod
+    def ban(cls, user_id):
+        session = Session()
+        banned_user = cls(user_id)
+        session.add(banned_user)
+        session.commit()
+
+
 meta.mapper(Board, board_table)
 
 meta.mapper(Thread,
@@ -243,6 +273,16 @@ meta.mapper(Post,
                 'thread': relation(Thread,
                                    backref=backref('forum_posts', cascade='all, delete-orphan', single_parent=True),
                                    primaryjoin=foreign(post_table.c.thread_id) == remote(Thread.id))
+            }
+            )
+
+meta.mapper(BannedUser,
+            banned_table,
+            properties={
+                'author': relation(User,
+                                   backref=backref('banned', cascade='all, delete-orphan', single_parent=True),
+                                   primaryjoin=foreign(banned_table.c.author_id) == remote(User.id)
+                                   )
             }
             )
 
