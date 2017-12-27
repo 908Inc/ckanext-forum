@@ -64,6 +64,7 @@ def init_db():
         "ALTER TABLE forum_post ADD COLUMN active boolean DEFAULT TRUE",
         "ALTER TABLE forum_thread ADD COLUMN active boolean DEFAULT TRUE",
         "ALTER TABLE forum_board ADD COLUMN active boolean DEFAULT TRUE",
+        "ALTER TABLE forum_thread DROP COLUMN slug"
     ]
     for counter, sql in enumerate(migration_sql_list, start=1):
         if migration_number < counter:
@@ -94,7 +95,6 @@ thread_table = Table('forum_thread', meta.metadata,
                             nullable=False, index=True),
                      Column('name', types.Unicode(128)),
                      Column('content', types.UnicodeText),
-                     Column('slug', types.String(128), unique=True),
                      Column('created', types.DateTime, default=datetime.utcnow, nullable=False),
                      Column('updated', types.DateTime, default=datetime.utcnow, nullable=False),
                      Column('active', types.Boolean, default=True),
@@ -201,8 +201,6 @@ class Thread(object):
         return Session.query(cls).filter(cls.board.has(slug=board_slug), cls.active == True)
 
     def save(self, commit=True):
-        if not hasattr(self, 'slug') or not self.slug:
-            self.slug = slugify_url(self.name)
         session = Session()
         log.debug(self)
         session.add(self)
