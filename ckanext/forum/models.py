@@ -55,35 +55,25 @@ def init_db():
     if not banned_table.exists():
         banned_table.create(checkfirst=True)
         session.commit()
+    if not unsubscription_table.exists():
+        unsubscription_table.create(checkfirst=True)
+        session.commit()
     migration_number = session.query(migration_table).count()
     log.debug('Migration number: %s', migration_number)
-    if migration_number < 1:
-        sql = "ALTER TABLE forum_post ADD COLUMN active boolean DEFAULT TRUE"
-        try:
-            session.execute(sql)
-        except ProgrammingError:
-            session.rollback()
-        finally:
-            session.execute(migration_table.insert())
-            session.commit()
-    if migration_number < 2:
-        sql = "ALTER TABLE forum_thread ADD COLUMN active boolean DEFAULT TRUE"
-        try:
-            session.execute(sql)
-        except ProgrammingError:
-            session.rollback()
-        finally:
-            session.execute(migration_table.insert())
-            session.commit()
-    if migration_number < 3:
-        sql = "ALTER TABLE forum_board ADD COLUMN active boolean DEFAULT TRUE"
-        try:
-            session.execute(sql)
-        except ProgrammingError:
-            session.rollback()
-        finally:
-            session.execute(migration_table.insert())
-            session.commit()
+    migration_sql_list = [
+        "ALTER TABLE forum_post ADD COLUMN active boolean DEFAULT TRUE",
+        "ALTER TABLE forum_thread ADD COLUMN active boolean DEFAULT TRUE",
+        "ALTER TABLE forum_board ADD COLUMN active boolean DEFAULT TRUE",
+    ]
+    for counter, sql in enumerate(migration_sql_list, start=1):
+        if migration_number < counter:
+            try:
+                session.execute(sql)
+            except ProgrammingError:
+                session.rollback()
+            finally:
+                session.execute(migration_table.insert())
+                session.commit()
 
     session.close()
 
@@ -126,6 +116,14 @@ banned_table = Table('forum_ban', meta.metadata,
                      Column('id', types.Integer, primary_key=True, autoincrement=True),
                      Column('author_id', types.Unicode, nullable=False, index=True),
                      )
+
+unsubscription_table = Table('forum_unsubscribe_user', meta.metadata,
+                             Column('id', types.Integer, primary_key=True, autoincrement=True),
+                             Column('user_id', types.Unicode, nullable=False, index=True),
+                             Column('thread_id', types.Integer,
+                                    ForeignKey('forum_thread.id', onupdate='CASCADE', ondelete='CASCADE'),
+                                    nullable=False, index=True),
+                             )
 
 migration_table = Table('forum_migrations', meta.metadata,
                         Column('id', types.Integer, primary_key=True, autoincrement=True),
@@ -231,7 +229,7 @@ class Post(object):
 
     @classmethod
     def filter_thread(cls, thread_id):
-        return Session.query(cls).filter(cls.thread_id==thread_id, cls.active==True)
+        return Session.query(cls).filter(cls.thread_id == thread_id, cls.active == True)
 
     def get_absolute_url(self):
         return tk.url_for('forum_thread_show', slug=self.thread.board.slug, id=self.thread.id)
@@ -282,6 +280,19 @@ class BannedUser(object):
         session.commit()
 
 
+class Unsubscription(object):
+
+    def __init__(self, user_id, thread_id):
+        self.user_id = user_id
+        self.thread_id = thread_id
+
+    @classmethod
+    def add(cls, user_id, thread_id):
+        session = Session()
+        unsubscr = cls(user_id, thread_id)
+        session.add(unsubscr)
+        session.commit()
+
 meta.mapper(Board, board_table)
 
 meta.mapper(Thread,
@@ -320,6 +331,8 @@ meta.mapper(BannedUser,
                                    )
             }
             )
+
+meta.mapper(Unsubscription, unsubscription_table)
 
 if __name__ == "__main__":
     init_db()

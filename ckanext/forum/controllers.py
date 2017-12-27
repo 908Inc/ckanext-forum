@@ -1,15 +1,16 @@
 import logging
+import base64
 from operator import itemgetter
 
 from ckan.lib.base import BaseController, abort
+from ckan.model import User
 from ckan.plugins import toolkit as tk
 from ckan.lib.helpers import flash_success, flash_error
 from ckan.common import c
 from jinja2.filters import do_striptags
 import ckan.lib.jobs as jobs
 
-
-from ckanext.forum.models import Board, Thread, Post, BannedUser
+from ckanext.forum.models import Board, Thread, Post, BannedUser, Unsubscription
 from ckanext.forum.forms import CreateThreadForm, CreatePostForm, CreateBoardForm
 
 
@@ -26,9 +27,11 @@ def send_notifications_on_new_post(post):
     author_ids += [thread.author_id]
     for author_id in set(author_ids):
         user = User.get(author_id)
+        unsubscribe_url = tk.url_for('forum_unsubscribe', base64_name=base64.b64encode(user.name), thread_id=thread.id)
         context = {
             'post_content': post.content,
-            'title': tk._('New post')
+            'title': tk._('New post'),
+            'unsubscribe_url': tk.config['ckan.site_url'] + unsubscribe_url
         }
         body = render_jinja2('forum_new_post_mail.html', context)
 
@@ -214,3 +217,13 @@ class ForumController(BaseController):
         board.unhide()
         flash_success(tk._('You successfully unhided board'))
         tk.redirect_to(tk.url_for('forum_index'))
+
+    def unsubscribe(self, base64_name, thread_id):
+        thread = Thread.get_by_id(thread_id)
+        user = User.get(base64.b64encode(base64_name))
+        if not thread or not user:
+            abort(404)
+
+        Unsubscription.add(user.id, thread.id)
+        flash_success(tk._('You successfully unhided board'))
+        tk.redirect_to(thread.get_absolute_url())
