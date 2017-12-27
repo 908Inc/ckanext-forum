@@ -227,5 +227,5 @@ class ForumController(BaseController):
             abort(404)
 
         Unsubscription.add(user.id, thread.id)
-        flash_success(tk._('You successfully unhided board'))
+        flash_success(tk._('You successfully unsibsribed'))
         tk.redirect_to(thread.get_absolute_url())
