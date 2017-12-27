@@ -23,9 +23,10 @@ def send_notifications_on_new_post(post):
     from ckan.model import User
 
     thread = Thread.get_by_id(post.thread_id)
-    author_ids = [p.author_id for p in thread.forum_posts]
-    author_ids += [thread.author_id]
-    for author_id in set(author_ids):
+    author_ids = set([p.author_id for p in thread.forum_posts] + [thread.author_id])
+    author_ids -= set([u.user_id for u in Unsubscription.filter_by_thread_id(post.thread_id)])
+
+    for author_id in author_ids:
         user = User.get(author_id)
         unsubscribe_url = tk.url_for('forum_unsubscribe', base64_name=base64.b64encode(user.name), thread_id=thread.id)
         context = {
@@ -219,8 +220,9 @@ class ForumController(BaseController):
         tk.redirect_to(tk.url_for('forum_index'))
 
     def unsubscribe(self, base64_name, thread_id):
+        log.debug('Unsubscribing %s %s', base64.b64decode(base64_name), thread_id)
         thread = Thread.get_by_id(thread_id)
-        user = User.get(base64.b64encode(base64_name))
+        user = User.get(base64.b64decode(base64_name))
         if not thread or not user:
             abort(404)
 

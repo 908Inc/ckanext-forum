@@ -285,6 +285,11 @@ class Unsubscription(object):
         self.thread_id = thread_id
 
     @classmethod
+    def filter_by_thread_id(cls, thread_id):
+        session = Session()
+        return session.query(cls).filter(cls.thread_id==thread_id)
+
+    @classmethod
     def add(cls, user_id, thread_id):
         session = Session()
         unsubscr = cls(user_id, thread_id)
