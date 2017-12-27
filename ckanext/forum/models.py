@@ -9,6 +9,7 @@ from ckan.plugins import toolkit as tk
 
 from sqlalchemy import types, Table, ForeignKey, Column
 from sqlalchemy.orm import relation, backref, foreign, remote
+from sqlalchemy.exc import ProgrammingError
 
 from slugify import slugify_url
 
@@ -48,25 +49,42 @@ def init_db():
             log.debug('Default boards created')
             session.commit()
 
-    else:
-        if not migration_table.exists():
-            migration_table.create(checkfirst=True)
-            session.commit()
-        if not banned_table.exists():
-            banned_table.create(checkfirst=True)
-            session.commit()
-        migration_number = session.query(migration_table).count()
-        log.debug('Migration number: %s', migration_number)
-        if migration_number < 1:
-            sql = "ALTER TABLE forum_post ADD COLUMN active boolean DEFAULT TRUE"
+    if not migration_table.exists():
+        migration_table.create(checkfirst=True)
+        session.commit()
+    if not banned_table.exists():
+        banned_table.create(checkfirst=True)
+        session.commit()
+    migration_number = session.query(migration_table).count()
+    log.debug('Migration number: %s', migration_number)
+    if migration_number < 1:
+        sql = "ALTER TABLE forum_post ADD COLUMN active boolean DEFAULT TRUE"
+        try:
             session.execute(sql)
+        except ProgrammingError:
+            session.rollback()
+        finally:
             session.execute(migration_table.insert())
             session.commit()
-        if migration_number < 2:
-            sql = "ALTER TABLE forum_thread ADD COLUMN active boolean DEFAULT TRUE"
+    if migration_number < 2:
+        sql = "ALTER TABLE forum_thread ADD COLUMN active boolean DEFAULT TRUE"
+        try:
             session.execute(sql)
+        except ProgrammingError:
+            session.rollback()
+        finally:
             session.execute(migration_table.insert())
             session.commit()
+    if migration_number < 3:
+        sql = "ALTER TABLE forum_board ADD COLUMN active boolean DEFAULT TRUE"
+        try:
+            session.execute(sql)
+        except ProgrammingError:
+            session.rollback()
+        finally:
+            session.execute(migration_table.insert())
+            session.commit()
+
     session.close()
 
 
@@ -75,6 +93,7 @@ board_table = Table('forum_board', meta.metadata,
                     Column('name', types.Unicode(128)),
                     Column('slug', types.String(128), unique=True),
                     Column('description', types.UnicodeText),
+                    Column('active', types.Boolean, default=True),
                     )
 
 thread_table = Table('forum_thread', meta.metadata,
@@ -141,6 +160,22 @@ class Board(object):
         if hasattr(cls, 'order_by') and isCallable(cls.order_by):
             query = cls.order_by(query)
         return query.all()
+
+    @classmethod
+    def filter_active(cls):
+        return Session.query(cls).filter(cls.active == True)
+
+    def hide(self):
+        self.active = False
+        session = Session()
+        session.add(self)
+        session.commit()
+
+    def unhide(self):
+        self.active = True
+        session = Session()
+        session.add(self)
+        session.commit()
 
 
 class Thread(object):

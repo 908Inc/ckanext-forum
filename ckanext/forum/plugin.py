@@ -21,6 +21,8 @@ class ForumPlugin(plugins.SingletonPlugin):
             m.connect('forum_index', '/forum', action='index')
             m.connect('forum_thread_add', '/forum/thread_add', action='thread_add')
             m.connect('forum_board_add', '/forum/board_add', action='board_add')
+            m.connect('forum_board_hide', '/forum/:slug/hide', action='board_hide')
+            m.connect('forum_board_unhide', '/forum/:slug/unhide', action='board_unhide')
             m.connect('forum_activity', '/forum/activity', action='activity')
             m.connect('forum_thread_ban', '/forum/thread_ban/:id', action='thread_ban')
             m.connect('forum_post_ban', '/forum/post_ban/:id', action='post_ban')

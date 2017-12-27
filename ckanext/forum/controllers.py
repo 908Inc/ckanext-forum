@@ -39,9 +39,14 @@ class ForumController(BaseController):
     paginated_by = 3
 
     def __render(self, template_name, context):
+        if c.userobj is None or not c.userobj.sysadmin:
+            board_list = Board.filter_active()
+        else:
+            board_list = Board.all()
         context.update({
-            'board_list': Board.all(),
+            'board_list': board_list,
         })
+        log.debug('ForumController.__render context: %s', context)
         return tk.render(template_name, context)
 
     def index(self):
@@ -54,7 +59,6 @@ class ForumController(BaseController):
             'total_pages': total_pages,
             'current_page': page,
         }
-        log.debug('ForumController.index context: %s', context)
         return self.__render('forum_index.html', context)
 
     def thread_add(self):
@@ -80,7 +84,6 @@ class ForumController(BaseController):
         context = {
             'form': form,
         }
-        log.debug('ForumController.thread_add context: %s', context)
         return self.__render('create_thread.html', context)
 
     def board_add(self):
@@ -100,7 +103,6 @@ class ForumController(BaseController):
         context = {
             'form': form,
         }
-        log.debug('ForumController.thread_add context: %s', context)
         return self.__render('create_board.html', context)
 
     def thread_show(self, slug, id):
@@ -131,7 +133,6 @@ class ForumController(BaseController):
             'form': form,
             'posts': Post.filter_thread(thread.id)
         }
-        log.debug('ForumController.thread_show context: %s', context)
         return self.__render('thread.html', context)
 
     def board_show(self, slug):
@@ -148,7 +149,6 @@ class ForumController(BaseController):
             'total_pages': total_pages,
             'current_page': page,
         }
-        log.debug('ForumController.board_show context: %s', context)
         return self.__render('forum_index.html', context)
 
     def activity(self):
@@ -194,3 +194,23 @@ class ForumController(BaseController):
         if tk.request.GET.get('with_user'):
             BannedUser.ban(post.author_id)
         tk.redirect_to(tk.url_for('forum_activity'))
+
+    def board_hide(self, slug):
+        board = Board.get_by_slug(slug)
+        if not board:
+            abort(404)
+        if c.userobj is None or not c.userobj.sysadmin:
+            tk.redirect_to(tk.url_for(controller='user', action='login'))
+        board.hide()
+        flash_success(tk._('You successfully hided board'))
+        tk.redirect_to(tk.url_for('forum_index'))
+
+    def board_unhide(self, slug):
+        board = Board.get_by_slug(slug)
+        if not board:
+            abort(404)
+        if c.userobj is None or not c.userobj.sysadmin:
+            tk.redirect_to(tk.url_for(controller='user', action='login'))
+        board.unhide()
+        flash_success(tk._('You successfully unhided board'))
+        tk.redirect_to(tk.url_for('forum_index'))

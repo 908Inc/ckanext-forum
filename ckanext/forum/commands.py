@@ -30,6 +30,6 @@ class ForumCommand(CkanCommand):
         if cmd == 'init_db':
             from ckanext.forum.models import init_db
             init_db()
-            self.log.info('Forum tables are initialized')
+            self.log.info('Forum tables have been initialized')
         else:
             self.log.error('Command %s not recognized' % (cmd,))
