@@ -2,6 +2,11 @@
 
 {% block title %}{% if board %}{{ board.name }} - {% endif %}Форум | Data.gov.ua {% endblock %}
 
+{% block links %}
+    {{ super() }}
+    {% resource 'forum/javascript/forum.js' %}
+{% endblock %}
+
 {% block primary_content %}
     <h1 class="page-heading">Форум</h1>
     <div class="thread-list">
@@ -24,8 +29,8 @@
                             <a href="{{ h.url_for(controller='user', action='read', id=thread.author.name) }}">{{ thread.author.name }}</a>
                         </div>
                     </div>
-                    <div class="thread-body">
-                        <a href="{{ thread.get_absolute_url() }}">{{ h.render_markdown(thread.content)|truncate }}</a>
+                    <div class="thread-body" data-thread-url="{{ thread.get_absolute_url() }}">
+                        {{ h.render_markdown(thread.content)|truncate }}
                     </div>
                 </div>
 
