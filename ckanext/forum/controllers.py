@@ -32,7 +32,8 @@ def send_notifications_on_new_post(post):
         context = {
             'post_content': post.content,
             'title': tk._('New post'),
-            'unsubscribe_url': tk.config['ckan.site_url'] + unsubscribe_url
+            'unsubscribe_url': tk.config['ckan.site_url'] + unsubscribe_url,
+            'username': user.name
         }
         body = render_jinja2('forum_new_post_mail.html', context)
 

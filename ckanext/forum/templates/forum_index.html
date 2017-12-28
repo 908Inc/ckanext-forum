@@ -30,7 +30,7 @@
                         </div>
                     </div>
                     <div class="thread-body" data-thread-url="{{ thread.get_absolute_url() }}">
-                        {{ h.render_markdown(thread.content)|truncate }}
+                        <a href="{{ thread.get_absolute_url() }}">{{ h.render_markdown(thread.content)|striptags|truncate }}</a>
                     </div>
                 </div>
 
