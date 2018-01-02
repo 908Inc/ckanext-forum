@@ -5,7 +5,7 @@ from operator import itemgetter
 from ckan.lib.base import BaseController, abort
 from ckan.model import User
 from ckan.plugins import toolkit as tk
-from ckan.lib.helpers import flash_success, flash_error
+from ckan.lib.helpers import flash_success, flash_error, get_page_number
 from ckan.common import c
 from jinja2.filters import do_striptags
 import ckan.lib.jobs as jobs
@@ -22,6 +22,8 @@ def send_notifications_on_new_post(post):
     from ckan.lib.base import render_jinja2
     from ckan.model import User
 
+    post_author = User.get(post.author_id)
+
     thread = Thread.get_by_id(post.thread_id)
     author_ids = set([p.author_id for p in thread.forum_posts] + [thread.author_id])
     author_ids -= set([u.user_id for u in Unsubscription.filter_by_thread_id(post.thread_id)])
@@ -33,7 +35,7 @@ def send_notifications_on_new_post(post):
             'post_content': post.content,
             'title': tk._('New post'),
             'unsubscribe_url': tk.config['ckan.site_url'] + unsubscribe_url,
-            'username': user.name
+            'username': post_author.name
         }
         body = render_jinja2('forum_new_post_mail.html', context)
 
@@ -55,7 +57,7 @@ class ForumController(BaseController):
         return tk.render(template_name, context)
 
     def index(self):
-        page = int(tk.request.GET.get('page', 1))
+        page = get_page_number(tk.request.params) or 1
         total_pages = int(Thread.all().count() / self.paginated_by) + 1
         if not 1 < page <= total_pages:
             page = 1
