@@ -1,5 +1,15 @@
 {% extends "forum_base.html" %}
 
+{% macro thread_section_style(name) -%}
+    {% if name == "Відкриті дані Україна" %}
+        open-data-ukraine
+    {% elif name == "Відкриті дані Світ" %}
+        open-data-world
+    {% elif name == "Робота порталу" %}
+        work
+    {% endif %}
+{%- endmacro %}
+
 {% block title %}{% if board %}{{ board.name }} - {% endif %}Форум | Data.gov.ua {% endblock %}
 
 {% block links %}
@@ -22,8 +32,9 @@
                         <a href="{{ thread.get_absolute_url() }}">{{ thread.name }}</a>
                     </h3>
                     <div class="thread-meta">
-                        <div class="thread-section work">
-                            <a href="{{ thread.board.get_absolute_url() }}">{{ thread.board.name }}</a>
+                        <div class="thread-section {{ thread_section_style(thread.board.name) }}">
+                            <!-- <a href="{{ thread.board.get_absolute_url() }}">{{ thread.board.name }}</a> -->
+                            <span>{{ thread.board.name }}</span>
                         </div>
                         <div class="thread-author">
                             <a href="{{ h.url_for(controller='user', action='read', id=thread.author.name) }}">{{ thread.author.name }}</a>

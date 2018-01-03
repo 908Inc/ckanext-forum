@@ -62,3 +62,16 @@
         </form>
     </div>
 {% endblock %}
+
+{% block scripts %}
+        {{ super() }}
+        <script src="/js/autosize.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js"></script> -->
+    
+       
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script> -->
+        <script src="/js/myScript.js"></script>
+        
+
+{% endblock %}
