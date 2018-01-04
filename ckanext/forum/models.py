@@ -186,7 +186,10 @@ class Thread(object):
 
     @classmethod
     def get_by_id(cls, id):
-        return Session.query(cls).filter(cls.id == id).first()
+        try:
+            return Session.query(cls).filter(cls.id == int(id)).first()
+        except ValueError:
+            return None
 
     @classmethod
     def get_by_slug(cls, slug):
