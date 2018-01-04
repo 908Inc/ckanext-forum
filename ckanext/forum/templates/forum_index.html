@@ -1,15 +1,5 @@
 {% extends "forum_base.html" %}
 
-{% macro thread_section_style(name) -%}
-    {% if name == "Відкриті дані Україна" %}
-        open-data-ukraine
-    {% elif name == "Відкриті дані Світ" %}
-        open-data-world
-    {% elif name == "Робота порталу" %}
-        work
-    {% endif %}
-{%- endmacro %}
-
 {% block title %}{% if board %}{{ board.name }} - {% endif %}Форум | Data.gov.ua {% endblock %}
 
 {% block links %}

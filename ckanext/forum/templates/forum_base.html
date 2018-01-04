@@ -47,11 +47,6 @@
                 <div class="thread-section {{ thread_section_style(board.name) }}">
                     <a href="{{ board.get_absolute_url() }}">{{ board.name }}</a>
                 {% if c.userobj.sysadmin %}
-                    <!-- {% if board.active %}
-                        <a class="action" href="{{ h.url_for('forum_board_hide', slug=board.slug) }}">{{ _('Hide') }}</a>
-                    {% else %}
-                        <a class="action" href="{{ h.url_for('forum_board_unhide', slug=board.slug) }}">{{ _('Show') }}</a>
-                    {% endif %} -->
 
                     {% if board.active %}
                         <a class="action" href="{{ h.url_for('forum_board_hide', slug=board.slug) }}"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>

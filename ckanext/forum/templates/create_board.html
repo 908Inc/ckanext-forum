@@ -44,8 +44,10 @@
 {% endblock %}
 
 {% block scripts %}
-        {{ super() }}       
+        {{ super() }}  
         {% resource 'forum/javascript/autosize.min.js' %}
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+        {% resource 'forum/javascript/jquery.validate.min.js' %}     
         {% resource 'forum/javascript/forms_validate.js' %}
 {% endblock %}
+
+
