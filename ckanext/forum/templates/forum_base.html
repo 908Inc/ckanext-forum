@@ -1,5 +1,15 @@
 {% extends "page.html" %}
 
+{% macro thread_section_style(name) -%}
+    {% if name == "Відкриті дані Україна" %}
+        open-data-ukraine
+    {% elif name == "Відкриті дані Світ" %}
+        open-data-world
+    {% elif name == "Робота порталу" %}
+        work
+    {% endif %}
+{%- endmacro %}
+
 {% block secondary_content %}
     <section class="module module-narrow module-shallow">
 
@@ -34,13 +44,14 @@
         <h2 class="module-heading">Перейти до розділу</h2>
         <div class="module-content">
             {% for board in board_list %}
-                <div class="thread-section work">
+                <div class="thread-section {{ thread_section_style(board.name) }}">
                     <a href="{{ board.get_absolute_url() }}">{{ board.name }}</a>
                 {% if c.userobj.sysadmin %}
+
                     {% if board.active %}
-                        <a href="{{ h.url_for('forum_board_hide', slug=board.slug) }}">{{ _('Hide') }}</a>
+                        <a class="action" href="{{ h.url_for('forum_board_hide', slug=board.slug) }}"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
                     {% else %}
-                        <a href="{{ h.url_for('forum_board_unhide', slug=board.slug) }}">{{ _('Show') }}</a>
+                        <a class="action" href="{{ h.url_for('forum_board_unhide', slug=board.slug) }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
                     {% endif %}
                 {% endif %}
                 </div>

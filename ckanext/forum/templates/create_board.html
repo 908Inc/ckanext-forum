@@ -42,3 +42,12 @@
         </form>
     </div>
 {% endblock %}
+
+{% block scripts %}
+        {{ super() }}  
+        {% resource 'forum/javascript/autosize.min.js' %}
+        {% resource 'forum/javascript/jquery.validate.min.js' %}     
+        {% resource 'forum/javascript/forms_validate.js' %}
+{% endblock %}
+
+
