@@ -4,15 +4,15 @@
 
 {% block primary_content %}
     <div class="thread-post">
-        <h1 class="page-heading">Публікація теми</h1>
+        <h1 class="page-heading">{% trans %}Post a Thead{% endtrans %}</h1>
 
         <form id="thread-form" data-toggle="validator" role="form" method="post">
             {{ form.csrf_token }}
             <div class="form-group select-section">
-                <label>Оберіть розділ</label>
-                <select data-placeholder="Тему документу не обрано" class="custom-select chosen-light" name="board_id"
-                        style="display: none;" data-msg-required="Будь ласка, оберіть розділ" required>
-                    <option value=" " disabled selected>Розділ не обрано</option>
+                <label>{% trans %}Select a Section{% endtrans %}</label>
+                <select data-placeholder="{% trans %}The section is not selected{% endtrans %}" class="custom-select chosen-light" name="board_id"
+                        style="display: none;" data-msg-required="{% trans %}Please select the section{% endtrans %}" required>
+                    <option value=" " disabled selected>{% trans %}The section is not selected{% endtrans %}</option>
                     {% for board in board_list %}
                         <option value="{{ board.id }}">{{ board.name }}</option>
                     {% endfor %}
@@ -28,9 +28,9 @@
             </div>
 
             <div class="form-group forum-title-group">
-                <label>Оберіть заголовок</label>
-                <input type="text" placeholder="Наприклад: «Питання щодо набору даних ...»" class="form-control"
-                       name="name" data-msg-required="Будь ласка, заповніть поле заголовку" value="{{ form.name.data or '' }}" required>
+                <label>{% trans %}Provide a Title{% endtrans %}:</label>
+                <input type="text" placeholder="{% trans %}e. g. Question concerning a dataset...{% endtrans %}" class="form-control"
+                       name="name" data-msg-required="{% trans %}Please fill out the title field{% endtrans %}" value="{{ form.name.data or '' }}" required>
                 {% if form.name.errors %}
                     <div class="help-block with-errors alert-error">
                         {% for error in form.name.errors %}
@@ -41,9 +41,9 @@
             </div>
 
             <div class="form-group">
-                <label>Напишіть ваше запитання</label>
-                <textarea class="form-control" rows="8" placeholder="Напищіть, що вас цікацить..." name="content"
-                          data-msg-required="Будь ласка, заповніть поле запитання" required>{{ form.content.data or '' }}</textarea>
+                <label>{% trans %}Ask your question{% endtrans %}:</label>
+                <textarea class="form-control" rows="8" placeholder="{% trans %}Write down what you are interested in...{% endtrans %}" name="content"
+                          data-msg-required="{% trans %}Please fill out the question field{% endtrans %}" required>{{ form.content.data or '' }}</textarea>
                 {% if form.content.errors %}
                     <div class="help-block with-errors alert-error">
                         {% for error in form.content.errors %}
@@ -55,9 +55,9 @@
             </div>
 
             <div class="post-footer">
-                <span>* Тут ви можете використовувати Markdown форматування</span>
+                <span>{% trans %}* You can use Markdown formatting here{% endtrans %}</span>
 
-                <button type="submit" class="btn btn-primary">Опубліковати</button>
+                <button type="submit" class="btn btn-primary">{% trans %}Publish{% endtrans %}</button>
             </div>
         </form>
     </div>
