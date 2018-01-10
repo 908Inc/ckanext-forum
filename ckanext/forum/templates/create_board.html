@@ -4,15 +4,15 @@
 
 {% block primary_content %}
     <div class="thread-post">
-        <h1 class="page-heading">Публікація теми</h1>
+        <h1 class="page-heading">{% trans %}Create Section{% endtrans %}</h1>
 
         <form id="thread-form" data-toggle="validator" role="form" method="post">
             {{ form.csrf_token }}
 
             <div class="form-group forum-title-group">
-                <label>Оберіть заголовок</label>
-                <input type="text" placeholder="Наприклад: «Питання щодо набору даних ...»" class="form-control"
-                       name="name" data-msg-required="Будь ласка, заповніть поле заголовку" value="{{ form.name.data or '' }}" required>
+                <label>{% trans %}Provide a Title{% endtrans %}:</label>
+                <input type="text" placeholder="{% trans %}e. g. Open Data Ukraine{% endtrans %}" class="form-control"
+                       name="name" data-msg-required="{% trans %}Please fill out the title field{% endtrans %}" value="{{ form.name.data or '' }}" required>
                 {% if form.name.errors %}
                     <div class="help-block with-errors">
                         {% for error in form.name.errors %}
@@ -23,9 +23,9 @@
             </div>
 
             <div class="form-group forum-title-group">
-                <label>Слаг</label>
-                <input type="text" placeholder="Только латинский буквы цифры и дефис" class="form-control"
-                       name="slug" data-msg-required="Будь ласка, заповніть поле заголовку" value="{{ form.slug.data or '' }}" required>
+                <label>{% trans %}Slug{% endtrans %}:</label>
+                <input type="text" placeholder="{% trans %}Only latin characters, numbers and hyphen{% endtrans %}" class="form-control"
+                       name="slug" data-msg-required="{% trans %}Please provide the slug{% endtrans %}" value="{{ form.slug.data or '' }}" required>
                 {% if form.slug.errors %}
                     <div class="help-block with-errors">
                         {% for error in form.slug.errors %}
@@ -37,7 +37,7 @@
 
 
             <div class="post-footer">
-                <button type="submit" class="btn btn-primary">Опубліковати</button>
+                <button type="submit" class="btn btn-primary">{% trans %}Publish{% endtrans %}</button>
             </div>
         </form>
     </div>
@@ -45,8 +45,8 @@
 
 {% block scripts %}
         {{ super() }}  
-        {% resource 'forum/javascript/autosize.min.js' %}
-        {% resource 'forum/javascript/jquery.validate.min.js' %}     
+        {% resource 'forum/javascript/autosize.js' %}
+        {% resource 'forum/javascript/jquery.validate.js' %}     
         {% resource 'forum/javascript/forms_validate.js' %}
 {% endblock %}
 

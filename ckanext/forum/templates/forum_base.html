@@ -16,7 +16,7 @@
         <div class="module-content">
             <p class="action">
 
-                <a class="btn full-width" href="{{ h.url_for('forum_thread_add') }}">Створити тему</a>
+                <a class="btn full-width" href="{{ h.url_for('forum_thread_add') }}">{% trans %}Post a Thread{% endtrans %}</a>
 
             </p>
         </div>
@@ -25,7 +25,7 @@
             <div class="module-content">
                 <p class="action">
 
-                    <a class="btn full-width" href="{{ h.url_for('forum_board_add') }}">Створити роздiл</a>
+                    <a class="btn full-width" href="{{ h.url_for('forum_board_add') }}">Create a Section</a>
 
                 </p>
             </div>
@@ -34,14 +34,14 @@
 
     <section class="module module-narrow module-shallow">
         <div class="module-content">
-            <a href="{{ h.url_for('forum_index') }}"><i class="fa fa-comments "></i>Всі теми</a>
+            <a href="{{ h.url_for('forum_index') }}"><i class="fa fa-comments"></i>{% trans %}All Threads{% endtrans %}</a>
         </div>
         {% if c.userobj.sysadmin %}
         <div class="module-content">
-            <a href="{{ h.url_for('forum_activity') }}"><i class="fa fa-comments "></i>Активность</a>
+            <a href="{{ h.url_for('forum_activity') }}"><i class="fa fa-clock-o"></i>{% trans %}Activity{% endtrans %}</a>
         </div>
         {% endif %}
-        <h2 class="module-heading">Перейти до розділу</h2>
+        <h2 class="module-heading">{% trans %}Choose a Section{% endtrans %}</h2>
         <div class="module-content">
             {% for board in board_list %}
                 <div class="thread-section {{ thread_section_style(board.name) }}">
