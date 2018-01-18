@@ -11,8 +11,8 @@
             <div class="form-group select-section">
                 <label>{% trans %}Select a Section{% endtrans %}</label>
                 <select data-placeholder="{% trans %}The section is not selected{% endtrans %}" class="custom-select chosen-light" name="board_id"
-                        style="display: none;" data-msg-required="{% trans %}Please select the section{% endtrans %}" required>
-                    <option value=" " disabled selected>{% trans %}The section is not selected{% endtrans %}</option>
+                     data-msg-required="{% trans %}Please select the section{% endtrans %}" required>
+                     <option></option>
                     {% for board in board_list %}
                         <option value="{{ board.id }}">{{ board.name }}</option>
                     {% endfor %}
