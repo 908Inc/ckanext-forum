@@ -43,7 +43,7 @@ def send_notifications_on_new_post(post):
 
 
 class ForumController(BaseController):
-    paginated_by = 3.0
+    paginated_by = 3
 
     def __render(self, template_name, context):
         if c.userobj is None or not c.userobj.sysadmin:
@@ -58,9 +58,7 @@ class ForumController(BaseController):
 
     def index(self):
         page = get_page_number(tk.request.params) or 1
-        total_pages = float(Thread.all().count() / self.paginated_by)
-        if total_pages > 1:
-            total_pages = int(total_pages + 1)
+        total_pages = (Thread.all().count() - 1) / self.paginated_by + 1
         if not 1 < page <= total_pages:
             page = 1
         context = {
@@ -162,9 +160,7 @@ class ForumController(BaseController):
 
     def activity(self):
         page = get_page_number(tk.request.params) or 1
-        total_pages = float(Thread.all().count() / self.paginated_by)
-        if total_pages > 1:
-            total_pages = int(total_pages + 1)
+        total_pages = (Thread.all().count() - 1) / self.paginated_by + 1
         if not 1 < page <= total_pages:
             page = 1
         thread_activity = Thread.all().order_by(Thread.created.desc())
