@@ -58,7 +58,7 @@ class ForumController(BaseController):
 
     def index(self):
         page = get_page_number(tk.request.params) or 1
-        total_pages = int(Thread.all().count() / self.paginated_by) + 1
+        total_pages = (Thread.all().count() - 1) / self.paginated_by + 1
         if not 1 < page <= total_pages:
             page = 1
         context = {
@@ -159,6 +159,10 @@ class ForumController(BaseController):
         return self.__render('forum_index.html', context)
 
     def activity(self):
+        page = get_page_number(tk.request.params) or 1
+        total_pages = (Thread.all().count() - 1) / self.paginated_by + 1
+        if not 1 < page <= total_pages:
+            page = 1
         thread_activity = Thread.all().order_by(Thread.created.desc())
         post_activity = Post.all().order_by(Post.created.desc())
         activity = [dict(id=i.id,
@@ -175,8 +179,13 @@ class ForumController(BaseController):
                           content=i.content,
                           author_name=i.author.name,
                           created=i.created) for i in post_activity]
+        activity = sorted(activity, key=itemgetter('created'), reverse=True)
+        start_elem = int((page - 1) * self.paginated_by)
+        end_elem = int(page * self.paginated_by)
         context = {
-            'activity': sorted(activity, key=itemgetter('created'), reverse=True)
+            'total_pages': total_pages,
+            'current_page': page,
+            'activity': activity[start_elem: end_elem]
         }
         return self.__render('forum_activity.html', context)
 
