@@ -1,0 +1,189 @@
+# Translations template for ckanext-forum.
+# Copyright (C) 2018 ORGANIZATION
+# This file is distributed under the same license as the ckanext-forum project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ckanext-forum 0.0.2\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2018-02-07 23:49+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.3.4\n"
+
+#: ckanext/forum/controllers.py:36 ckanext/forum/controllers.py:42
+msgid "New post"
+msgstr ""
+
+#: ckanext/forum/controllers.py:75 ckanext/forum/controllers.py:124
+msgid "You are banned"
+msgstr ""
+
+#: ckanext/forum/controllers.py:86 ckanext/forum/controllers.py:105
+msgid "You successfully create thread"
+msgstr ""
+
+#: ckanext/forum/controllers.py:89 ckanext/forum/controllers.py:108
+#: ckanext/forum/controllers.py:137
+msgid "You have errors in form"
+msgstr ""
+
+#: ckanext/forum/controllers.py:134
+msgid "You successfully create comment"
+msgstr ""
+
+#: ckanext/forum/controllers.py:171
+msgid "Thread"
+msgstr ""
+
+#: ckanext/forum/controllers.py:178
+msgid "Post"
+msgstr ""
+
+#: ckanext/forum/controllers.py:221
+msgid "You successfully hided board"
+msgstr ""
+
+#: ckanext/forum/controllers.py:231
+msgid "You successfully unhided board"
+msgstr ""
+
+#: ckanext/forum/controllers.py:242
+msgid "You successfully unsibsribed"
+msgstr ""
+
+#: ckanext/forum/templates/create_board.html:3
+#: ckanext/forum/templates/create_board.html:7
+#: ckanext/forum/templates/forum_base.html:28
+msgid "Create Section"
+msgstr ""
+
+#: ckanext/forum/templates/create_board.html:3
+#: ckanext/forum/templates/create_thread.html:3
+#: ckanext/forum/templates/forum_activity.html:3
+#: ckanext/forum/templates/forum_index.html:3
+#: ckanext/forum/templates/forum_index.html:11
+#: ckanext/forum/templates/header.html:5
+msgid "Forum"
+msgstr ""
+
+#: ckanext/forum/templates/create_board.html:13
+#: ckanext/forum/templates/create_thread.html:31
+msgid "Provide a Title"
+msgstr ""
+
+#: ckanext/forum/templates/create_board.html:14
+msgid "e. g. Open Data Ukraine"
+msgstr ""
+
+#: ckanext/forum/templates/create_board.html:15
+#: ckanext/forum/templates/create_thread.html:33
+msgid "Please fill out the title field"
+msgstr ""
+
+#: ckanext/forum/templates/create_board.html:26
+msgid "Slug"
+msgstr ""
+
+#: ckanext/forum/templates/create_board.html:27
+msgid "Only latin characters, digits and a hyphen"
+msgstr ""
+
+#: ckanext/forum/templates/create_board.html:28
+msgid "Please provide the slug"
+msgstr ""
+
+#: ckanext/forum/templates/create_board.html:40
+#: ckanext/forum/templates/create_thread.html:60
+msgid "Publish"
+msgstr ""
+
+#: ckanext/forum/templates/create_thread.html:3
+#: ckanext/forum/templates/create_thread.html:7
+msgid "Post a Thead"
+msgstr ""
+
+#: ckanext/forum/templates/create_thread.html:12
+msgid "Select a Section"
+msgstr ""
+
+#: ckanext/forum/templates/create_thread.html:13
+msgid "The section is not selected"
+msgstr ""
+
+#: ckanext/forum/templates/create_thread.html:14
+msgid "Please select the section"
+msgstr ""
+
+#: ckanext/forum/templates/create_thread.html:32
+msgid "e. g. Question concerning a dataset..."
+msgstr ""
+
+#: ckanext/forum/templates/create_thread.html:44
+msgid "Ask your question"
+msgstr ""
+
+#: ckanext/forum/templates/create_thread.html:45
+msgid "Write down what you are interested in..."
+msgstr ""
+
+#: ckanext/forum/templates/create_thread.html:46
+msgid "Please fill out the question field"
+msgstr ""
+
+#: ckanext/forum/templates/create_thread.html:58
+msgid "You can use Markdown formatting here"
+msgstr ""
+
+#: ckanext/forum/templates/forum_activity.html:3
+#: ckanext/forum/templates/forum_activity.html:6
+#: ckanext/forum/templates/forum_base.html:41
+msgid "Activity"
+msgstr ""
+
+#: ckanext/forum/templates/forum_activity.html:19
+msgid "Ban"
+msgstr ""
+
+#: ckanext/forum/templates/forum_activity.html:26
+msgid "Ban message"
+msgstr ""
+
+#: ckanext/forum/templates/forum_activity.html:32
+msgid "Ban message and user"
+msgstr ""
+
+#: ckanext/forum/templates/forum_base.html:19
+msgid "Post Thread"
+msgstr ""
+
+#: ckanext/forum/templates/forum_base.html:37
+msgid "All Threads"
+msgstr ""
+
+#: ckanext/forum/templates/forum_base.html:44
+msgid "Choose a Section"
+msgstr ""
+
+#: ckanext/forum/templates/forum_new_post_mail.html:1
+msgid "Hello!"
+msgstr ""
+
+#: ckanext/forum/templates/forum_new_post_mail.html:3
+msgid "User"
+msgstr ""
+
+#: ckanext/forum/templates/forum_new_post_mail.html:3
+msgid "post a new comment in forum:"
+msgstr ""
+
+#: ckanext/forum/templates/forum_new_post_mail.html:7
+msgid "Stop nofifications in this thread: "
+msgstr ""
+
