@@ -2,5 +2,5 @@
 
 {% block header_site_navigation_tabs %}
 {{ super() }}
-<li><a href="{{ h.url_for('forum_index') }}">Forum</a></li>
+<li><a href="{{ h.url_for('forum_index') }}">{% trans %}Forum{% endtrans %}</a></li>
 {% endblock %}

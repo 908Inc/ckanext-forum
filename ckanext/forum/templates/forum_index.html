@@ -1,6 +1,6 @@
 {% extends "forum_base.html" %}
 
-{% block title %}{% if board %}{{ board.name }} - {% endif %}Форум | Data.gov.ua {% endblock %}
+{% block title %}{% if board %}{{ board.name }} - {% endif %}{% trans %}Forum{% endtrans %} | Data.gov.ua {% endblock %}
 
 {% block links %}
     {{ super() }}
@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block primary_content %}
-    <h1 class="page-heading">Форум</h1>
+    <h1 class="page-heading">{% trans %}Forum{% endtrans %}</h1>
     <div class="thread-list">
         {% for thread in thread_list %}
             <div class="forum-thread media">
