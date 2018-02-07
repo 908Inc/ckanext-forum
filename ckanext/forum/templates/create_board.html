@@ -1,6 +1,6 @@
 {% extends "forum_base.html" %}
 
-{% block title %}Форум | Data.gov.ua {% endblock %}
+{% block title %}{% trans %}Create Section{% endtrans %} - {% trans %}Forum{% endtrans %} | Data.gov.ua {% endblock %}
 
 {% block primary_content %}
     <div class="thread-post">
@@ -24,7 +24,7 @@
 
             <div class="form-group forum-title-group">
                 <label>{% trans %}Slug{% endtrans %}:</label>
-                <input type="text" placeholder="{% trans %}Only latin characters, numbers and hyphen{% endtrans %}" class="form-control"
+                <input type="text" placeholder="{% trans %}Only latin characters, digits and a hyphen{% endtrans %}" class="form-control"
                        name="slug" data-msg-required="{% trans %}Please provide the slug{% endtrans %}" value="{{ form.slug.data or '' }}" required>
                 {% if form.slug.errors %}
                     <div class="help-block with-errors">

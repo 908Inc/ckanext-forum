@@ -1,6 +1,6 @@
 {% extends "forum_base.html" %}
 
-{% block title %}Форум | Data.gov.ua {% endblock %}
+{% block title %}{% trans %}Post a Thead{% endtrans %} - {% trans %}Forum{% endtrans %} | Data.gov.ua {% endblock %}
 
 {% block primary_content %}
     <div class="thread-post">
@@ -55,7 +55,7 @@
             </div>
 
             <div class="post-footer">
-                <span>{% trans %}* You can use Markdown formatting here{% endtrans %}</span>
+                <span>* {% trans %}You can use Markdown formatting here{% endtrans %}</span>
 
                 <button type="submit" class="btn btn-primary">{% trans %}Publish{% endtrans %}</button>
             </div>
