@@ -1,24 +1,22 @@
-import logging
 import base64
+import logging
 from operator import itemgetter
 
+from jinja2.filters import do_striptags
+
+import ckan.lib.jobs as jobs
+from ckan.common import c
 from ckan.lib.base import BaseController, abort
+from ckan.lib.helpers import flash_success, flash_error, get_page_number
 from ckan.model import User
 from ckan.plugins import toolkit as tk
-from ckan.lib.helpers import flash_success, flash_error, get_page_number
-from ckan.common import c
-from jinja2.filters import do_striptags
-import ckan.lib.jobs as jobs
-
-from ckanext.forum.models import Board, Thread, Post, BannedUser, Unsubscription
 from ckanext.forum.forms import CreateThreadForm, CreatePostForm, CreateBoardForm
-
+from ckanext.forum.models import Board, Thread, Post, BannedUser, Unsubscription
 
 log = logging.getLogger(__name__)
 
 
 def send_notifications_on_new_post(post):
-    from ckan.lib.mailer import mail_user
     from ckan.lib.base import render_jinja2
     from ckan.model import User
 
@@ -35,11 +33,16 @@ def send_notifications_on_new_post(post):
             'post_content': post.content,
             'title': tk._('New post'),
             'unsubscribe_url': tk.config['ckan.site_url'] + unsubscribe_url,
-            'username': post_author.name
+            'username': post_author.name,
+            'thread_url': thread.get_absolute_url()
         }
         body = render_jinja2('forum_new_post_mail.html', context)
 
-        mail_user(user, tk._('New post'), body)
+        tk.get_action('send_mail')({}, {
+            'to': user.email,
+            'subject': tk._('New post'),
+            'message_html': body
+        })
 
 
 class ForumController(BaseController):
@@ -152,7 +155,8 @@ class ForumController(BaseController):
             page = 1
         context = {
             'board': board,
-            'thread_list': Thread.filter_board(board_slug=board.slug).offset((page - 1) * self.paginated_by).limit(self.paginated_by),
+            'thread_list': Thread.filter_board(board_slug=board.slug).offset((page - 1) * self.paginated_by).limit(
+                self.paginated_by),
             'total_pages': total_pages,
             'current_page': page,
         }
