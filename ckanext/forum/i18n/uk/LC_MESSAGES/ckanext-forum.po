@@ -22,32 +22,32 @@ msgstr ""
 
 #: ckanext/forum/controllers.py:36 ckanext/forum/controllers.py:42
 msgid "New post"
-msgstr ""
+msgstr "Новий пост"
 
 #: ckanext/forum/controllers.py:75 ckanext/forum/controllers.py:124
 msgid "You are banned"
-msgstr ""
+msgstr "Вас заблоковано"
 
 #: ckanext/forum/controllers.py:86 ckanext/forum/controllers.py:105
 msgid "You successfully create thread"
-msgstr ""
+msgstr "Тема успішно створена"
 
 #: ckanext/forum/controllers.py:89 ckanext/forum/controllers.py:108
 #: ckanext/forum/controllers.py:137
 msgid "You have errors in form"
-msgstr ""
+msgstr "Помилки у формі"
 
 #: ckanext/forum/controllers.py:134
 msgid "You successfully create comment"
-msgstr ""
+msgstr "Коментар успішно додано"
 
 #: ckanext/forum/controllers.py:171
 msgid "Thread"
-msgstr ""
+msgstr "Тема"
 
 #: ckanext/forum/controllers.py:178
 msgid "Post"
-msgstr ""
+msgstr "Пост"
 
 #: ckanext/forum/controllers.py:221
 msgid "You successfully hided board"
