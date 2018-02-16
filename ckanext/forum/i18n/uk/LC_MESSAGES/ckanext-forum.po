@@ -59,13 +59,13 @@ msgstr ""
 
 #: ckanext/forum/controllers.py:242
 msgid "You successfully unsibsribed"
-msgstr ""
+msgstr "Ви відписалися"
 
 #: ckanext/forum/templates/create_board.html:3
 #: ckanext/forum/templates/create_board.html:7
 #: ckanext/forum/templates/forum_base.html:28
 msgid "Create Section"
-msgstr ""
+msgstr "Створити розділ"
 
 #: ckanext/forum/templates/create_board.html:3
 #: ckanext/forum/templates/create_thread.html:3
@@ -74,21 +74,21 @@ msgstr ""
 #: ckanext/forum/templates/forum_index.html:11
 #: ckanext/forum/templates/header.html:5
 msgid "Forum"
-msgstr ""
+msgstr "Форум"
 
 #: ckanext/forum/templates/create_board.html:13
 #: ckanext/forum/templates/create_thread.html:31
 msgid "Provide a Title"
-msgstr ""
+msgstr "Введіть назву"
 
 #: ckanext/forum/templates/create_board.html:14
 msgid "e. g. Open Data Ukraine"
-msgstr ""
+msgstr "Наприклад, Відкриті дані Україна"
 
 #: ckanext/forum/templates/create_board.html:15
 #: ckanext/forum/templates/create_thread.html:33
 msgid "Please fill out the title field"
-msgstr ""
+msgstr "Будь ласка, додайте назву"
 
 #: ckanext/forum/templates/create_board.html:26
 msgid "Slug"
