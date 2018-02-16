@@ -96,7 +96,7 @@ msgstr ""
 
 #: ckanext/forum/templates/create_board.html:27
 msgid "Only latin characters, digits and a hyphen"
-msgstr ""
+msgstr "Тільки латинські літериб цифри та дефіс"
 
 #: ckanext/forum/templates/create_board.html:28
 msgid "Please provide the slug"
@@ -105,88 +105,88 @@ msgstr ""
 #: ckanext/forum/templates/create_board.html:40
 #: ckanext/forum/templates/create_thread.html:60
 msgid "Publish"
-msgstr ""
+msgstr "Опублікувати"
 
 #: ckanext/forum/templates/create_thread.html:3
 #: ckanext/forum/templates/create_thread.html:7
 msgid "Post a Thead"
-msgstr ""
+msgstr "Опублікувати "
 
 #: ckanext/forum/templates/create_thread.html:12
 msgid "Select a Section"
-msgstr ""
+msgstr "Вибрати розділ"
 
 #: ckanext/forum/templates/create_thread.html:13
 msgid "The section is not selected"
-msgstr ""
+msgstr "Розділ не вибрано"
 
 #: ckanext/forum/templates/create_thread.html:14
 msgid "Please select the section"
-msgstr ""
+msgstr "Будь ласка, виберіть розділ"
 
 #: ckanext/forum/templates/create_thread.html:32
 msgid "e. g. Question concerning a dataset..."
-msgstr ""
+msgstr "Наприклад, питання про набір даних"
 
 #: ckanext/forum/templates/create_thread.html:44
 msgid "Ask your question"
-msgstr ""
+msgstr "Поставити запитання"
 
 #: ckanext/forum/templates/create_thread.html:45
 msgid "Write down what you are interested in..."
-msgstr ""
+msgstr "Вкажіть, що вас цікавить"
 
 #: ckanext/forum/templates/create_thread.html:46
 msgid "Please fill out the question field"
-msgstr ""
+msgstr "Будь ласка, заповніть поле для запитання"
 
 #: ckanext/forum/templates/create_thread.html:58
 msgid "You can use Markdown formatting here"
-msgstr ""
+msgstr "Ви можете тут використовувати форматування Markdown"
 
 #: ckanext/forum/templates/forum_activity.html:3
 #: ckanext/forum/templates/forum_activity.html:6
 #: ckanext/forum/templates/forum_base.html:41
 msgid "Activity"
-msgstr ""
+msgstr "Активність"
 
 #: ckanext/forum/templates/forum_activity.html:19
 msgid "Ban"
-msgstr ""
+msgstr "Блокувати"
 
 #: ckanext/forum/templates/forum_activity.html:26
 msgid "Ban message"
-msgstr ""
+msgstr "Повідомлення про блокування"
 
 #: ckanext/forum/templates/forum_activity.html:32
 msgid "Ban message and user"
-msgstr ""
+msgstr "Повідомлення про блокування та користувач"
 
 #: ckanext/forum/templates/forum_base.html:19
 msgid "Post Thread"
-msgstr ""
+msgstr "Опублікувати обговорення"
 
 #: ckanext/forum/templates/forum_base.html:37
 msgid "All Threads"
-msgstr ""
+msgstr "Всі дискусії"
 
 #: ckanext/forum/templates/forum_base.html:44
 msgid "Choose a Section"
-msgstr ""
+msgstr "Вибрати розділ"
 
 #: ckanext/forum/templates/forum_new_post_mail.html:1
 msgid "Hello!"
-msgstr ""
+msgstr "Привіт!"
 
 #: ckanext/forum/templates/forum_new_post_mail.html:3
 msgid "User"
-msgstr ""
+msgstr "Кристувач"
 
 #: ckanext/forum/templates/forum_new_post_mail.html:3
 msgid "post a new comment in forum:"
-msgstr ""
+msgstr "додати новий коментар на форумі"
 
 #: ckanext/forum/templates/forum_new_post_mail.html:7
-msgid "Stop nofifications in this thread: "
-msgstr ""
+msgid "Stop notifications in this thread: "
+msgstr "Відписатися від сповіщень у цій темі"
 
