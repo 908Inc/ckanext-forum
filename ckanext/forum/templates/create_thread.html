@@ -13,7 +13,7 @@
                 <select data-placeholder="{% trans %}The section is not selected{% endtrans %}" class="custom-select chosen-light" name="board_id"
                      data-msg-required="{% trans %}Please select the section{% endtrans %}" required>
                      <option></option>
-                    {% for board in board_list %}
+                    {% for board in board_can_post %}
                         <option value="{{ board.id }}">{{ board.name }}</option>
                     {% endfor %}
                 </select>

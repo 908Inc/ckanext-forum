@@ -1,10 +1,12 @@
 from ckan import plugins
 from ckan.plugins import toolkit as tk
+from ckanext.forum.actions import forum_create_thread, forum_create_post
 
 
 class ForumPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer, inherit=True)
     plugins.implements(plugins.IRoutes, inherit=True)
+    plugins.implements(plugins.IActions, inherit=True)
 
     # IConfigurer
 
@@ -30,3 +32,11 @@ class ForumPlugin(plugins.SingletonPlugin):
             m.connect('forum_board_show', '/forum/:slug', action='board_show')
             m.connect('forum_thread_show', '/forum/:slug/:id', action='thread_show')
         return sub_map
+
+    # IActions
+
+    def get_actions(self):
+        return {
+            'forum_create_thread': forum_create_thread,
+            'forum_create_post': forum_create_post
+        }

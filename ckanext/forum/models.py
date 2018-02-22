@@ -3,22 +3,21 @@ import logging
 from datetime import datetime
 from operator import isCallable
 
-from ckan import model
-from ckan.model import meta, User, Package, Session, Resource
-from ckan.plugins import toolkit as tk
-
-from sqlalchemy import types, Table, ForeignKey, Column
-from sqlalchemy.orm import relation, backref, foreign, remote
-from sqlalchemy.exc import ProgrammingError
-
 from slugify import slugify_url
+from sqlalchemy import types, Table, ForeignKey, Column
+from sqlalchemy.exc import ProgrammingError
+from sqlalchemy.orm import relation, backref, foreign, remote
+
+from ckan import model
+from ckan.model import meta, User, Session
+from ckan.plugins import toolkit as tk
 
 log = logging.getLogger(__name__)
 
 DEFAULT_BOARDS = {
-    'Робота порталу': '',
-    'Відкриті дані Україна': '',
-    'Відкриті дані Світ': ''
+    u'Робота порталу': '',
+    u'Відкриті дані Україна': '',
+    u'Відкриті дані Світ': ''
 }
 
 
@@ -64,13 +63,20 @@ def init_db():
         "ALTER TABLE forum_post ADD COLUMN active boolean DEFAULT TRUE",
         "ALTER TABLE forum_thread ADD COLUMN active boolean DEFAULT TRUE",
         "ALTER TABLE forum_board ADD COLUMN active boolean DEFAULT TRUE",
-        "ALTER TABLE forum_thread DROP COLUMN slug"
+        "ALTER TABLE forum_thread DROP COLUMN slug",
+        "ALTER TABLE forum_thread ADD COLUMN can_post boolean DEFAULT TRUE",
+        "ALTER TABLE forum_board ADD COLUMN can_post boolean DEFAULT TRUE",
+        u"INSERT INTO forum_board(\"id\", \"name\", \"slug\", \"description\", \"active\", \"can_post\") " +
+        u"VALUES(DEFAULT, 'Запропоновати набір', 'zaproponuvati-nabir', '', true, false)"
     ]
     for counter, sql in enumerate(migration_sql_list, start=1):
         if migration_number < counter:
             try:
+                log.debug(sql)
                 session.execute(sql)
-            except ProgrammingError:
+            except ProgrammingError as e:
+                print(e)
+                log.debug('Migration have been rolled back.')
                 session.rollback()
             finally:
                 session.execute(migration_table.insert())
@@ -85,6 +91,7 @@ board_table = Table('forum_board', meta.metadata,
                     Column('slug', types.String(128), unique=True),
                     Column('description', types.UnicodeText),
                     Column('active', types.Boolean, default=True),
+                    Column('can_post', types.Boolean, default=True)
                     )
 
 thread_table = Table('forum_thread', meta.metadata,
@@ -98,6 +105,7 @@ thread_table = Table('forum_thread', meta.metadata,
                      Column('created', types.DateTime, default=datetime.utcnow, nullable=False),
                      Column('updated', types.DateTime, default=datetime.utcnow, nullable=False),
                      Column('active', types.Boolean, default=True),
+                     Column('can_post', types.Boolean, default=True)
                      )
 
 post_table = Table('forum_post', meta.metadata,
@@ -162,6 +170,10 @@ class Board(object):
     @classmethod
     def filter_active(cls):
         return Session.query(cls).filter(cls.active == True)
+
+    @classmethod
+    def filter_can_post(cls):
+        return Session.query(cls).filter(cls.active == True, cls.can_post == True)
 
     def hide(self):
         self.active = False
@@ -290,7 +302,7 @@ class Unsubscription(object):
     @classmethod
     def filter_by_thread_id(cls, thread_id):
         session = Session()
-        return session.query(cls).filter(cls.thread_id==thread_id)
+        return session.query(cls).filter(cls.thread_id == thread_id)
 
     @classmethod
     def add(cls, user_id, thread_id):
@@ -298,6 +310,7 @@ class Unsubscription(object):
         unsubscr = cls(user_id, thread_id)
         session.add(unsubscr)
         session.commit()
+
 
 meta.mapper(Board, board_table)
 

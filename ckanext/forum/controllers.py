@@ -2,8 +2,6 @@ import base64
 import logging
 from operator import itemgetter
 
-from jinja2.filters import do_striptags
-
 import ckan.lib.jobs as jobs
 from ckan.common import c
 from ckan.lib.base import BaseController, abort
@@ -80,12 +78,8 @@ class ForumController(BaseController):
         form = CreateThreadForm(tk.request.POST)
         if tk.request.POST:
             if form.validate():
-                thread = Thread()
-                form.populate_obj(thread)
-                thread.author_id = c.userobj.id
-                thread.content = do_striptags(thread.content)
-                thread.save()
-                log.debug("Form data is valid. Content: %s", do_striptags(thread.content))
+                thread = tk.get_action('forum_create_thread')({'auth_user_obj': c.userobj}, form.data)
+                log.debug("Form data is valid. Content: %s", thread.content)
                 flash_success(tk._('You successfully create thread'))
                 tk.redirect_to(thread.get_absolute_url())
             else:
@@ -93,6 +87,7 @@ class ForumController(BaseController):
                 log.error("Validate errors: %s", form.errors)
         context = {
             'form': form,
+            'board_can_post': Board.filter_can_post()
         }
         return self.__render('create_thread.html', context)
 
@@ -127,14 +122,14 @@ class ForumController(BaseController):
                 flash_error(tk._('You are banned'))
                 tk.redirect_to(thread.get_absolute_url())
             if form.validate():
-                post = Post()
-                form.populate_obj(post)
-                post.thread = thread
-                post.author_id = c.userobj.id
-                post.content = do_striptags(post.content)
-                post.save()
-                jobs.enqueue(send_notifications_on_new_post, [post])
-                flash_success(tk._('You successfully create comment'))
+                post = tk.get_action('forum_create_post')(
+                    {'auth_user_obj': c.userobj},
+                    {'thread_id': id, 'content': form.data['content']})
+                if post:
+                    jobs.enqueue(send_notifications_on_new_post, [post])
+                    flash_success(tk._('You successfully create comment'))
+                else:
+                    flash_error(tk._('Thread is closed for comments'))
                 return tk.redirect_to(thread.get_absolute_url())
             else:
                 flash_error(tk._('You have errors in form'))
