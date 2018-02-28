@@ -52,7 +52,7 @@ class ForumController(BaseController):
         else:
             board_list = Board.all()
         context.update({
-            'board_list': board_list,
+            'board_list': list(board_list),
         })
         log.debug('ForumController.__render context: %s', context)
         return tk.render(template_name, context)
