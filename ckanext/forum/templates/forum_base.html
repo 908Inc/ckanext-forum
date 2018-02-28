@@ -53,6 +53,8 @@
                             <a class="action" href="{{ h.url_for('forum_board_unhide', slug=board.slug) }}"><i class="fa fa-square-o" aria-hidden="true"></i></a>
                             <a class="muted" href="{{ board.get_absolute_url() }}">{{ board.name }}</a>
                         {% endif %}
+                    {% else %}
+                        <a href="{{ board.get_absolute_url() }}">{{ board.name }}</a>
                     {% endif %}
                 </div>
             {% endfor %}
