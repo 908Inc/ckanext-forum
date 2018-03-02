@@ -115,7 +115,7 @@ msgstr "Опублікувати"
 #: ckanext/forum/templates/create_thread.html:3
 #: ckanext/forum/templates/create_thread.html:7
 msgid "Post a Thead"
-msgstr "Опублікувати "
+msgstr "Опубліковати тему"
 
 #: ckanext/forum/templates/create_thread.html:12
 msgid "Select a Section"
@@ -162,11 +162,11 @@ msgstr "Блокувати"
 
 #: ckanext/forum/templates/forum_activity.html:26
 msgid "Ban message"
-msgstr "Повідомлення про блокування"
+msgstr "Блокувати повідомлення"
 
 #: ckanext/forum/templates/forum_activity.html:32
 msgid "Ban message and user"
-msgstr "Повідомлення про блокування та користувач"
+msgstr "Блокувати повідомлення та користувача"
 
 #: ckanext/forum/templates/forum_base.html:19
 msgid "Post Thread"
