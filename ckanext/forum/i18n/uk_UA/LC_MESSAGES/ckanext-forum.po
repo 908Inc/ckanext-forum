@@ -1,4 +1,4 @@
-# Ukrainian (Ukraine) translations for ckanext-forum.
+# Ukrainian translations for ckanext-forum.
 # Copyright (C) 2018 ORGANIZATION
 # This file is distributed under the same license as the ckanext-forum
 # project.
@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: ckanext-forum 0.0.2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2018-03-02 08:41+0000\n"
-"PO-Revision-Date: 2018-03-02 08:42+0000\n"
+"PO-Revision-Date: 2018-02-07 23:49+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: uk_UA\n"
-"Language-Team: uk_UA <LL@li.org>\n"
+"Language: uk\n"
+"Language-Team: uk <LL@li.org>\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 "MIME-Version: 1.0\n"
@@ -22,24 +22,24 @@ msgstr ""
 
 #: ckanext/forum/controllers.py:32 ckanext/forum/controllers.py:41
 msgid "New post"
-msgstr ""
+msgstr "Новий пост"
 
 #: ckanext/forum/controllers.py:76 ckanext/forum/controllers.py:122
 msgid "You are banned"
-msgstr ""
+msgstr "Вас заблоковано"
 
 #: ckanext/forum/controllers.py:83 ckanext/forum/controllers.py:103
 msgid "You successfully create thread"
-msgstr ""
+msgstr "Тема успішно створена"
 
 #: ckanext/forum/controllers.py:86 ckanext/forum/controllers.py:106
 #: ckanext/forum/controllers.py:135
 msgid "You have errors in form"
-msgstr ""
+msgstr "Помилки у формі"
 
 #: ckanext/forum/controllers.py:130
 msgid "You successfully create comment"
-msgstr ""
+msgstr "Коментар успішно додано"
 
 #: ckanext/forum/controllers.py:132
 msgid "Thread is closed for comments"
@@ -47,11 +47,11 @@ msgstr ""
 
 #: ckanext/forum/controllers.py:170
 msgid "Thread"
-msgstr ""
+msgstr "Тема"
 
 #: ckanext/forum/controllers.py:177
 msgid "Post"
-msgstr ""
+msgstr "Пост"
 
 #: ckanext/forum/controllers.py:220
 msgid "You successfully hided board"
@@ -63,13 +63,13 @@ msgstr ""
 
 #: ckanext/forum/controllers.py:241
 msgid "You successfully unsibsribed"
-msgstr ""
+msgstr "Ви відписалися"
 
 #: ckanext/forum/templates/create_board.html:3
 #: ckanext/forum/templates/create_board.html:7
 #: ckanext/forum/templates/forum_base.html:28
 msgid "Create Section"
-msgstr ""
+msgstr "Створити розділ"
 
 #: ckanext/forum/templates/create_board.html:3
 #: ckanext/forum/templates/create_thread.html:3
@@ -78,21 +78,21 @@ msgstr ""
 #: ckanext/forum/templates/forum_index.html:11
 #: ckanext/forum/templates/header.html:5
 msgid "Forum"
-msgstr ""
+msgstr "Форум"
 
 #: ckanext/forum/templates/create_board.html:13
 #: ckanext/forum/templates/create_thread.html:31
 msgid "Provide a Title"
-msgstr ""
+msgstr "Введіть назву"
 
 #: ckanext/forum/templates/create_board.html:14
 msgid "e. g. Open Data Ukraine"
-msgstr ""
+msgstr "Наприклад, Відкриті дані Україна"
 
 #: ckanext/forum/templates/create_board.html:15
 #: ckanext/forum/templates/create_thread.html:33
 msgid "Please fill out the title field"
-msgstr ""
+msgstr "Будь ласка, додайте назву"
 
 #: ckanext/forum/templates/create_board.html:26
 msgid "Slug"
@@ -100,7 +100,7 @@ msgstr ""
 
 #: ckanext/forum/templates/create_board.html:27
 msgid "Only latin characters, digits and a hyphen"
-msgstr ""
+msgstr "Тільки латинські літериб цифри та дефіс"
 
 #: ckanext/forum/templates/create_board.html:28
 msgid "Please provide the slug"
@@ -110,91 +110,93 @@ msgstr ""
 #: ckanext/forum/templates/create_thread.html:60
 #: ckanext/forum/templates/thread.html:76
 msgid "Publish"
-msgstr ""
+msgstr "Опублікувати"
 
 #: ckanext/forum/templates/create_thread.html:3
 #: ckanext/forum/templates/create_thread.html:7
 msgid "Post a Thead"
-msgstr ""
+msgstr "Опублікувати "
 
 #: ckanext/forum/templates/create_thread.html:12
 msgid "Select a Section"
-msgstr ""
+msgstr "Вибрати розділ"
 
 #: ckanext/forum/templates/create_thread.html:13
 msgid "The section is not selected"
-msgstr ""
+msgstr "Розділ не вибрано"
 
 #: ckanext/forum/templates/create_thread.html:14
 msgid "Please select the section"
-msgstr ""
+msgstr "Будь ласка, виберіть розділ"
 
 #: ckanext/forum/templates/create_thread.html:32
 msgid "e. g. Question concerning a dataset..."
-msgstr ""
+msgstr "Наприклад, питання про набір даних"
 
 #: ckanext/forum/templates/create_thread.html:44
 msgid "Ask your question"
-msgstr ""
+msgstr "Поставити запитання"
 
 #: ckanext/forum/templates/create_thread.html:45
 msgid "Write down what you are interested in..."
-msgstr ""
+msgstr "Вкажіть, що вас цікавить"
 
 #: ckanext/forum/templates/create_thread.html:46
 msgid "Please fill out the question field"
-msgstr ""
+msgstr "Будь ласка, заповніть поле для запитання"
 
 #: ckanext/forum/templates/create_thread.html:58
 #: ckanext/forum/templates/thread.html:75
 msgid "You can use Markdown formatting here"
-msgstr ""
+msgstr "Ви можете тут використовувати форматування Markdown"
 
 #: ckanext/forum/templates/forum_activity.html:3
 #: ckanext/forum/templates/forum_activity.html:6
 #: ckanext/forum/templates/forum_base.html:41
 msgid "Activity"
-msgstr ""
+msgstr "Активність"
 
 #: ckanext/forum/templates/forum_activity.html:19
 msgid "Ban"
-msgstr ""
+msgstr "Блокувати"
 
 #: ckanext/forum/templates/forum_activity.html:26
 msgid "Ban message"
-msgstr ""
+msgstr "Повідомлення про блокування"
 
 #: ckanext/forum/templates/forum_activity.html:32
 msgid "Ban message and user"
-msgstr ""
+msgstr "Повідомлення про блокування та користувач"
 
 #: ckanext/forum/templates/forum_base.html:19
 msgid "Post Thread"
-msgstr ""
+msgstr "Опублікувати обговорення"
 
 #: ckanext/forum/templates/forum_base.html:37
 msgid "All Threads"
-msgstr ""
+msgstr "Всі дискусії"
 
 #: ckanext/forum/templates/forum_base.html:44
 msgid "Choose a Section"
-msgstr ""
+msgstr "Вибрати розділ"
 
 #: ckanext/forum/templates/forum_new_post_mail.html:1
 msgid "Hello!"
-msgstr ""
+msgstr "Привіт!"
 
 #: ckanext/forum/templates/forum_new_post_mail.html:3
 msgid "User"
-msgstr ""
+msgstr "Кристувач"
 
 #: ckanext/forum/templates/forum_new_post_mail.html:3
 msgid "post a new comment in forum:"
-msgstr ""
+msgstr "додати новий коментар на форумі"
 
 #: ckanext/forum/templates/forum_new_post_mail.html:9
+#, fuzzy
+#| msgid "Stop notifications in this thread: "
 msgid "Stop nofifications in this thread: "
-msgstr ""
+msgstr "Відписатися від сповіщень у цій темі"
 
 #: ckanext/forum/templates/thread.html:13
 msgid " - Форум | Data.gov.ua "
