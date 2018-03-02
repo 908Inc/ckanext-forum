@@ -2,8 +2,18 @@ from ckan import plugins
 from ckan.plugins import toolkit as tk
 from ckanext.forum.actions import forum_create_thread, forum_create_post
 
+if tk.check_ckan_version(min_version='2.5'):
+    from ckan.lib.plugins import DefaultTranslation
 
-class ForumPlugin(plugins.SingletonPlugin):
+
+    class ForumPluginBase(plugins.SingletonPlugin, DefaultTranslation):
+        plugins.implements(plugins.ITranslation, inherit=True)
+else:
+    class ForumPluginBase(plugins.SingletonPlugin):
+        pass
+
+
+class ForumPlugin(ForumPluginBase):
     plugins.implements(plugins.IConfigurer, inherit=True)
     plugins.implements(plugins.IRoutes, inherit=True)
     plugins.implements(plugins.IActions, inherit=True)

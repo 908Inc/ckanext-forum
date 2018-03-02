@@ -10,7 +10,7 @@
     {% endif %}
 {%- endmacro %}
 
-{% block title %}{{ thread.name }} - {{ thread.board.name }} - Форум | Data.gov.ua {% endblock %}
+{% block title %}{{ thread.name }} - {{ thread.board.name }} - {% trans %}Форум{% endtrans %} | Data.gov.ua {% endblock %}
 
 {% block primary_content %}
     <div class="forum-post-head">
@@ -62,7 +62,7 @@
                     <div class="form-group">
 
                         <textarea class="form-control" rows="4"
-                                  placeholder="Напишіть вашу відповідь на дискусію..." name="content"></textarea>
+                                  placeholder="{% trans %}Write your answer...{% endtrans %}" name="content"></textarea>
                         {% if form.content.errors %}
                             <div class="help-block with-errors alert-error">
                                 {% for error in form.content.errors %}
@@ -72,14 +72,14 @@
                         {% endif %}
                     </div>
                     <div class="comment-footer">
-                        <span>* Тут ви можете використовувати Markdown форматування</span>
-                        <button type="submit" class="btn btn-primary">Опубліковати</button>
+                        <span>* {% trans %}You can use Markdown formatting here{% endtrans %}</span>
+                        <button type="submit" class="btn btn-primary">{% trans %}Publish{% endtrans %}</button>
                     </div>
 
                 </form>
             </div>
         {% else %}
-            <p>You should be logged in to make posts.</p>
+            <p>{% trans %}You should be logged in to make posts.{% endtrans %}</p>
         {% endif %}
 
     </div>
