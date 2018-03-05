@@ -43,7 +43,7 @@ msgstr "Коментар успішно додано"
 
 #: ckanext/forum/controllers.py:132
 msgid "Thread is closed for comments"
-msgstr ""
+msgstr "Тема закрита"
 
 #: ckanext/forum/controllers.py:170
 msgid "Thread"
@@ -55,11 +55,11 @@ msgstr "Пост"
 
 #: ckanext/forum/controllers.py:220
 msgid "You successfully hided board"
-msgstr ""
+msgstr "Розділ скритий "
 
 #: ckanext/forum/controllers.py:230
 msgid "You successfully unhided board"
-msgstr ""
+msgstr "Розділ відкритий"
 
 #: ckanext/forum/controllers.py:241
 msgid "You successfully unsibsribed"
@@ -96,7 +96,7 @@ msgstr "Будь ласка, додайте назву"
 
 #: ckanext/forum/templates/create_board.html:26
 msgid "Slug"
-msgstr ""
+msgstr "Лінк"
 
 #: ckanext/forum/templates/create_board.html:27
 msgid "Only latin characters, digits and a hyphen"
@@ -104,7 +104,7 @@ msgstr "Тільки латинські літериб цифри та дефі�
 
 #: ckanext/forum/templates/create_board.html:28
 msgid "Please provide the slug"
-msgstr ""
+msgstr "Потрібний лінк"
 
 #: ckanext/forum/templates/create_board.html:40
 #: ckanext/forum/templates/create_thread.html:60
@@ -190,7 +190,7 @@ msgstr "Кристувач"
 
 #: ckanext/forum/templates/forum_new_post_mail.html:3
 msgid "post a new comment in forum:"
-msgstr "додати новий коментар на форумі"
+msgstr "додав новий коментар на форумі"
 
 #: ckanext/forum/templates/forum_new_post_mail.html:9
 msgid "Stop nofifications in this thread: "
@@ -202,9 +202,9 @@ msgstr ""
 
 #: ckanext/forum/templates/thread.html:65
 msgid "Write your answer..."
-msgstr ""
+msgstr "Ваша відповідь"
 
 #: ckanext/forum/templates/thread.html:82
 msgid "You should be logged in to make posts."
-msgstr ""
+msgstr "Будь ласка залогінтесь"
 
