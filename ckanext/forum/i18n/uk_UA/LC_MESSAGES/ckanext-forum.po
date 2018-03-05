@@ -170,11 +170,11 @@ msgstr "Блокувати повідомлення та користувача"
 
 #: ckanext/forum/templates/forum_base.html:19
 msgid "Post Thread"
-msgstr "Опублікувати обговорення"
+msgstr "Нова тема"
 
 #: ckanext/forum/templates/forum_base.html:37
 msgid "All Threads"
-msgstr "Всі дискусії"
+msgstr "Всі теми"
 
 #: ckanext/forum/templates/forum_base.html:44
 msgid "Choose a Section"
