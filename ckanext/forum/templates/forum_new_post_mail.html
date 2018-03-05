@@ -1,12 +1,10 @@
-{{ _('Hello!') }}
+<p>{{ _('Hello!') }}</p>
 
-{{ _('User') }} {{ username }}  {{ _('post a new comment in forum:') }}
+<p>{{ _('User') }} <b>{{ username }}</b>  {{ _('post a new comment in forum:') }}</p>
 
-{{ thread_url }}
+<p><a href="{{ thread_url }}">{{ post_content }}</a></p>
 
-{{ post_content }}
-
-{{ _('Stop nofifications in this thread: ') }}  {{ unsubscribe_url }}
+<p>{{ _('Stop nofifications in this thread: ') }}  {{ unsubscribe_url }}</p>
 
 --
 data.gov.ua
