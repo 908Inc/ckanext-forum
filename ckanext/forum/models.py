@@ -3,7 +3,7 @@ import logging
 from datetime import datetime
 from operator import isCallable
 
-from slugify import slugify_url
+from slugify import slugify
 from sqlalchemy import types, Table, ForeignKey, Column
 from sqlalchemy.exc import ProgrammingError
 from sqlalchemy.orm import relation, backref, foreign, remote
@@ -40,7 +40,7 @@ def init_db():
         for board_name, board_desc in DEFAULT_BOARDS.iteritems():
             board = Board()
             board.name = board_name
-            board.slug = slugify_url(board_name)
+            board.slug = slugify(board_name)
             board.description = board_desc
             session.add(board)
 
@@ -153,7 +153,7 @@ class Board(object):
 
     def save(self, commit=True):
         if not hasattr(self, 'slug') or not self.slug:
-            self.slug = slugify_url(self.name)
+            self.slug = slugify(self.name)
         session = Session()
         log.debug(self)
         session.add(self)
