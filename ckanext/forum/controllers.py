@@ -1,7 +1,11 @@
 import base64
 import logging
+import os
 from operator import itemgetter
 from urlparse import urljoin
+
+import jinja2
+from babel.support import Translations
 
 import ckan.lib.jobs as jobs
 from ckan.common import c
@@ -15,10 +19,14 @@ from ckanext.forum.models import Board, Thread, Post, BannedUser, Unsubscription
 log = logging.getLogger(__name__)
 
 
-def send_notifications_on_new_post(post):
-    from ckan.lib.base import render_jinja2
+def send_notifications_on_new_post(post, lang):
     from ckan.model import User
-
+    template_dir = os.path.join(os.path.dirname(__file__), 'templates')
+    locale_dir = os.path.join(os.path.dirname(__file__), 'i18n')
+    env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir), extensions=['jinja2.ext.i18n'])
+    translations = Translations.load(locale_dir, [lang], domain='ckanext-forum')
+    env.install_gettext_translations(translations)
+    env.globals['get_locale'] = lambda: lang
     post_author = User.get(post.author_id)
 
     thread = Thread.get_by_id(post.thread_id)
@@ -30,16 +38,17 @@ def send_notifications_on_new_post(post):
         unsubscribe_url = tk.url_for('forum_unsubscribe', base64_name=base64.b64encode(user.name), thread_id=thread.id)
         context = {
             'post_content': post.content,
-            'title': tk._('New post'),
+            'title': env.globals['gettext']('New post'),
             'unsubscribe_url': urljoin(tk.config['ckan.site_url'], unsubscribe_url),
             'username': post_author.name,
-            'thread_url': urljoin(tk.config['ckan.site_url'], thread.get_absolute_url())
+            'thread_url': urljoin(tk.config['ckan.site_url'], thread.get_absolute_url()),
         }
-        body = render_jinja2('forum_new_post_mail.html', context)
-
+        template = env.get_template('forum_new_post_mail.html')
+        body = template.render(context)
+        log.debug('Email body %s', body)
         tk.get_action('send_mail')({}, {
             'to': user.email,
-            'subject': tk._('New post'),
+            'subject': env.globals['gettext']('New post'),
             'message_html': body
         })
 
@@ -112,6 +121,7 @@ class ForumController(BaseController):
         return self.__render('create_board.html', context)
 
     def thread_show(self, slug, id):
+        print(tk.request.environ.get('CKAN_LANG'))
         thread = Thread.get_by_id(id=id)
         if not thread:
             abort(404)
@@ -127,7 +137,8 @@ class ForumController(BaseController):
                     {'auth_user_obj': c.userobj},
                     {'thread_id': id, 'content': form.data['content']})
                 if post:
-                    jobs.enqueue(send_notifications_on_new_post, [post])
+                    print(tk.request.environ.get('CKAN_LANG'))
+                    jobs.enqueue(send_notifications_on_new_post, [post, tk.request.environ.get('CKAN_LANG')])
                     flash_success(tk._('You successfully create comment'))
                 else:
                     flash_error(tk._('Thread is closed for comments'))
