@@ -1,10 +1,10 @@
-<p>{{ _('Hello!') }}</p>
+<p>{% trans %}Hello!{% endtrans %}</p>
 
-<p>{{ _('User') }} <b>{{ username }}</b>  {{ _('post a new comment in forum:') }}</p>
+<p>{% trans %}User{% endtrans %} <b>{{ username }}</b>  {% trans %}post a new comment in forum:{% endtrans %}</p>
 
 <p><a href="{{ thread_url }}">{{ post_content }}</a></p>
 
-<p>{{ _('Stop nofifications in this thread: ') }}  {{ unsubscribe_url }}</p>
+<p>{% trans %}Stop notifications in this thread:{% endtrans %} {{ unsubscribe_url }}</p>
 
 --
 data.gov.ua

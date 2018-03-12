@@ -193,12 +193,12 @@ msgid "post a new comment in forum:"
 msgstr "додав новий коментар на форумі"
 
 #: ckanext/forum/templates/forum_new_post_mail.html:9
-msgid "Stop nofifications in this thread: "
+msgid "Stop notifications in this thread:"
 msgstr "Відписатися від сповіщень у цій темі"
 
 #: ckanext/forum/templates/thread.html:13
-msgid "Форум"
-msgstr ""
+msgid "Forum"
+msgstr "Форум"
 
 #: ckanext/forum/templates/thread.html:65
 msgid "Write your answer..."

@@ -1,6 +1,7 @@
 import base64
 import logging
 from operator import itemgetter
+from urlparse import urljoin
 
 import ckan.lib.jobs as jobs
 from ckan.common import c
@@ -30,9 +31,9 @@ def send_notifications_on_new_post(post):
         context = {
             'post_content': post.content,
             'title': tk._('New post'),
-            'unsubscribe_url': tk.config['ckan.site_url'] + unsubscribe_url,
+            'unsubscribe_url': urljoin(tk.config['ckan.site_url'], unsubscribe_url),
             'username': post_author.name,
-            'thread_url': thread.get_absolute_url()
+            'thread_url': urljoin(tk.config['ckan.site_url'], thread.get_absolute_url())
         }
         body = render_jinja2('forum_new_post_mail.html', context)
 
