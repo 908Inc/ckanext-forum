@@ -10,7 +10,7 @@ from babel.support import Translations
 import ckan.lib.jobs as jobs
 from ckan.common import c
 from ckan.lib.base import BaseController, abort
-from ckan.lib.helpers import flash_success, flash_error, get_page_number
+from ckan.lib.helpers import flash_success, flash_error, get_page_number, full_current_url
 from ckan.model import User
 from ckan.plugins import toolkit as tk
 from ckanext.forum.forms import CreateThreadForm, CreatePostForm, CreateBoardForm
@@ -81,7 +81,7 @@ class ForumController(BaseController):
 
     def thread_add(self):
         if c.userobj is None:
-            tk.redirect_to(tk.url_for(controller='user', action='login'))
+            tk.redirect_to(tk.url_for(controller='user', action='login', came_from=full_current_url()))
         if BannedUser.check_by_id(c.userobj):
             flash_error(tk._('You are banned'))
             tk.redirect_to(tk.url_for('forum_index'))
@@ -103,7 +103,7 @@ class ForumController(BaseController):
 
     def board_add(self):
         if c.userobj is None:
-            tk.redirect_to(tk.url_for(controller='user', action='login'))
+            tk.redirect_to(tk.url_for(controller='user', action='login', came_from=full_current_url()))
         form = CreateBoardForm(tk.request.POST)
         if tk.request.POST:
             if form.validate():
