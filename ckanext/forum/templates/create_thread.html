@@ -57,7 +57,7 @@
             <div class="post-footer">
                 <span>* {% trans %}You can use Markdown formatting here{% endtrans %}</span>
 
-                <button type="submit" class="btn btn-primary">{% trans %}Publish{% endtrans %}</button>
+                <button id="thread-submit" type="submit" class="btn btn-primary">{% trans %}Publish{% endtrans %}</button>
             </div>
         </form>
     </div>
@@ -68,5 +68,6 @@
         {% resource 'forum/javascript/autosize.js' %}
         {% resource 'forum/javascript/jquery.validate.js' %}     
         {% resource 'forum/javascript/forms_validate.js' %}
+        {% resource 'forum/javascript/forum.js' %}
 {% endblock %}
 

@@ -13,6 +13,11 @@
 {% block title %}{{ thread.name }} - {{ thread.board.name }} - {% trans %}Forum{% endtrans %} |
     Data.gov.ua {% endblock %}
 
+{% block links %}
+{{ super() }}
+{% resource 'forum/javascript/forum.js' %}
+{% endblock %}
+
 {% block primary_content %}
     <div class="forum-post-head">
         <h1 class="page-heading">{{ thread.name }}</h1>
@@ -58,7 +63,7 @@
                 {{ h.gravatar((c.userobj.email_hash), size=64) }}
             </div>
             <div class="media-body comment-body">
-                <form method="post">
+                <form id="forum-post" method="post">
                     {{ form.csrf_token }}
                     <div class="form-group">
 
@@ -74,7 +79,7 @@
                     </div>
                     <div class="comment-footer">
                         <span>* {% trans %}You can use Markdown formatting here{% endtrans %}</span>
-                        <button type="submit" class="btn btn-primary">{% trans %}Publish{% endtrans %}</button>
+                        <button id="post-submit" type="submit" class="btn btn-primary">{% trans %}Publish{% endtrans %}</button>
                     </div>
 
                 </form>

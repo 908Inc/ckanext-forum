@@ -34,6 +34,8 @@ def send_notifications_on_new_post(post, lang):
     author_ids -= set([u.user_id for u in Unsubscription.filter_by_thread_id(post.thread_id)])
 
     for author_id in author_ids:
+        if author_id == post_author.id:
+            continue
         user = User.get(author_id)
         unsubscribe_url = tk.url_for('forum_unsubscribe', base64_name=base64.b64encode(user.name), thread_id=thread.id)
         context = {
@@ -137,7 +139,6 @@ class ForumController(BaseController):
                     {'auth_user_obj': c.userobj},
                     {'thread_id': id, 'content': form.data['content']})
                 if post:
-                    print(tk.request.environ.get('CKAN_LANG'))
                     jobs.enqueue(send_notifications_on_new_post, [post, tk.request.environ.get('CKAN_LANG')])
                     flash_success(tk._('You successfully create comment'))
                 else:
