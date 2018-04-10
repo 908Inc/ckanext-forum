@@ -11,7 +11,8 @@ import ckan.lib.jobs as jobs
 from ckan.common import c
 from ckan.lib.base import BaseController, abort
 from ckan.lib.helpers import flash_success, flash_error, get_page_number, full_current_url
-from ckan.model import User
+import ckan.logic as logic
+import ckan.model as model
 from ckan.plugins import toolkit as tk
 from ckanext.forum.forms import CreateThreadForm, CreatePostForm, CreateBoardForm
 from ckanext.forum.models import Board, Thread, Post, BannedUser, Unsubscription
@@ -20,14 +21,13 @@ log = logging.getLogger(__name__)
 
 
 def send_notifications_on_new_post(post, lang):
-    from ckan.model import User
     template_dir = os.path.join(os.path.dirname(__file__), 'templates')
     locale_dir = os.path.join(os.path.dirname(__file__), 'i18n')
     env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir), extensions=['jinja2.ext.i18n'])
     translations = Translations.load(locale_dir, [lang], domain='ckanext-forum')
     env.install_gettext_translations(translations)
     env.globals['get_locale'] = lambda: lang
-    post_author = User.get(post.author_id)
+    post_author = model.User.get(post.author_id)
 
     thread = Thread.get_by_id(post.thread_id)
     author_ids = set([p.author_id for p in thread.forum_posts] + [thread.author_id])
@@ -36,7 +36,7 @@ def send_notifications_on_new_post(post, lang):
     for author_id in author_ids:
         if author_id == post_author.id:
             continue
-        user = User.get(author_id)
+        user = model.User.get(author_id)
         unsubscribe_url = tk.url_for('forum_unsubscribe', base64_name=base64.b64encode(user.name), thread_id=thread.id)
         context = {
             'post_content': post.content,
@@ -171,6 +171,12 @@ class ForumController(BaseController):
         return self.__render('forum_index.html', context)
 
     def activity(self):
+        context = {'model': model,
+                   'user': c.user, 'auth_user_obj': c.userobj}
+        try:
+            logic.check_access('sysadmin', context, {})
+        except logic.NotAuthorized:
+            abort(404)
         page = get_page_number(tk.request.params) or 1
         total_pages = (Thread.all().count() - 1) / self.paginated_by + 1
         if not 1 < page <= total_pages:
@@ -246,7 +252,7 @@ class ForumController(BaseController):
     def unsubscribe(self, base64_name, thread_id):
         log.debug('Unsubscribing %s %s', base64.b64decode(base64_name), thread_id)
         thread = Thread.get_by_id(thread_id)
-        user = User.get(base64.b64decode(base64_name))
+        user = model.User.get(base64.b64decode(base64_name))
         if not thread or not user:
             abort(404)
 
