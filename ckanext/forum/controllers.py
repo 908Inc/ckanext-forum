@@ -14,6 +14,7 @@ from ckan.lib.helpers import flash_success, flash_error, get_page_number, full_c
 import ckan.logic as logic
 import ckan.model as model
 from ckan.plugins import toolkit as tk
+
 from ckanext.forum.forms import CreateThreadForm, CreatePostForm, CreateBoardForm
 from ckanext.forum.models import Board, Thread, Post, BannedUser, Unsubscription
 
@@ -123,7 +124,6 @@ class ForumController(BaseController):
         return self.__render('create_board.html', context)
 
     def thread_show(self, slug, id):
-        print(tk.request.environ.get('CKAN_LANG'))
         thread = Thread.get_by_id(id=id)
         if not thread:
             abort(404)
