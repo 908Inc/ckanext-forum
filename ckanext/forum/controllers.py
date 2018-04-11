@@ -20,6 +20,13 @@ from ckanext.forum.models import Board, Thread, Post, BannedUser, Unsubscription
 log = logging.getLogger(__name__)
 
 
+def do_if_user_not_sysadmin():
+    if not c.userobj:
+        tk.redirect_to(tk.url_for(controller='user', action='login'))
+    if not c.userobj.sysadmin:
+        abort(404)
+
+
 def send_notifications_on_new_post(post, lang):
     template_dir = os.path.join(os.path.dirname(__file__), 'templates')
     locale_dir = os.path.join(os.path.dirname(__file__), 'i18n')
@@ -59,7 +66,7 @@ class ForumController(BaseController):
     paginated_by = 3
 
     def __render(self, template_name, context):
-        if c.userobj is None or not c.userobj.sysadmin:
+        if not c.userobj or not c.userobj.sysadmin:
             board_list = Board.filter_active()
         else:
             board_list = Board.all()
@@ -82,7 +89,7 @@ class ForumController(BaseController):
         return self.__render('forum_index.html', context)
 
     def thread_add(self):
-        if c.userobj is None:
+        if not c.userobj:
             tk.redirect_to(tk.url_for(controller='user', action='login', came_from=full_current_url()))
         if BannedUser.check_by_id(c.userobj):
             flash_error(tk._('You are banned'))
@@ -104,8 +111,7 @@ class ForumController(BaseController):
         return self.__render('create_thread.html', context)
 
     def board_add(self):
-        if c.userobj is None or not c.userobj.sysadmin:
-            abort(404)
+        do_if_user_not_sysadmin()
         form = CreateBoardForm(tk.request.POST)
         if tk.request.POST:
             if form.validate():
@@ -170,8 +176,7 @@ class ForumController(BaseController):
         return self.__render('forum_index.html', context)
 
     def activity(self):
-        if c.userobj is None or not c.userobj.sysadmin:
-            abort(404)
+        do_if_user_not_sysadmin()
         page = get_page_number(tk.request.params) or 1
         total_pages = (Thread.all().count() - 1) / self.paginated_by + 1
         if not 1 < page <= total_pages:
@@ -203,43 +208,39 @@ class ForumController(BaseController):
         return self.__render('forum_activity.html', context)
 
     def thread_ban(self, id):
+        do_if_user_not_sysadmin()
         thread = Thread.get_by_id(id=id)
         if not thread:
             abort(404)
-        if c.userobj is None or not c.userobj.sysadmin:
-            tk.redirect_to(tk.url_for(controller='user', action='login'))
         thread.ban()
         if tk.request.GET.get('with_user'):
             BannedUser.ban(thread.author_id)
         tk.redirect_to(tk.url_for('forum_activity'))
 
     def post_ban(self, id):
+        do_if_user_not_sysadmin()
         post = Post.get_by_id(id=id)
         if not post:
             abort(404)
-        if c.userobj is None or not c.userobj.sysadmin:
-            tk.redirect_to(tk.url_for(controller='user', action='login'))
         post.ban()
         if tk.request.GET.get('with_user'):
             BannedUser.ban(post.author_id)
         tk.redirect_to(tk.url_for('forum_activity'))
 
     def board_hide(self, slug):
+        do_if_user_not_sysadmin()
         board = Board.get_by_slug(slug)
         if not board:
             abort(404)
-        if c.userobj is None or not c.userobj.sysadmin:
-            tk.redirect_to(tk.url_for(controller='user', action='login'))
         board.hide()
         flash_success(tk._('You successfully hided board'))
         tk.redirect_to(tk.url_for('forum_index'))
 
     def board_unhide(self, slug):
+        do_if_user_not_sysadmin()
         board = Board.get_by_slug(slug)
         if not board:
             abort(404)
-        if c.userobj is None or not c.userobj.sysadmin:
-            tk.redirect_to(tk.url_for(controller='user', action='login'))
         board.unhide()
         flash_success(tk._('You successfully unhided board'))
         tk.redirect_to(tk.url_for('forum_index'))
