@@ -11,7 +11,6 @@ import ckan.lib.jobs as jobs
 from ckan.common import c
 from ckan.lib.base import BaseController, abort
 from ckan.lib.helpers import flash_success, flash_error, get_page_number, full_current_url
-import ckan.logic as logic
 import ckan.model as model
 from ckan.plugins import toolkit as tk
 
@@ -105,11 +104,7 @@ class ForumController(BaseController):
         return self.__render('create_thread.html', context)
 
     def board_add(self):
-        context = {'model': model,
-                   'user': c.user, 'auth_user_obj': c.userobj}
-        try:
-            logic.check_access('sysadmin', context, {})
-        except logic.NotAuthorized:
+        if c.userobj is None or not c.userobj.sysadmin:
             abort(404)
         form = CreateBoardForm(tk.request.POST)
         if tk.request.POST:
@@ -175,11 +170,7 @@ class ForumController(BaseController):
         return self.__render('forum_index.html', context)
 
     def activity(self):
-        context = {'model': model,
-                   'user': c.user, 'auth_user_obj': c.userobj}
-        try:
-            logic.check_access('sysadmin', context, {})
-        except logic.NotAuthorized:
+        if c.userobj is None or not c.userobj.sysadmin:
             abort(404)
         page = get_page_number(tk.request.params) or 1
         total_pages = (Thread.all().count() - 1) / self.paginated_by + 1
