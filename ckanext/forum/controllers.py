@@ -105,8 +105,12 @@ class ForumController(BaseController):
         return self.__render('create_thread.html', context)
 
     def board_add(self):
-        if c.userobj is None:
-            tk.redirect_to(tk.url_for(controller='user', action='login', came_from=full_current_url()))
+        context = {'model': model,
+                   'user': c.user, 'auth_user_obj': c.userobj}
+        try:
+            logic.check_access('sysadmin', context, {})
+        except logic.NotAuthorized:
+            abort(404)
         form = CreateBoardForm(tk.request.POST)
         if tk.request.POST:
             if form.validate():
