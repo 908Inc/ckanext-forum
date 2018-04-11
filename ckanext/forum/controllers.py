@@ -11,7 +11,7 @@ import ckan.lib.jobs as jobs
 from ckan.common import c
 from ckan.lib.base import BaseController, abort
 from ckan.lib.helpers import flash_success, flash_error, get_page_number, full_current_url
-import ckan.model as model
+from ckan.model import User
 from ckan.plugins import toolkit as tk
 
 from ckanext.forum.forms import CreateThreadForm, CreatePostForm, CreateBoardForm
@@ -44,7 +44,7 @@ def send_notifications_on_new_post(post, lang):
     for author_id in author_ids:
         if author_id == post_author.id:
             continue
-        user = model.User.get(author_id)
+        user = User.get(author_id)
         unsubscribe_url = tk.url_for('forum_unsubscribe', base64_name=base64.b64encode(user.name), thread_id=thread.id)
         context = {
             'post_content': post.content,
@@ -249,7 +249,7 @@ class ForumController(BaseController):
     def unsubscribe(self, base64_name, thread_id):
         log.debug('Unsubscribing %s %s', base64.b64decode(base64_name), thread_id)
         thread = Thread.get_by_id(thread_id)
-        user = model.User.get(base64.b64decode(base64_name))
+        user = User.get(base64.b64decode(base64_name))
         if not thread or not user:
             abort(404)
 
