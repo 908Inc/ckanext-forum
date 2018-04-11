@@ -28,13 +28,14 @@ def do_if_user_not_sysadmin():
 
 
 def send_notifications_on_new_post(post, lang):
+    from ckan.model import User
     template_dir = os.path.join(os.path.dirname(__file__), 'templates')
     locale_dir = os.path.join(os.path.dirname(__file__), 'i18n')
     env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir), extensions=['jinja2.ext.i18n'])
     translations = Translations.load(locale_dir, [lang], domain='ckanext-forum')
     env.install_gettext_translations(translations)
     env.globals['get_locale'] = lambda: lang
-    post_author = model.User.get(post.author_id)
+    post_author = User.get(post.author_id)
 
     thread = Thread.get_by_id(post.thread_id)
     author_ids = set([p.author_id for p in thread.forum_posts] + [thread.author_id])
