@@ -24,7 +24,7 @@ def do_if_user_not_sysadmin():
     if not c.userobj:
         tk.redirect_to(tk.url_for(controller='user', action='login'))
     if not c.userobj.sysadmin:
-        abort(404)
+        abort(404)  # not 403 for security reasons
 
 
 def send_notifications_on_new_post(post, lang):
