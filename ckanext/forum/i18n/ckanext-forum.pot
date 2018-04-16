@@ -8,57 +8,53 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-forum 0.0.2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-03-02 11:44+0000\n"
+"POT-Creation-Date: 2018-04-16 14:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.5.3\n"
+"Generated-By: Babel 2.3.4\n"
 
-#: ckanext/forum/controllers.py:32 ckanext/forum/controllers.py:41
-msgid "New post"
-msgstr ""
-
-#: ckanext/forum/controllers.py:76 ckanext/forum/controllers.py:122
+#: ckanext/forum/controllers.py:96 ckanext/forum/controllers.py:141
 msgid "You are banned"
 msgstr ""
 
-#: ckanext/forum/controllers.py:83 ckanext/forum/controllers.py:103
+#: ckanext/forum/controllers.py:103 ckanext/forum/controllers.py:122
 msgid "You successfully create thread"
 msgstr ""
 
-#: ckanext/forum/controllers.py:86 ckanext/forum/controllers.py:106
-#: ckanext/forum/controllers.py:135
+#: ckanext/forum/controllers.py:106 ckanext/forum/controllers.py:125
+#: ckanext/forum/controllers.py:154
 msgid "You have errors in form"
 msgstr ""
 
-#: ckanext/forum/controllers.py:130
+#: ckanext/forum/controllers.py:149
 msgid "You successfully create comment"
 msgstr ""
 
-#: ckanext/forum/controllers.py:132
+#: ckanext/forum/controllers.py:151
 msgid "Thread is closed for comments"
 msgstr ""
 
-#: ckanext/forum/controllers.py:170
+#: ckanext/forum/controllers.py:190
 msgid "Thread"
 msgstr ""
 
-#: ckanext/forum/controllers.py:177
+#: ckanext/forum/controllers.py:197
 msgid "Post"
 msgstr ""
 
-#: ckanext/forum/controllers.py:220
+#: ckanext/forum/controllers.py:237
 msgid "You successfully hided board"
 msgstr ""
 
-#: ckanext/forum/controllers.py:230
+#: ckanext/forum/controllers.py:246
 msgid "You successfully unhided board"
 msgstr ""
 
-#: ckanext/forum/controllers.py:241
+#: ckanext/forum/controllers.py:257
 msgid "You successfully unsibsribed"
 msgstr ""
 
@@ -73,7 +69,8 @@ msgstr ""
 #: ckanext/forum/templates/forum_activity.html:3
 #: ckanext/forum/templates/forum_index.html:3
 #: ckanext/forum/templates/forum_index.html:11
-#: ckanext/forum/templates/header.html:5
+#: ckanext/forum/templates/forum_new_post_mail.html:3
+#: ckanext/forum/templates/header.html:5 ckanext/forum/templates/thread.html:13
 msgid "Forum"
 msgstr ""
 
@@ -105,7 +102,7 @@ msgstr ""
 
 #: ckanext/forum/templates/create_board.html:40
 #: ckanext/forum/templates/create_thread.html:60
-#: ckanext/forum/templates/thread.html:76
+#: ckanext/forum/templates/thread.html:82
 msgid "Publish"
 msgstr ""
 
@@ -143,7 +140,7 @@ msgid "Please fill out the question field"
 msgstr ""
 
 #: ckanext/forum/templates/create_thread.html:58
-#: ckanext/forum/templates/thread.html:75
+#: ckanext/forum/templates/thread.html:81
 msgid "You can use Markdown formatting here"
 msgstr ""
 
@@ -181,27 +178,23 @@ msgstr ""
 msgid "Hello!"
 msgstr ""
 
-#: ckanext/forum/templates/forum_new_post_mail.html:3
+#: ckanext/forum/templates/forum_new_post_mail.html:5
 msgid "User"
 msgstr ""
 
-#: ckanext/forum/templates/forum_new_post_mail.html:3
+#: ckanext/forum/templates/forum_new_post_mail.html:5
 msgid "post a new comment in forum:"
 msgstr ""
 
 #: ckanext/forum/templates/forum_new_post_mail.html:9
-msgid "Stop nofifications in this thread: "
+msgid "Stop notifications in this thread:"
 msgstr ""
 
-#: ckanext/forum/templates/thread.html:13
-msgid "Форум"
-msgstr ""
-
-#: ckanext/forum/templates/thread.html:65
+#: ckanext/forum/templates/thread.html:71
 msgid "Write your answer..."
 msgstr ""
 
-#: ckanext/forum/templates/thread.html:82
+#: ckanext/forum/templates/thread.html:88
 msgid "You should be logged in to make posts."
 msgstr ""
 
