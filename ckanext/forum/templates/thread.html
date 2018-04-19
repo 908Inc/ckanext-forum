@@ -10,8 +10,7 @@
     {% endif %}
 {%- endmacro %}
 
-{% block title %}{{ thread.name }} - {{ thread.board.name }} - {% trans %}Forum{% endtrans %} |
-    Data.gov.ua {% endblock %}
+{% block title %}{{ thread.name }} {{ g.template_title_deliminater }} {{ thread.board.name }} {{ g.template_title_deliminater }} {% trans %}Forum{% endtrans %} {{ g.template_title_deliminater }} {{ g.site_title }} {% endblock %}
 
 {% block links %}
 {{ super() }}

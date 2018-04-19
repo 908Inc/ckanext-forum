@@ -1,6 +1,6 @@
 {% extends "forum_base.html" %}
 
-{% block title %}{% trans %}Create Section{% endtrans %} - {% trans %}Forum{% endtrans %} | Data.gov.ua {% endblock %}
+{% block title %}{% trans %}Create Section{% endtrans %} {{ g.template_title_deliminater }} {% trans %}Forum{% endtrans %} {{ g.template_title_deliminater }} {{ g.site_title }}{% endblock %}
 
 {% block primary_content %}
     <div class="thread-post">
