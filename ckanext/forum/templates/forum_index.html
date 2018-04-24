@@ -1,6 +1,6 @@
 {% extends "forum_base.html" %}
 
-{% block title %}{% if board %}{{ board.name }} {{ g.template_title_deliminater }} {% endif %}{% trans %}Forum{% endtrans %} {{ g.template_title_deliminater }} {{ g.site_title }} {% endblock %}
+{% block title %}{% if board %}{{ board.name }} {{ g.template_title_deliminater }} {% endif %}{% trans %}Forum{% endtrans %} {{ g.template_title_deliminater }} {{ h.get_site_title() }} {% endblock %}
 
 {% block links %}
     {{ super() }}
