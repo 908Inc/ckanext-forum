@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-forum 0.0.2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-04-16 14:07+0000\n"
+"POT-Creation-Date: 2018-05-14 15:48+0000\n"
 "PO-Revision-Date: 2018-02-07 23:49+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk_UA\n"
@@ -20,44 +20,44 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
 
-#: ckanext/forum/controllers.py:96 ckanext/forum/controllers.py:141
+#: ckanext/forum/controllers.py:99 ckanext/forum/controllers.py:144
 msgid "You are banned"
 msgstr "Вас заблоковано"
 
-#: ckanext/forum/controllers.py:103 ckanext/forum/controllers.py:122
+#: ckanext/forum/controllers.py:106 ckanext/forum/controllers.py:125
 msgid "You successfully create thread"
 msgstr "Тема успішно створена"
 
-#: ckanext/forum/controllers.py:106 ckanext/forum/controllers.py:125
-#: ckanext/forum/controllers.py:154
+#: ckanext/forum/controllers.py:109 ckanext/forum/controllers.py:128
+#: ckanext/forum/controllers.py:157
 msgid "You have errors in form"
 msgstr "Помилки у формі"
 
-#: ckanext/forum/controllers.py:149
+#: ckanext/forum/controllers.py:152
 msgid "You successfully create comment"
 msgstr "Коментар успішно додано"
 
-#: ckanext/forum/controllers.py:151
+#: ckanext/forum/controllers.py:154
 msgid "Thread is closed for comments"
 msgstr "Тема закрита"
 
-#: ckanext/forum/controllers.py:190
+#: ckanext/forum/controllers.py:193
 msgid "Thread"
 msgstr "Тема"
 
-#: ckanext/forum/controllers.py:197
+#: ckanext/forum/controllers.py:200
 msgid "Post"
 msgstr "Пост"
 
-#: ckanext/forum/controllers.py:237
+#: ckanext/forum/controllers.py:240
 msgid "You successfully hided board"
 msgstr "Розділ скритий "
 
-#: ckanext/forum/controllers.py:246
+#: ckanext/forum/controllers.py:249
 msgid "You successfully unhided board"
 msgstr "Розділ відкритий"
 
-#: ckanext/forum/controllers.py:257
+#: ckanext/forum/controllers.py:260
 msgid "You successfully unsibsribed"
 msgstr "Ви відписалися"
 
@@ -72,7 +72,7 @@ msgstr "Створити розділ"
 #: ckanext/forum/templates/forum_activity.html:3
 #: ckanext/forum/templates/forum_index.html:3
 #: ckanext/forum/templates/forum_index.html:11
-#: ckanext/forum/templates/forum_new_post_mail.html:3
+#: ckanext/forum/templates/forum_new_post_mail.html:5
 #: ckanext/forum/templates/header.html:5 ckanext/forum/templates/thread.html:13
 msgid "Forum"
 msgstr "Форум"
@@ -105,7 +105,7 @@ msgstr "Потрібний лінк"
 
 #: ckanext/forum/templates/create_board.html:40
 #: ckanext/forum/templates/create_thread.html:60
-#: ckanext/forum/templates/thread.html:82
+#: ckanext/forum/templates/thread.html:81
 msgid "Publish"
 msgstr "Опублікувати"
 
@@ -143,7 +143,7 @@ msgid "Please fill out the question field"
 msgstr "Будь ласка, заповніть поле для запитання"
 
 #: ckanext/forum/templates/create_thread.html:58
-#: ckanext/forum/templates/thread.html:81
+#: ckanext/forum/templates/thread.html:80
 msgid "You can use Markdown formatting here"
 msgstr "Ви можете тут використовувати форматування Markdown"
 
@@ -177,30 +177,35 @@ msgstr "Всі теми"
 msgid "Choose a Section"
 msgstr "Вибрати розділ"
 
-#: ckanext/forum/templates/forum_new_post_mail.html:1
-msgid "Hello!"
-msgstr "Привіт!"
-
-#: ckanext/forum/templates/forum_new_post_mail.html:5
+#: ckanext/forum/templates/forum_new_post_mail.html:7
 msgid "User"
 msgstr "Користувач"
 
-#: ckanext/forum/templates/forum_new_post_mail.html:5
+#: ckanext/forum/templates/forum_new_post_mail.html:7
 msgid "post a new comment in forum:"
 msgstr "додав новий коментар на форумі"
 
-#: ckanext/forum/templates/forum_new_post_mail.html:9
+#: ckanext/forum/templates/forum_new_post_mail.html:11
 msgid "Stop notifications in this thread:"
 msgstr "Відписатися від сповіщень у цій темі"
 
-#: ckanext/forum/templates/thread.html:71
+#: ckanext/forum/templates/thread.html:70
 msgid "Write your answer..."
 msgstr "Ваша відповідь"
 
-#: ckanext/forum/templates/thread.html:88
+#: ckanext/forum/templates/thread.html:87
 msgid "You should be logged in to make posts."
 msgstr "Будь ласка залогінтесь"
 
-#~ msgid "New post"
-#~ msgstr "Новий пост"
+#: ckanext/forum/templates/email/base.html:1
+msgid "Dear"
+msgstr "Дорогий"
+
+#: ckanext/forum/templates/email/base.html:6
+msgid "Have a nice day."
+msgstr "Доброго дня!"
+
+#: ckanext/forum/templates/email/base.html:10
+msgid "Message sent by"
+msgstr "Надійслано"
 
