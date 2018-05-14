@@ -47,6 +47,9 @@ def send_notifications_on_new_post(post, lang):
         user = User.get(author_id)
         unsubscribe_url = tk.url_for('forum_unsubscribe', base64_name=base64.b64encode(user.name), thread_id=thread.id)
         context = {
+            'user_name': user.name,
+            'site_title': tk.config.get('ckan.site_title'),
+            'site_url': tk.config.get('ckan.site_url'),
             'post_content': post.content,
             'title': env.globals['gettext']('New post'),
             'unsubscribe_url': urljoin(tk.config['ckan.site_url'], unsubscribe_url),

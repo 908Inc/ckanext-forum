@@ -1,4 +1,6 @@
-<p>{% trans %}Hello!{% endtrans %}</p>
+{% extends 'email/base.html' %}
+
+{% block main_content %}
 
 {% trans %}Forum{% endtrans %}
 
@@ -8,5 +10,5 @@
 
 <p>{% trans %}Stop notifications in this thread:{% endtrans %} {{ unsubscribe_url }}</p>
 
---
-data.gov.ua
+{% endblock %}
+
