@@ -1,4 +1,6 @@
-<p>{% trans %}Dear{% endtrans %} {{ user_name }},</p>
+{% extends 'email/base.html' %}
+
+{% block main_content %}
 
 {% trans %}Forum{% endtrans %}
 
@@ -8,8 +10,5 @@
 
 <p>{% trans %}Stop notifications in this thread:{% endtrans %} {{ unsubscribe_url }}</p>
 
-<p>{% trans %}Have a nice day.{% endtrans %}</p>
+{% endblock %}
 
-<p>--</p>
-
-<p>{% trans %}Message sent by{% endtrans %} {{ site_title }} ({{ site_url }})</p>
