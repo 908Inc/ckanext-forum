@@ -1,4 +1,4 @@
-<p>{% trans %}Hello!{% endtrans %}</p>
+<p>{% trans %}Dear{% endtrans %} {{ user_name }},</p>
 
 {% trans %}Forum{% endtrans %}
 
@@ -8,5 +8,8 @@
 
 <p>{% trans %}Stop notifications in this thread:{% endtrans %} {{ unsubscribe_url }}</p>
 
---
-data.gov.ua
+<p>{% trans %}Have a nice day.{% endtrans %}</p>
+
+<p>--</p>
+
+<p>{% trans %}Message sent by{% endtrans %} {{ site_title }} ({{ site_url }})</p>
