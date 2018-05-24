@@ -25,7 +25,7 @@
                 <a href="{{ thread.board.get_absolute_url() }}">{{ thread.board.name }}</a>
             </div>
             <div class="thread-author">
-                <a href="{{ h.url_for(controller='user', action='read', id=thread.author.name) }}">{{ thread.author.name }}</a>
+                <a href="{{ h.url_for(controller='user', action='read', id=thread.author.name) }}">{{ thread.author.display_name }}</a>
             </div>
             <div class="thread-date">{{ h.render_datetime(thread.created, with_hours=True) }}</div>
         </div>
