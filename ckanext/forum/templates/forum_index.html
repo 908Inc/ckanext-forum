@@ -27,7 +27,7 @@
                             <span>{{ thread.board.name }}</span>
                         </div>
                         <div class="thread-author">
-                            <a href="{{ h.url_for(controller='user', action='read', id=thread.author.name) }}">{{ thread.author.name }}</a>
+                            <a href="{{ h.url_for(controller='user', action='read', id=thread.author.name) }}">{{ thread.author.display_name }}</a>
                         </div>
                     </div>
                     <div class="thread-body" data-thread-url="{{ thread.get_absolute_url() }}">
