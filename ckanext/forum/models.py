@@ -148,6 +148,10 @@ class Board(object):
         return tk.url_for('forum_board_show', slug=self.slug)
 
     @classmethod
+    def get_by_name(cls, name):
+        return Session.query(cls).filter(cls.name == name).first()
+
+    @classmethod
     def get_by_slug(cls, slug):
         return Session.query(cls).filter(cls.slug == slug).first()
 
