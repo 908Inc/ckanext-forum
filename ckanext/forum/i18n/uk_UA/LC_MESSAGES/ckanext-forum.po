@@ -227,9 +227,4 @@ msgstr ""
 msgid "Message sent by"
 msgstr ""
 
-#~ msgid "New post"
-#~ msgstr "Новий допис"
-
-#~ msgid "Hello!"
-#~ msgstr "Привіт!"
 
