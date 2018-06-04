@@ -90,7 +90,7 @@ class ForumController(BaseController):
             page = 1
         c.page = Page(
             collection=thread_list,
-            page = page,
+            page=page,
             item_count=total_rows,
             items_per_page=self.paginated_by
         )
@@ -168,7 +168,7 @@ class ForumController(BaseController):
             page = 1
         c.page = Page(
             collection=posts_list,
-            page = page,
+            page=page,
             item_count=total_rows,
             items_per_page=self.paginated_by
         )
@@ -192,7 +192,7 @@ class ForumController(BaseController):
             page = 1
         c.page = Page(
             collection=thread_list,
-            page = page,
+            page=page,
             item_count=total_rows,
             items_per_page=self.paginated_by
         )
@@ -226,7 +226,7 @@ class ForumController(BaseController):
         end_elem = int(page * self.paginated_by)
         c.page = Page(
             collection=thread_activity,
-            page = page,
+            page=page,
             item_count=total_rows,
             items_per_page=self.paginated_by
         )
