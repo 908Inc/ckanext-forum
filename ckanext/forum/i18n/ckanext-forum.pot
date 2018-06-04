@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-forum 0.0.2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-06-04 18:49+0000\n"
+"POT-Creation-Date: 2018-05-29 09:12+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.5.3\n"
+"Generated-By: Babel 2.3.4\n"
 
 #: ckanext/forum/controllers.py:99 ckanext/forum/controllers.py:144
 msgid "You are banned"
@@ -55,6 +55,24 @@ msgstr ""
 
 #: ckanext/forum/controllers.py:260
 msgid "You successfully unsibsribed"
+msgstr ""
+
+#: ckanext/forum/forms.py:17 ckanext/forum/forms.py:23 ckanext/forum/forms.py:38
+#: ckanext/forum/forms.py:46
+#, python-format
+msgid "Field must be at least %d characters long"
+msgstr ""
+
+#: ckanext/forum/forms.py:41
+msgid "Bord with this name already exists"
+msgstr ""
+
+#: ckanext/forum/forms.py:49
+msgid "Invalid input"
+msgstr ""
+
+#: ckanext/forum/forms.py:51
+msgid "Bord with this slug already exists"
 msgstr ""
 
 #: ckanext/forum/templates/create_board.html:3
