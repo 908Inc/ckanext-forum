@@ -67,7 +67,7 @@ def send_notifications_on_new_post(post, lang):
 
 
 class ForumController(BaseController):
-    paginated_by = 20
+    paginated_by = 10
 
     def __render(self, template_name, context):
         if not c.userobj or not c.userobj.sysadmin:
@@ -200,7 +200,7 @@ class ForumController(BaseController):
 
     def activity(self):
         do_if_user_not_sysadmin()
-        page = get_page_number(tk.request.params) or 1
+        page = get_page_number(tk.request.params)
         total_rows = Thread.all().count()
         total_pages = (total_rows - 1) / self.paginated_by + 1
         if not 1 < page <= total_pages:
