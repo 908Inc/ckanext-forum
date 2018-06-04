@@ -10,7 +10,7 @@ from babel.support import Translations
 import ckan.lib.jobs as jobs
 from ckan.common import c
 from ckan.lib.base import BaseController, abort
-from ckan.lib.helpers import flash_success, flash_error, get_page_number, full_current_url
+from ckan.lib.helpers import flash_success, flash_error, get_page_number, full_current_url, Page
 from ckan.model import User
 from ckan.plugins import toolkit as tk
 
@@ -67,7 +67,7 @@ def send_notifications_on_new_post(post, lang):
 
 
 class ForumController(BaseController):
-    paginated_by = 3
+    paginated_by = 20
 
     def __render(self, template_name, context):
         if not c.userobj or not c.userobj.sysadmin:
@@ -81,16 +81,21 @@ class ForumController(BaseController):
         return tk.render(template_name, context)
 
     def index(self):
-        page = get_page_number(tk.request.params) or 1
+        page = get_page_number(tk.request.params)
+        total_rows = Thread.all().count()
+        thread_list = Thread.all().offset((page - 1) * self.paginated_by).limit(self.paginated_by)
+
         total_pages = (Thread.all().count() - 1) / self.paginated_by + 1
         if not 1 < page <= total_pages:
             page = 1
-        context = {
-            'thread_list': Thread.all().offset((page - 1) * self.paginated_by).limit(self.paginated_by),
-            'total_pages': total_pages,
-            'current_page': page,
-        }
-        return self.__render('forum_index.html', context)
+        c.page = Page(
+            collection=thread_list,
+            page = page,
+            item_count=total_rows,
+            items_per_page=self.paginated_by
+        )
+        return self.__render('forum_index.html', {'thread_list': thread_list})
+
 
     def thread_add(self):
         if not c.userobj:
@@ -155,10 +160,22 @@ class ForumController(BaseController):
                 return tk.redirect_to(thread.get_absolute_url())
             else:
                 flash_error(tk._('You have errors in form'))
+        page = get_page_number(tk.request.params)
+        total_rows = Post.filter_thread(thread.id).count()
+        total_pages = int(total_rows / self.paginated_by) + 1
+        posts_list = Post.filter_thread(thread.id).offset((page - 1) * self.paginated_by).limit(self.paginated_by)
+        if not 1 < page <= total_pages:
+            page = 1
+        c.page = Page(
+            collection=posts_list,
+            page = page,
+            item_count=total_rows,
+            items_per_page=self.paginated_by
+        )
         context = {
             'thread': thread,
             'form': form,
-            'posts': Post.filter_thread(thread.id)
+            'posts': posts_list
         }
         return self.__render('thread.html', context)
 
@@ -166,23 +183,26 @@ class ForumController(BaseController):
         board = Board.get_by_slug(slug)
         if not board:
             abort(404)
-        page = int(tk.request.GET.get('page', 1))
-        total_pages = int(Thread.filter_board(board_slug=board.slug).count() / self.paginated_by) + 1
+        page = get_page_number(tk.request.params)
+        total_rows = Thread.filter_board(board_slug=board.slug).count()
+        total_pages = int(total_rows / self.paginated_by) + 1
+        thread_list = Thread.filter_board(board_slug=board.slug).offset((page - 1) * self.paginated_by).limit(
+            self.paginated_by)
         if not 1 < page <= total_pages:
             page = 1
-        context = {
-            'board': board,
-            'thread_list': Thread.filter_board(board_slug=board.slug).offset((page - 1) * self.paginated_by).limit(
-                self.paginated_by),
-            'total_pages': total_pages,
-            'current_page': page,
-        }
-        return self.__render('forum_index.html', context)
+        c.page = Page(
+            collection=thread_list,
+            page = page,
+            item_count=total_rows,
+            items_per_page=self.paginated_by
+        )
+        return self.__render('forum_index.html', {'board': board, 'thread_list': thread_list})
 
     def activity(self):
         do_if_user_not_sysadmin()
         page = get_page_number(tk.request.params) or 1
-        total_pages = (Thread.all().count() - 1) / self.paginated_by + 1
+        total_rows = Thread.all().count()
+        total_pages = (total_rows - 1) / self.paginated_by + 1
         if not 1 < page <= total_pages:
             page = 1
         thread_activity = Thread.all().order_by(Thread.created.desc())
@@ -204,12 +224,13 @@ class ForumController(BaseController):
         activity = sorted(activity, key=itemgetter('created'), reverse=True)
         start_elem = int((page - 1) * self.paginated_by)
         end_elem = int(page * self.paginated_by)
-        context = {
-            'total_pages': total_pages,
-            'current_page': page,
-            'activity': activity[start_elem: end_elem]
-        }
-        return self.__render('forum_activity.html', context)
+        c.page = Page(
+            collection=thread_activity,
+            page = page,
+            item_count=total_rows,
+            items_per_page=self.paginated_by
+        )
+        return self.__render('forum_activity.html', {'activity': activity[start_elem : end_elem]})
 
     def thread_ban(self, id):
         do_if_user_not_sysadmin()
