@@ -67,7 +67,7 @@ def init_db():
         "ALTER TABLE forum_thread ADD COLUMN can_post boolean DEFAULT TRUE",
         "ALTER TABLE forum_board ADD COLUMN can_post boolean DEFAULT TRUE",
         u"INSERT INTO forum_board(\"id\", \"name\", \"slug\", \"description\", \"active\", \"can_post\") " +
-        u"VALUES(DEFAULT, 'Запропоновати набір', 'zaproponuvati-nabir', '', true, false)"
+        u"VALUES(DEFAULT, 'Запропонувати набір', 'zaproponuvati-nabir', '', true, false)"
     ]
     for counter, sql in enumerate(migration_sql_list, start=1):
         if migration_number < counter:
