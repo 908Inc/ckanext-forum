@@ -85,6 +85,7 @@ class ForumController(BaseController):
         total_rows = Thread.all().count()
         total_pages = (Thread.all().count() - 1) / self.paginated_by + 1
         if not 0 < page <= total_pages:
+            # redirect for delete page parameter reason
             redirect_to('forum_index')
         thread_list = Thread.all().offset((page - 1) * self.paginated_by).limit(self.paginated_by)
 
@@ -164,6 +165,7 @@ class ForumController(BaseController):
         total_rows = Post.filter_thread(thread.id).count()
         total_pages = int(total_rows / self.paginated_by) + 1
         if not 0 < page <= total_pages:
+            # redirect for delete page parameter reason
             redirect_to('forum_index')
         posts_list = Post.filter_thread(thread.id).offset((page - 1) * self.paginated_by).limit(self.paginated_by)
         c.page = Page(
@@ -187,6 +189,7 @@ class ForumController(BaseController):
         total_rows = Thread.filter_board(board_slug=board.slug).count()
         total_pages = int(total_rows / self.paginated_by) + 1
         if not 0 < page <= total_pages:
+            # redirect for delete page parameter reason
             redirect_to('forum_index')
         thread_list = Thread.filter_board(board_slug=board.slug).offset((page - 1) * self.paginated_by).limit(
             self.paginated_by)
@@ -204,6 +207,7 @@ class ForumController(BaseController):
         total_rows = Thread.all().count()
         total_pages = (total_rows - 1) / self.paginated_by + 1
         if not 0 < page <= total_pages:
+            # redirect for delete page parameter reason
             redirect_to('forum_activity')
         thread_activity = Thread.all().order_by(Thread.created.desc())
         post_activity = Post.all().order_by(Post.created.desc())
