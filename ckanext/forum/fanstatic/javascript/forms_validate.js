@@ -11,8 +11,7 @@ $('#thread-form').validate({
             // standard placement
             error.insertAfter(element);
         }
-    },
-    
+    }
 });
 
 
