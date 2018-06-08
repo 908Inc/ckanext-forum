@@ -83,7 +83,7 @@ class ForumController(BaseController):
     def index(self):
         page = get_page_number(tk.request.params)
         total_rows = Thread.all().count()
-        total_pages = (Thread.all().count() - 1) / self.paginated_by + 1
+        total_pages = ((Thread.all().count() - 1) / self.paginated_by + 1) or 1
         if not 0 < page <= total_pages:
             # redirect for delete page parameter reason
             redirect_to('forum_index')
@@ -163,7 +163,7 @@ class ForumController(BaseController):
                 flash_error(tk._('You have errors in form'))
         page = get_page_number(tk.request.params)
         total_rows = Post.filter_thread(thread.id).count()
-        total_pages = int(total_rows / self.paginated_by) + 1
+        total_pages = (total_rows / self.paginated_by + 1) or 1
         if not 0 < page <= total_pages:
             # redirect for delete page parameter reason
             redirect_to('forum_index')
@@ -187,7 +187,7 @@ class ForumController(BaseController):
             abort(404)
         page = get_page_number(tk.request.params)
         total_rows = Thread.filter_board(board_slug=board.slug).count()
-        total_pages = int(total_rows / self.paginated_by) + 1
+        total_pages = (total_rows / self.paginated_by + 1) or 1
         if not 0 < page <= total_pages:
             # redirect for delete page parameter reason
             redirect_to('forum_index')
@@ -205,7 +205,7 @@ class ForumController(BaseController):
         do_if_user_not_sysadmin()
         page = get_page_number(tk.request.params)
         total_rows = Thread.all().count()
-        total_pages = (total_rows - 1) / self.paginated_by + 1
+        total_pages = ((total_rows - 1) / self.paginated_by + 1) or 1
         if not 0 < page <= total_pages:
             # redirect for delete page parameter reason
             redirect_to('forum_activity')
