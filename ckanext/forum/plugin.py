@@ -30,7 +30,8 @@ class ForumPlugin(ForumPluginBase):
     def after_map(self, sub_map):
         from ckan.config.routing import SubMapper
         with SubMapper(sub_map, controller='ckanext.forum.controllers:ForumController') as m:
-            m.connect('forum_index', '/forum', action='index')
+            m.connect('forum_index', '/forum', action='index',
+                      highlight_actions='index thread_add board_add activity board_show thread_show')
             m.connect('forum_thread_add', '/forum/thread_add', action='thread_add')
             m.connect('forum_board_add', '/forum/board_add', action='board_add')
             m.connect('forum_unsubscribe', '/forum/unsubscribe/:base64_name/:thread_id', action='unsubscribe')
