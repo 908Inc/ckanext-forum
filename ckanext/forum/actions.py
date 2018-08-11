@@ -1,8 +1,23 @@
 from jinja2.filters import do_striptags
+from HTMLParser import HTMLParser
 
 import ckan.logic as logic
 from ckanext.forum.models import Thread, Post
 
+
+class MLStripper(HTMLParser):
+    def __init__(self):
+        self.reset()
+        self.fed = []
+    def handle_data(self, d):
+        self.fed.append(d)
+    def get_data(self):
+        return ''.join(self.fed)
+
+def strip_tags(html):
+    s = MLStripper()
+    s.feed(html)
+    return s.get_data()
 
 def forum_create_thread(context, data_dict):
     """
@@ -17,7 +32,7 @@ def forum_create_thread(context, data_dict):
     thread = Thread()
     thread.board_id = logic.get_or_bust(data_dict, 'board_id')
     thread.name = logic.get_or_bust(data_dict, 'name')
-    thread.content = do_striptags(logic.get_or_bust(data_dict, 'content'))
+    thread.content = strip_tags(logic.get_or_bust(data_dict, 'content'))
     thread.author = logic.get_or_bust(context, 'auth_user_obj')
     if 'can_post' in data_dict and not data_dict['can_post']:
         thread.can_post = False
@@ -37,7 +52,7 @@ def forum_create_post(context, data_dict):
     if thread.can_post:
         post = Post()
         post.thread = thread
-        post.content = do_striptags(logic.get_or_bust(data_dict, 'content'))
+        post.content = strip_tags(logic.get_or_bust(data_dict, 'content'))
         post.author_id = logic.get_or_bust(context, 'auth_user_obj').id
         post.save()
         return post
