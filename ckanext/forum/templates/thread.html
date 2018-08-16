@@ -48,8 +48,8 @@
                         </a> {{ h.time_ago_from_timestamp(p.created) }}</div>
 
                     <div class="comment-body">
-                         {% for el in p.content.split('\n') %}
-                         {{ el }}<br>
+                        {% for el in p.content.split('\n') %}
+                         {{ h.render_markdown(el) }}
                         {% endfor %}
                     </div>
                 </div>
