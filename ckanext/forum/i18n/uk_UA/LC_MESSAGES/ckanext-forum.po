@@ -217,7 +217,7 @@ msgstr "Будь ласка, увійдіть у систему, щоб дода
 
 #: ckanext/forum/templates/email/base.html:1
 msgid "Dear"
-msgstr "Дорогий"
+msgstr "Шановний"
 
 #: ckanext/forum/templates/email/base.html:6
 msgid "Have a nice day."
