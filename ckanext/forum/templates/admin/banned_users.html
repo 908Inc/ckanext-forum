@@ -1,0 +1,30 @@
+{% extends "forum_base.html" %}
+
+{% block title %}{% trans %}Banned Users{% endtrans %} {{ g.template_title_deliminater }} {% trans %}Forum{% endtrans %} {{ g.template_title_deliminater }} {{ g.site_title }}{% endblock %}
+
+{% block primary_content %}
+  <h1 class="page-heading">{{ _('Banned Users') }}</h1>
+  {% if user_list %}
+    <ul class="resource-list forum-activity">
+      {% for item in user_list %}
+        <li class="resource-item" style="padding-bottom: 30px;">
+          <a href="{{ h.url_for(controller='user', action='read', id=item.User.name) }}">
+            {{ item.User.name }}
+          </a>
+          <div style="float: right">
+            <a class="btn btn-primary" href="{{ h.url_for('forum_unban_user', user_id=item.User.id) }}">{% trans %}Unban{% endtrans %}</a>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  {#  {{ c.page.pager() }}#}
+{% endblock %}
+
+{% block secondary_content %}
+  <section class="module module-narrow module-shallow">
+    <div class="sidebar-nav">
+      <a href="{{ h.url_for('forum_index') }}?status={{ status }}"><i class="fa fa-arrow-left"></i> {% trans %}Back to Forum{% endtrans %}</a>
+    </div>
+  </section>
+{% endblock %}

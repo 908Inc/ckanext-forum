@@ -284,3 +284,21 @@ class ForumController(BaseController):
         Unsubscription.add(user.id, thread.id)
         flash_success(tk._('You successfully unsibsribed'))
         tk.redirect_to(thread.get_absolute_url())
+
+class ForumAdminController(BaseController):
+
+    def index_banned_user(self):
+        if not c.userobj or not c.userobj.sysadmin:
+            abort(404)
+        user_list = BannedUser.get_banned_users().all()
+        context = {
+            'user_list': user_list
+        }
+        return tk.render('admin/banned_users.html', context)
+
+    def unban_user(self, user_id):
+        if not c.userobj or not c.userobj.sysadmin:
+            abort(404)
+        BannedUser.unban(user_id)
+        flash_success(tk._('User was successfully unbanned'))
+        return tk.redirect_to(tk.url_for('forum_banned_users'))

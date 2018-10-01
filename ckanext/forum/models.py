@@ -285,6 +285,12 @@ class BannedUser(object):
         self.author_id = user_id
 
     @classmethod
+    def get_banned_users(cls):
+        session = Session()
+        query = session.query(cls, model.User).join(User, cls.author_id == User.id).order_by(cls.id.desc())
+        return query
+
+    @classmethod
     def check_by_id(cls, user):
         session = Session()
         return session.query(session.query(cls).filter(cls.author_id == user.id).exists()).scalar()
@@ -293,8 +299,16 @@ class BannedUser(object):
     def ban(cls, user_id):
         session = Session()
         banned_user = cls(user_id)
-        session.add(banned_user)
+        if not session.query(cls).filter(cls.author_id == user_id).first():
+            session.add(banned_user)
+            session.commit()
+
+    @classmethod
+    def unban(cls, user_id):
+        session = Session()
+        session.query(cls).filter(cls.author_id == user_id).delete()
         session.commit()
+
 
 
 class Unsubscription(object):
