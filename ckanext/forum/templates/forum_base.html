@@ -40,6 +40,9 @@
         <div class="module-content">
             <a href="{{ h.url_for('forum_activity') }}"><i class="fa fa-clock-o"></i>{% trans %}Activity{% endtrans %}</a>
         </div>
+          <div class="module-content">
+            <a href="{{ h.url_for('forum_banned_users') }}"><i class="fa fa-user" style="margin-right: 5px"></i>{% trans %}Banned Users{% endtrans %}</a>
+          </div>
         {% endif %}
         <h2 class="module-heading">{% trans %}Choose a Section{% endtrans %}</h2>
         <div class="module-content">

@@ -227,3 +227,18 @@ msgstr "Доброго дня"
 msgid "Message sent by"
 msgstr "Відправлено"
 
+#: ckanext/forum/templates/admin/banned_users.html:6
+msgid "Banned Users"
+msgstr "Заблоковані користувачі"
+
+#: ckanext-forum/ckanext/forum/controllers.py:303
+msgid "User was successfully unbanned"
+msgstr "Користувач успішно розблокований"
+
+#: ckanext/forum/templates/admin/banned_users.html:27
+msgid "Back to Forum"
+msgstr "Повернутися на форум"
+
+#: ckanext/forum/templates/admin/banned_users.html:15
+msgid "Unban"
+msgstr "Розблокувати"
