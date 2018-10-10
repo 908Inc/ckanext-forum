@@ -142,6 +142,8 @@ class ForumController(BaseController):
         thread = Thread.get_by_id(id=id)
         if not thread:
             abort(404)
+        if not thread.active and (not c.userobj or not c.userobj.sysadmin):
+            abort(404)
         form = CreatePostForm(tk.request.POST)
         if tk.request.POST:
             if c.userobj is None:
