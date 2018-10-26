@@ -65,7 +65,7 @@
                 {{ h.gravatar((c.userobj.email_hash), size=64) }}
             </div>
             <div class="media-body comment-body">
-                <form id="forum-post" method="post">
+                <form id="forum-post" method="post" class="prevent-ds">
                     {{ form.csrf_token }}
                     <div class="form-group">
 
